@@ -74,7 +74,7 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      * @param z
      *          the value of z
      */
-    public Vector3(x,y,z: number) {
+    public Vector3(x: number, y: number, z: number) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -129,65 +129,23 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      * @param xyz
      *          the array containing at least three elements
      */
-    public Vector3(xyz: float[]) {
+    public Vector3(xyz: number[]) {
         this.x = xyz[0];
         this.y = xyz[1];
         this.z = xyz[2];
     }
 
-    /**
-     * Create a new {@link Vector3} and read this vector from the supplied {@link ByteBuffer}
-     * starting at the specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     *
-     * @param index  the absolute position into the ByteBuffer
-     * @param buffer values will be read in <code>x, y, z</code> order
-     */
-    public Vector3(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
-    }
+    //WARNING: NIO WAS REMOVED HERE!
 
-    /**
-     * Create a new {@link Vector3} and read this vector from the supplied {@link FloatBuffer}
-     * at the current buffer {@link FloatBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * <p>
-     * In order to specify the offset into the FloatBuffer at which
-     * the vector is read, use {@link #Vector3(int, FloatBuffer)}, taking
-     * the absolute position as parameter.
-     *
-     * @param buffer values will be read in <code>x, y, z</code> order
-     * @see #Vector3(int, FloatBuffer)
-     */
-    public Vector3(FloatBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
-    }
-
-    /**
-     * Create a new {@link Vector3} and read this vector from the supplied {@link FloatBuffer}
-     * starting at the specified absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     *
-     * @param index  the absolute position into the FloatBuffer
-     * @param buffer values will be read in <code>x, y, z</code> order
-     */
-    public Vector3(int index, FloatBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
-    }
-//#endif
-
-    public float x() {
+    public x(): number {
         return this.x;
     }
 
-    public float y() {
+    public y(): number {
         return this.y;
     }
 
-    public float z() {
+    public z(): number {
         return this.z;
     }
 
@@ -199,19 +157,7 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *      will hold the result
      * @return dest
      */
-    public Vector2 xy(Vector2 dest) {
-        return dest.set(x, y);
-    }
-
-    /**
-     * Copy the <code>(x, y)</code> components of <code>this</code> into the supplied <code>dest</code> vector
-     * and return it.
-     *
-     * @param dest
-     *      will hold the result
-     * @return dest
-     */
-    public Vector2d xy(Vector2d dest) {
+    public xy(dest: Vector2): Vector2 {
         return dest.set(x, y);
     }
 
@@ -225,38 +171,10 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *        the vector to copy from
      * @return this
      */
-    public Vector3 set(Vector4dc v) {
+    public set(v: Vector4c): Vector3 {
         this.x = (float) v.x();
         this.y = (float) v.y();
         this.z = (float) v.z();
-        return this;
-    }
-
-    /**
-     * Set this vector to the <code>(x, y, z)</code> components of <code>v</code>.
-     *
-     * @param v
-     *        the vector to copy from
-     * @return this
-     */
-    public Vector3 set(Vector4fc v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        return this;
-    }
-
-    /**
-     * Set this vector to the <code>(x, y, z)</code> components of <code>v</code>.
-     *
-     * @param v
-     *        the vector to copy from
-     * @return this
-     */
-    public Vector3 set(Vector4ic v) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
         return this;
     }
 
@@ -267,40 +185,9 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          contains the values of x, y and z to set
      * @return this
      */
-    public Vector3 set(Vector3c v) {
+    public set(v: Vector3c): Vector3 {
         if (v == this)
             return this;
-        this.x = v.x();
-        this.y = v.y();
-        this.z = v.z();
-        return this;
-    }
-
-    /**
-     * Set the x, y and z components to match the supplied vector.
-     * <p>
-     * Note that due to the given vector <code>v</code> storing the components in double-precision,
-     * there is the possibility to lose precision.
-     * 
-     * @param v
-     *          contains the values of x, y and z to set
-     * @return this
-     */
-    public Vector3 set(Vector3dc v) {
-        this.x = (float) v.x();
-        this.y = (float) v.y();
-        this.z = (float) v.z();
-        return this;
-    }
-
-    /**
-     * Set the x, y and z components to match the supplied vector.
-     * 
-     * @param v
-     *          contains the values of x, y and z to set
-     * @return this
-     */
-    public Vector3 set(Vector3ic v) {
         this.x = v.x();
         this.y = v.y();
         this.z = v.z();
@@ -317,46 +204,13 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the z component
      * @return this
      */
-    public Vector3 set(Vector2c v, float z) {
+    public set(v: Vector2c, z: number): Vector3 {
         this.x = v.x();
         this.y = v.y();
         this.z = z;
         return this;
     }
 
-    /**
-     * Set the first two components from the given <code>v</code>
-     * and the z component from the given <code>z</code>
-     *
-     * @param v
-     *          the {@link Vector2dc} to copy the values from
-     * @param z
-     *          the z component
-     * @return this
-     */
-    public Vector3 set(Vector2dc v, float z) {
-        this.x = (float) v.x();
-        this.y = (float) v.y();
-        this.z = z;
-        return this;
-    }
-
-    /**
-     * Set the first two components from the given <code>v</code>
-     * and the z component from the given <code>z</code>
-     *
-     * @param v
-     *          the {@link Vector2ic} to copy the values from
-     * @param z
-     *          the z component
-     * @return this
-     */
-    public Vector3 set(Vector2ic v, float z) {
-        this.x = v.x();
-        this.y = v.y();
-        this.z = z;
-        return this;
-    }
 
     /**
      * Set the x, y, and z components to the supplied value.
@@ -365,7 +219,7 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the value of all three components
      * @return this
      */
-    public Vector3 set(float d) {
+    public set(d: number): Vector3 {
         this.x = d;
         this.y = d;
         this.z = d;
@@ -383,42 +237,10 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the z component
      * @return this
      */
-    public Vector3 set(float x, float y, float z) {
+    public set(x: number, y: number, z: number): Vector3 {
         this.x = x;
         this.y = y;
         this.z = z;
-        return this;
-    }
-
-    /**
-     * Set the x, y, and z components to the supplied value.
-     *
-     * @param d
-     *          the value of all three components
-     * @return this
-     */
-    public Vector3 set(double d) {
-        this.x = (float) d;
-        this.y = (float) d;
-        this.z = (float) d;
-        return this;
-    }
-
-    /**
-     * Set the x, y and z components to the supplied values.
-     * 
-     * @param x
-     *          the x component
-     * @param y
-     *          the y component 
-     * @param z
-     *          the z component
-     * @return this
-     */
-    public Vector3 set(double x, double y, double z) {
-        this.x = (float) x;
-        this.y = (float) y;
-        this.z = (float) z;
         return this;
     }
 
@@ -429,109 +251,16 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the array containing at least three elements
      * @return this
      */
-    public Vector3 set(float[] xyz) {
+    public set(xyz: number[]): Vector3 {
         this.x = xyz[0];
         this.y = xyz[1];
         this.z = xyz[2];
         return this;
     }
 
-//#ifdef __HAS_NIO__
-    /**
-     * Read this vector from the supplied {@link ByteBuffer} at the current
-     * buffer {@link ByteBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     * <p>
-     * In order to specify the offset into the ByteBuffer at which
-     * the vector is read, use {@link #set(int, ByteBuffer)}, taking
-     * the absolute position as parameter.
-     *
-     * @param buffer
-     *          values will be read in <code>x, y, z</code> order
-     * @return this
-     * @see #set(int, ByteBuffer)
-     */
-    public Vector3 set(ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
-        return this;
-    }
-
-    /**
-     * Read this vector from the supplied {@link ByteBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given ByteBuffer.
-     *
-     * @param index
-     *          the absolute position into the ByteBuffer
-     * @param buffer
-     *          values will be read in <code>x, y, z</code> order
-     * @return this
-     */
-    public Vector3 set(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
-        return this;
-    }
-
-    /**
-     * Read this vector from the supplied {@link FloatBuffer} at the current
-     * buffer {@link FloatBuffer#position() position}.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     * <p>
-     * In order to specify the offset into the FloatBuffer at which
-     * the vector is read, use {@link #set(int, FloatBuffer)}, taking
-     * the absolute position as parameter.
-     *
-     * @param buffer
-     *          values will be read in <code>x, y, z</code> order
-     * @return this
-     * @see #set(int, FloatBuffer)
-     */
-    public Vector3 set(FloatBuffer buffer) {
-        MemUtil.INSTANCE.get(this, buffer.position(), buffer);
-        return this;
-    }
-
-    /**
-     * Read this vector from the supplied {@link FloatBuffer} starting at the specified
-     * absolute buffer position/index.
-     * <p>
-     * This method will not increment the position of the given FloatBuffer.
-     *
-     * @param index
-     *          the absolute position into the FloatBuffer
-     * @param buffer
-     *          values will be read in <code>x, y, z</code> order
-     * @return this
-     */
-    public Vector3 set(int index, FloatBuffer buffer) {
-        MemUtil.INSTANCE.get(this, index, buffer);
-        return this;
-    }
-//#endif
-
-//#ifdef __HAS_UNSAFE__
-    /**
-     * Set the values of this vector by reading 3 float values from off-heap memory,
-     * starting at the given address.
-     * <p>
-     * This method will throw an {@link UnsupportedOperationException} when JOML is used with `-Djoml.nounsafe`.
-     * <p>
-     * <em>This method is unsafe as it can result in a crash of the JVM process when the specified address range does not belong to this process.</em>
-     * 
-     * @param address
-     *              the off-heap memory address to read the vector values from
-     * @return this
-     */
-    public Vector3 setFromAddress(long address) {
-        if (Options.NO_UNSAFE)
-            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
-        MemUtil.MemUtilUnsafe.get(this, address);
-        return this;
-    }
-//#endif
+    // WARNING: NIO REMOVED HERE!
+    
+    // WARNING: UNSAFE REMOVED HERE!
 
     /**
      * Set the value of the specified component of this vector.
@@ -543,7 +272,7 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      * @return this
      * @throws IllegalArgumentException if <code>component</code> is not within <code>[0..2]</code>
      */
-    public Vector3 setComponent(int component, float value) throws IllegalArgumentException {
+    public setComponent(component: number, value: number): Vector3 {
         switch (component) {
             case 0:
                 x = value;
@@ -560,37 +289,6 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
         return this;
     }
 
-//#ifdef __HAS_NIO__
-    public FloatBuffer get(FloatBuffer buffer) {
-        MemUtil.INSTANCE.put(this, buffer.position(), buffer);
-        return buffer;
-    }
-
-    public FloatBuffer get(int index, FloatBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
-        return buffer;
-    }
-
-    public ByteBuffer get(ByteBuffer buffer) {
-        MemUtil.INSTANCE.put(this, buffer.position(), buffer);
-        return buffer;
-    }
-
-    public ByteBuffer get(int index, ByteBuffer buffer) {
-        MemUtil.INSTANCE.put(this, index, buffer);
-        return buffer;
-    }
-//#endif
-
-//#ifdef __HAS_UNSAFE__
-    public Vector3c getToAddress(long address) {
-        if (Options.NO_UNSAFE)
-            throw new UnsupportedOperationException("Not supported when using joml.nounsafe");
-        MemUtil.MemUtilUnsafe.put(this, address);
-        return this;
-    }
-//#endif
-
     /**
      * Subtract the supplied vector from this one and store the result in <code>this</code>.
      * 
@@ -598,11 +296,11 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the vector to subtract
      * @return this
      */
-    public Vector3 sub(Vector3c v) {
+    public sub(v: Vector3c): Vector3  {
         return sub(v, this);
     }
 
-    public Vector3 sub(Vector3c v, Vector3 dest) {
+    public sub(v: Vector3c, dest: Vector3): Vector3 {
         dest.x = x - v.x();
         dest.y = y - v.y();
         dest.z = z - v.z();
@@ -620,11 +318,11 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the z component to subtract
      * @return this
      */
-    public Vector3 sub(float x, float y, float z) {
+    public sub(x: number, y: number, z: number): Vector3 {
         return sub(x, y, z, this);
     }
 
-    public Vector3 sub(float x, float y, float z, Vector3 dest) {
+    public sub(x: number, y: number, z: number, dest: Vector3): Vector3 {
         dest.x = this.x - x;
         dest.y = this.y - y;
         dest.z = this.z - z;
@@ -638,11 +336,11 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the vector to add
      * @return this
      */
-    public Vector3 add(Vector3c v) {
+    public add(v: Vector3c): Vector3 {
         return add(v, this);
     }
 
-    public Vector3 add(Vector3c v, Vector3 dest) {
+    public add(v: Vector3c, dest: Vector3): Vector3 {
         dest.x = this.x + v.x();
         dest.y = this.y + v.y();
         dest.z = this.z + v.z();
@@ -660,11 +358,11 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the z component to add
      * @return this
      */
-    public Vector3 add(float x, float y, float z) {
+    public add(x: number, y: number, z: number): Vector3 {
         return add(x, y, z, this);
     }
 
-    public Vector3 add(float x, float y, float z, Vector3 dest) {
+    public add(x: number, y: number, z: number, dest: Vector3): Vector3 {
         dest.x = this.x + x;
         dest.y = this.y + y;
         dest.z = this.z + z;
@@ -680,7 +378,7 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the second multiplicand
      * @return this
      */
-    public Vector3 fma(Vector3c a, Vector3c b) {
+    public fma(a: Vector3c, b: Vector3c): Vector3 {
         return fma(a, b, this);
     }
 
@@ -693,18 +391,18 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the second multiplicand
      * @return this
      */
-    public Vector3 fma(float a, Vector3c b) {
+    public fma(a: number, b: Vector3c): Vector3 {
         return fma(a, b, this);
     }
 
-    public Vector3 fma(Vector3c a, Vector3c b, Vector3 dest) {
+    public fma(a: Vector3c, b: Vector3c, dest: Vector3): Vector3 {
         dest.x = Math.fma(a.x(), b.x(), x);
         dest.y = Math.fma(a.y(), b.y(), y);
         dest.z = Math.fma(a.z(), b.z(), z);
         return dest;
     }
 
-    public Vector3 fma(float a, Vector3c b, Vector3 dest) {
+    public fma(a: number, b: Vector3c, dest: Vector3): Vector3 {
         dest.x = Math.fma(a, b.x(), x);
         dest.y = Math.fma(a, b.y(), y);
         dest.z = Math.fma(a, b.z(), z);
@@ -721,7 +419,7 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the addend
      * @return this
      */
-    public Vector3 mulAdd(Vector3c a, Vector3c b) {
+    public mulAdd(a: Vector3c, b: Vector3c): Vector3 {
         return mulAdd(a, b, this);
     }
 
@@ -735,18 +433,18 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the addend
      * @return this
      */
-    public Vector3 mulAdd(float a, Vector3c b) {
+    public mulAdd(a: number, b: Vector3c): Vector3 {
         return mulAdd(a, b, this);
     }
 
-    public Vector3 mulAdd(Vector3c a, Vector3c b, Vector3 dest) {
+    public mulAdd(a: Vector3c, b: Vector3c, dest: Vector3): Vector3 {
         dest.x = Math.fma(x, a.x(), b.x());
         dest.y = Math.fma(y, a.y(), b.y());
         dest.z = Math.fma(z, a.z(), b.z());
         return dest;
     }
 
-    public Vector3 mulAdd(float a, Vector3c b, Vector3 dest) {
+    public mulAdd(a: number, b: Vector3c, dest: Vector3): Vector3 {
         dest.x = Math.fma(x, a, b.x());
         dest.y = Math.fma(y, a, b.y());
         dest.z = Math.fma(z, a, b.z());
@@ -760,11 +458,11 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the vector to multiply by
      * @return this
      */
-    public Vector3 mul(Vector3c v) {
+    public mul(v: Vector3c): Vector3 {
         return mul(v, this);
     }
 
-    public Vector3 mul(Vector3c v, Vector3 dest) {
+    public mul(v: Vector3c, dest: Vector3): Vector3 {
         dest.x = x * v.x();
         dest.y = y * v.y();
         dest.z = z * v.z();
@@ -778,7 +476,7 @@ class Vector3 implements Externalizable, Cloneable, Vector3c {
      *          the vector to divide by
      * @return this
      */
-    public Vector3 div(Vector3c v) {
+    public div(v: Vector3c): Vector3 {
         return div(v, this);
     }
 
