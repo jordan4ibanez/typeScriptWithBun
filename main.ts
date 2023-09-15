@@ -13,7 +13,6 @@ print(glfw.glfwTerminate())
 
 
 
-
 function main() {
   reloadInfo()
 }

@@ -1,5 +1,5 @@
 import { print } from "./helpers"
-import { read, ptr, dlopen, FFIType, suffix } from "bun:ffi";
+import { read, ptr, dlopen, FFIType, suffix, CString } from "bun:ffi";
 
 // These are hand crafted bindings made with love. But not love2d.
 
@@ -8,6 +8,17 @@ export default {}
 const path = `libglfw.${suffix}`;
 
 print(`GLFW3: ${path}`)
+
+const libcPath = `libc.${suffix}.6`
+
+print(libcPath)
+
+const TESTING = dlopen(libcPath, {
+  free: {
+    args: [FFIType.ptr],
+    return: FFIType.void
+  }
+})
 
 // I'm trying to keep this in the same order as it's listed on GLFW.
 
@@ -55,7 +66,7 @@ export function glfwGetVersion(): number[] {
   return [major[0], minor[0], revision[0]]
 }
 
-export function glfwGetVersionString(): string {
+export function glfwGetVersionString(): CString {
   return lib.glfwGetVersionString()
 }
 
