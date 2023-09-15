@@ -345,7 +345,7 @@ const VERBOSE_LIB = dlopen( path,{
     returns: FFIType.void
   },
 
-  //! END CALLBACKS
+  // //! END CALLBACKS
 
   glfwPollEvents: {
     args: [],
@@ -372,7 +372,7 @@ const VERBOSE_LIB = dlopen( path,{
     returns: FFIType.void
   },
 
-  //* Begin https://www.glfw.org/docs/latest/group__monitor.html
+  // //* Begin https://www.glfw.org/docs/latest/group__monitor.html
 
   glfwGetMonitors: {
     args: [FFIType.ptr],
@@ -434,20 +434,23 @@ const VERBOSE_LIB = dlopen( path,{
     returns: FFIType.ptr
   },
 
-  glfwSetGamma: {
-    args: [FFIType.ptr, FFIType.float],
-    returns: FFIType.void
-  },
+  //!!! FIXME!!! THIS HAS WRONG ALIGNMENT!!!
+  // glfwSetGamma: {
+  //   args: [FFIType.ptr, FFIType.float],
+  //   returns: FFIType.void
+  // },
 
-  glfwGetGammaRamp: {
-    args: [FFIType.ptr],
-    returns: FFIType.ptr
-  },
+  // glfwGetGammaRamp: {
+  //   args: [FFIType.ptr],
+  //   returns: FFIType.ptr
+  // },
 
-  glfwSetGammaRamp: {
-    args: [FFIType.ptr, FFIType.ptr],
-    returns: FFIType.void
-  },
+  // glfwSetGammaRamp: {
+  //   args: [FFIType.ptr, FFIType.ptr],
+  //   returns: FFIType.void
+  // },
+
+  //!!! END WRONG ALIGNMENT!!!
 
 
 
@@ -957,17 +960,17 @@ export function glfwGetVideoMode(monitor: FFIType.ptr): FFIType.ptr | null {
   return lib.glfwGetVideoMode(monitor)
 }
 
-export function glfwSetGamma(monitor: FFIType.ptr, gamma: number) {
-  lib.glfwSetGamma(monitor, gamma)
-}
+// export function glfwSetGamma(monitor: FFIType.ptr, gamma: number) {
+//   lib.glfwSetGamma(monitor, gamma)
+// }
 
-export function glfwGetGammaRamp(monitor: FFIType.ptr): FFIType.ptr | null {
-  return lib.glfwGetGammaRamp(monitor)
-}
+// export function glfwGetGammaRamp(monitor: FFIType.ptr): FFIType.ptr | null {
+//   return lib.glfwGetGammaRamp(monitor)
+// }
 
-export function glfwSetGammaRamp(monitor: FFIType.ptr, ramp: FFIType.ptr) {
-  lib.glfwSetGammaRamp(monitor, ramp)
-}
+// export function glfwSetGammaRamp(monitor: FFIType.ptr, ramp: FFIType.ptr) {
+//   lib.glfwSetGammaRamp(monitor, ramp)
+// }
 
 
 const [GLFW_VERSION_MAJOR,
