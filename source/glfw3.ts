@@ -179,6 +179,35 @@ const VERBOSE_LIB = dlopen( path,{
     returns: FFIType.void
   },
 
+  glfwGetWindowSize: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowSizeLimits: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowAspectRatio: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowSize: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwGetFramebufferSize: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowFrameSize: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
 
   // glfwSetWindowPosCallback: {
   //   args: [FFIType.ptr, FFIType.ptr],
@@ -305,6 +334,31 @@ export function glfwSetWindowPos(window: FFIType.ptr, xpos: number, ypos: number
   lib.glfwSetWindowPos(window, xpos, ypos)
 }
 
+export function glfwGetWindowSize(window: FFIType.ptr): number[] {
+  let width = new Int32Array(1)
+  let height = new Int32Array(1)
+  lib.glfwGetWindowSize(window, width, height)
+  return [width[0], height[0]]
+}
+
+export function glfwSetWindowSizeLimits(window: FFIType.ptr, minwidth: number, minheight: number, maxwidth: number, maxheight: number) {
+  lib.glfwSetWindowSizeLimits(window, minwidth, minheight, maxwidth, maxheight)
+}
+
+export function glfwSetWindowAspectRatio(window: FFIType.ptr, numer: number, denom: number) {
+  lib.glfwSetWindowAspectRatio(window, numer, denom)
+}
+
+export function glfwSetWindowSize(window: FFIType.ptr, width: number, height: number) {
+  lib.glfwSetWindowSize(window, width, height)
+}
+
+export function glfwGetFramebufferSize(window: FFIType.ptr): number[] {
+  let width = new Int32Array(1)
+  let height = new Int32Array(1)
+  lib.glfwGetFramebufferSize(window, width, height)
+  return [width[0], height[0]]
+}
 
 // You pass this a lambda and you get a nice safe object you can wait until the end to free. 
 // TODO: Document this like a normal person.
