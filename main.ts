@@ -1,6 +1,7 @@
 import { print } from "./source/helpers"
 import { reloadInfo } from "./source/reload_info"
 import * as glfw from "./source/glfw3"
+import { CString, ptr } from "bun:ffi"
 
 let global = globalThis
 
@@ -17,6 +18,20 @@ if (!glfw.glfwInit()) {
 // print(glfw.glfwInit())
 // print(glfw.glfwTerminate())
 
+let window = glfw.glfwCreateWindow(500, 500, "hi there", null, null)
+
+if (!window) {
+  glfw.glfwTerminate()
+  throw new Error("FAILED TO INITIALIZE WINDOW!")
+} else {
+  print(`Window pointer is: ${window}`)
+}
+
+glfw.glfwSetWindowPosCallback(window, (_,x, y) => {
+  print(`hi I'm now at: ${x} and ${y}`)
+})
+
+glfw.glfwMakeContextCurrent(window)
 
 
 function main() {

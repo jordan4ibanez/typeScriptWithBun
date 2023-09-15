@@ -101,6 +101,10 @@ const VERBOSE_LIB = dlopen( path,{
     args: [FFIType.int, FFIType.int, FFIType.ptr, FFIType.ptr, FFIType.ptr],
     returns: FFIType.ptr
   },
+  glfwMakeContextCurrent: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
 
   //! End yelling area, AHHH
 
@@ -154,8 +158,14 @@ export function glfwGetVersionString(): CString {
 //! Please move this to wherever it will belong when the rest of this is laid out.
 //! It is here because I need to test if this thing actually works without crashing.
 // This will give you back the pointer of the window, very nice. Or nullptr. Not nice.
-export function glfwCreateWindow(width: number, height: number, title: CString, monitor: FFIType.ptr, share: FFIType.ptr): FFIType.ptr | null {
-  return lib.glfwCreateWindow(width, height, title, monitor, share)
+export function glfwCreateWindow(width: number, height: number, title: string, monitor: FFIType.ptr, share: FFIType.ptr): FFIType.ptr | null {
+  const blah = Buffer.from(title + '\0')
+  return lib.glfwCreateWindow(width, height, blah, monitor, share)
+
+}
+
+export function glfwMakeContextCurrent(window: FFIType.ptr) {
+  lib.glfwMakeContextCurrent(window)
 }
 
 //! End yelling again WOOOOOOOOOOOO
