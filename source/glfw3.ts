@@ -119,9 +119,6 @@ const VERBOSE_LIB = dlopen( path,{
 
   //? BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
    
-
-  //* note: A callback is a pointer. See line 14613 of types.d.ts!
-
   glfwDefaultWindowHints: {
     args: [],
     returns: FFIType.void
@@ -293,15 +290,18 @@ const VERBOSE_LIB = dlopen( path,{
 
   //! BEGIN CALLBACKS!
 
+  //* note: A callback is a pointer. See line 14613 of types.d.ts!
 
-  // glfwSetWindowPosCallback: {
-  //   args: [FFIType.ptr, FFIType.ptr],
-  //   returns: FFIType.void
-  // },
-  // glfwSetWindowSizeCallback: {
-  //   args: [FFIType.ptr, FFIType.ptr],
-  //   returns: FFIType.void
-  // },
+
+  glfwSetWindowPosCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+  
+  glfwSetWindowSizeCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
 
 
 });
@@ -525,45 +525,43 @@ export function glfwGetWindowUserPointer(window: FFIType.ptr): FFIType.ptr | nul
 
 //! BEGIN CALLBACKS!
 
-
-
-
-
+//* note: A callback is a pointer. See line 14613 of types.d.ts!
 
 
 // You pass this a lambda and you get a nice safe object you can wait until the end to free. 
 // TODO: Document this like a normal person.
-// export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
 
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr, FFIType.int, FFIType.int],
-//       returns: FFIType.void,
-//     }
-//   )
+export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
 
-//   lib.glfwSetWindowPosCallback(window, callbackObject.ptr)
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
-//   // And now you can keep it safe until you want to free it. :)
-//   return callbackObject
-// }
-// //* That's all the documentation I'm going to do for an example.
-// //* This will be redocumented with JSDoc or TSDoc or whatever it's called.
+  lib.glfwSetWindowPosCallback(window, callbackObject.ptr)
 
-// export function glfwSetWindowSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: number, height: number) => void) {
+  // And now you can keep it safe until you want to free it. :)
+  return callbackObject
+}
+//* That's all the documentation I'm going to do for an example.
+//* This will be redocumented with JSDoc or TSDoc or whatever it's called.
 
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr, FFIType.int, FFIType.int],
-//       returns: FFIType.void,
-//     }
-//   )
-//   lib.glfwSetWindowSizeCallback(window, callbackObject.ptr)
+export function glfwSetWindowSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: number, height: number) => void) {
 
-//   return callbackObject
-// }
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
+  lib.glfwSetWindowSizeCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
 
 
 
