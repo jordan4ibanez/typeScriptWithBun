@@ -1,6 +1,7 @@
 import { print } from "./helpers"
 import { dlopen, FFIType, suffix } from "bun:ffi";
 
+export default {}
 
 const path = `libglfw.${suffix}`;
 
@@ -15,7 +16,7 @@ const VERBOSE_LIB = dlopen( path,{
 });
 
 // Now we create an internal ref so I don't have to keep typing out lib.symbols.
-let lib = VERBOSE_LIB.symbols
+const lib = VERBOSE_LIB.symbols
 
 // Everything is wrapped for safety and so I don't have to tear my hair out.
 
