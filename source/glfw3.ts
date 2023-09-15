@@ -108,14 +108,8 @@ const VERBOSE_LIB = dlopen( path,{
   },
   
   
-  glfwSwapBuffers: {
-    args: [FFIType.ptr],
-    returns: FFIType.void
-  },
-  glfwPollEvents: {
-    args: [],
-    returns: FFIType.void
-  },
+  
+  
   //! End yelling area, AHHH
 
   //? BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
@@ -317,6 +311,57 @@ const VERBOSE_LIB = dlopen( path,{
     returns: FFIType.void
   },
 
+  glfwSetWindowFocusCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowIconifyCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowMaximizeCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetFramebufferSizeCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowContentScaleCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  //! END CALLBACKS
+
+  glfwPollEvents: {
+    args: [],
+    returns: FFIType.void
+  },
+
+  glfwWaitEvents: {
+    args: [],
+    returns: FFIType.void
+  },
+
+  glfwWaitEventsTimeout: {
+    args: [FFIType.double],
+    returns: FFIType.void
+  },
+
+  glfwPostEmptyEvent: {
+    args: [],
+    returns: FFIType.void
+  },
+
+  glfwSwapBuffers: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
 
 });
 
@@ -367,13 +412,9 @@ export function glfwMakeContextCurrent(window: FFIType.ptr) {
 
 
 
-export function glfwSwapBuffers(window: FFIType.ptr) {
-  lib.glfwSwapBuffers(window)
-}
 
-export function glfwPollEvents() {
-  lib.glfwPollEvents()
-}
+
+
 
 
 //! End yelling again WOOOOOOOOOOOO
@@ -610,14 +651,102 @@ export function glfwSetWindowRefreshCallback(window: FFIType.ptr, callback: (win
   return callbackObject
 }
 
+export function glfwSetWindowFocusCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, focused: FFIType.int) => void): JSCallback {
 
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
+  lib.glfwSetWindowFocusCallback(window, callbackObject.ptr)
 
+  return callbackObject
+}
 
+export function glfwSetWindowIconifyCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, iconified: FFIType.int) => void): JSCallback {
 
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
+  lib.glfwSetWindowIconifyCallback(window, callbackObject.ptr)
+  
+  return callbackObject
+}
 
+export function glfwSetWindowMaximizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, maximized: FFIType.int) => void): JSCallback {
+  
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
+  lib.glfwSetWindowMaximizeCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function glfwSetFramebufferSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: FFIType.int, height: FFIType.int) => void): JSCallback {
+
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
+
+  lib.glfwSetFramebufferSizeCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function glfwSetWindowContentScaleCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xscale: FFIType.float, yscale: FFIType.float) => void): JSCallback {
+
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.float, FFIType.float],
+      returns: FFIType.void,
+    }
+  )
+
+  lib.glfwSetWindowContentScaleCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+//! END CALLBACKS
+
+export function glfwPollEvents() {
+  lib.glfwPollEvents()
+}
+
+export function glfwWaitEvents() {
+  lib.glfwWaitEvents()
+}
+
+export function glfwWaitEventsTimeout(timeout: number) {
+  lib.glfwWaitEventsTimeout(timeout)
+}
+
+export function glfwPostEmptyEvent() {
+  lib.glfwPostEmptyEvent()
+}
+
+export function glfwSwapBuffers(window: FFIType.ptr) {
+  lib.glfwSwapBuffers(window)
+}
 
 
 const [GLFW_VERSION_MAJOR,
