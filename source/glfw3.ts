@@ -372,8 +372,8 @@ const VERBOSE_LIB = dlopen( path,{
   //* Begin https://www.glfw.org/docs/latest/group__monitor.html
 
   glfwGetMonitors: {
-    args: [],
-    returns: FFIType.void
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
   },
 
   glfwGetPrimaryMonitor: {
@@ -446,7 +446,7 @@ const VERBOSE_LIB = dlopen( path,{
     returns: FFIType.void
   },
 
-  
+
 
 
 });
@@ -834,6 +834,30 @@ export function glfwSwapBuffers(window: FFIType.ptr) {
   lib.glfwSwapBuffers(window)
 }
 
+export function glfwGetMonitors() {
+  //TODO: test this thing. Make a safety wrapper! This is too raw!
+  //FIXME: https://media.tenor.com/YHKWHhNCDOsAAAAC/ramsay-raw.gif
+  let count = new Int32Array(1)
+  let pointerArrayPointer = lib.glfwGetMonitors(count)
+
+  // I have no idea if this works.
+  //TODO: test this garbage!
+  if (count[0] == 0 || pointerArrayPointer == null) {
+    // You don't have any monitors?!
+    return null
+  }
+  
+  let pointerArray = new Array(count[0])
+
+  for (let i = 0; i < count[0]; i++) {
+    // I heard you like to just pile on unsafeness, here you go.
+    //* Assume 64 bit operating system because it's 2023
+    pointerArray[i] = read.ptr(pointerArrayPointer, 8 * i)
+  }
+  
+  // Good luck with this 
+  return pointerArray
+}
 
 const [GLFW_VERSION_MAJOR,
        GLFW_VERSION_MINOR,
