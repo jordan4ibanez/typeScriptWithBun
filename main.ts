@@ -27,7 +27,7 @@ if (!window) {
   print(`Window pointer is: ${window}`)
 }
 
-glfw.glfwSetWindowPosCallback(window, (_,x, y) => {
+glfw.glfwSetWindowPosCallback(window, (_, x, y) => {
   print(`hi I'm now at: ${x} and ${y}`)
 })
 
