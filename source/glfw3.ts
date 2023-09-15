@@ -121,7 +121,9 @@ const VERBOSE_LIB = dlopen( path,{
   
   //! End yelling area, AHHH
 
-  //? BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
+  //* BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
+  
+  //? BEGIN WINDOW
    
   glfwDefaultWindowHints: {
     args: [],
@@ -374,6 +376,8 @@ const VERBOSE_LIB = dlopen( path,{
 
   // //* Begin https://www.glfw.org/docs/latest/group__monitor.html
 
+  //? BEGIN MONITOR
+
   glfwGetMonitors: {
     args: [FFIType.ptr],
     returns: FFIType.ptr
@@ -512,7 +516,7 @@ export function glfwMakeContextCurrent(window: FFIType.ptr) {
 //! End yelling again WOOOOOOOOOOOO
 
 
-
+//? BEGIN WINDOW
 
 export function glfwDefaultWindowHints() {
   lib.glfwDefaultWindowHints()
@@ -839,6 +843,8 @@ export function glfwPostEmptyEvent() {
 export function glfwSwapBuffers(window: FFIType.ptr) {
   lib.glfwSwapBuffers(window)
 }
+
+//? BEGIN MONITORS
 
 export function glfwGetMonitors(): FFIType.ptr[] | null {
   //TODO: test this thing. Make a safety wrapper! This is too raw!
