@@ -6,12 +6,13 @@ import { CString, FFIType, ptr } from "bun:ffi"
 let global = globalThis
 
 
-// if (!glfw.glfwInit()) {
-//   throw new Error("FAILED TO INITIALIZE GLFW3!")
-// } else {
-//   print("GLFW3 initialized successfully.")
-// }
+if (!glfw.glfwInit()) {
+  throw new Error("FAILED TO INITIALIZE GLFW3!")
+} else {
+  print("GLFW3 initialized successfully.")
+}
 
+print("got here")
 // print(glfw.glfwGetVersion())
 // print(glfw.glfwGetVersionString())
 

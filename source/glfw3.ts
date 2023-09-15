@@ -1,6 +1,6 @@
 import { isInt32Array } from "util/types";
 import { print } from "./helpers"
-import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi";
+import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback, Narrow, FFIFunction } from "bun:ffi";
 
 // These are hand crafted bindings made with love. But not love2d.
 // Might be little mistakes, please let me know if so.
@@ -85,15 +85,22 @@ const GLFW_X11_INSTANCE_NAME        = 0x00024002
 
 // I'm trying to keep this in the same order as it's listed on GLFW.
 
-let VERBOSE_LIB = []
+let funcallAccumulator: { symbols: any; }[] = []
+
+//! function call limitations: 64. This is a workaround for GLFW.
+//! So what's happening is this is turning into a huge linear array.
+//! We're gonna accumulate it into a flat array later. :)
+function pushFunction(definition: Record<string, Narrow<FFIFunction>>) {
+  funcallAccumulator.push(dlopen(path, definition))
+}
 
 // Let's load that library.
-VERBOSE_LIB.push(dlopen(path,{
+pushFunction({
   glfwInit: {
     args: [],
     returns: FFIType.bool,
   },
-}))
+})
 //   glfwTerminate: {
 //     args: [],
 //     returns: FFIType.bool,
@@ -466,7 +473,7 @@ VERBOSE_LIB.push(dlopen(path,{
 
 
 // Now we create an internal ref so I don't have to keep typing out lib.symbols.
-const lib = VERBOSE_LIB[0].symbols
+const lib = funcallAccumulator[0].symbols
 
 // Everything is wrapped for safety and so I don't have to tear my hair out.
 
