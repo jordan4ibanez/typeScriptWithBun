@@ -20,6 +20,7 @@ print(glfw.glfwTerminate())
 
 let window = glfw.glfwCreateWindow(500, 500, "hi there", null, null)
 
+print(`Window pointer: ${window}`)
 
 if (!window) {
   glfw.glfwTerminate()
