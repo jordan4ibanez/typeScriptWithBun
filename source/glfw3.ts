@@ -209,6 +209,62 @@ const VERBOSE_LIB = dlopen( path,{
     returns: FFIType.void
   },
 
+  glfwGetWindowContentScale: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowOpacity: {
+    args: [FFIType.ptr],
+    returns: FFIType.float
+  },
+
+  glfwSetWindowOpacity: {
+    args: [FFIType.ptr, FFIType.float],
+    returns: FFIType.void
+  },
+
+  glfwIconifyWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwRestoreWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwMaximizeWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwShowWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwHideWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwFocusWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwRequestWindowAttention: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowMonitor: {
+    args: [FFIType.ptr],
+    //* Returning a GLFWmonitor pointer.
+    returns: FFIType.ptr
+  },
+
   // glfwSetWindowPosCallback: {
   //   args: [FFIType.ptr, FFIType.ptr],
   //   returns: FFIType.void
@@ -335,7 +391,7 @@ export function glfwSetWindowPos(window: FFIType.ptr, xpos: number, ypos: number
 }
 
 export function glfwGetWindowSize(window: FFIType.ptr): number[] {
-  let width = new Int32Array(1)
+  let width  = new Int32Array(1)
   let height = new Int32Array(1)
   lib.glfwGetWindowSize(window, width, height)
   return [width[0], height[0]]
@@ -354,11 +410,69 @@ export function glfwSetWindowSize(window: FFIType.ptr, width: number, height: nu
 }
 
 export function glfwGetFramebufferSize(window: FFIType.ptr): number[] {
-  let width = new Int32Array(1)
+  let width  = new Int32Array(1)
   let height = new Int32Array(1)
   lib.glfwGetFramebufferSize(window, width, height)
   return [width[0], height[0]]
 }
+
+export function glfwGetWindowFrameSize(window: FFIType.ptr): number[] {
+  let left   = new Int32Array(1)
+  let top    = new Int32Array(1)
+  let right  = new Int32Array(1)
+  let bottom = new Int32Array(1)
+  lib.glfwGetWindowFrameSize(window, left, top, right, bottom)
+  return [left[0], top[0], right[0], bottom[0]]
+} 
+
+export function glfwGetWindowContentScale(window: FFIType.ptr): number[] {
+  let xscale = new Int32Array(1)
+  let yscale = new Int32Array(1)
+  lib.glfwGetWindowContentScale(window, xscale, yscale)
+  return [xscale[0], yscale[0]]
+}
+
+export function glfwGetWindowOpacity(window: FFIType.ptr): number {
+  return lib.glfwGetWindowOpacity(window)
+}
+
+export function glfwSetWindowOpacity(window: FFIType, opacity: number) {
+  lib.glfwSetWindowOpacity(window, opacity)
+}
+
+export function glfwIconifyWindow(window: FFIType.ptr) {
+  lib.glfwIconifyWindow(window)
+}
+
+export function glfwRestoreWindow(window: FFIType.ptr) {
+  lib.glfwRestoreWindow(window)
+}
+
+export function glfwMaximizeWindow(window: FFIType.ptr) {
+  lib.glfwMaximizeWindow(window)
+}
+
+export function glfwShowWindow(window: FFIType.ptr) {
+  lib.glfwShowWindow(window)
+}
+
+export function glfwHideWindow(window: FFIType.ptr) {
+  lib.glfwHideWindow(window)
+}
+
+export function glfwFocusWindow(window: FFIType.ptr) {
+  lib.glfwFocusWindow(window)
+}
+
+export function glfwRequestWindowAttention(window: FFIType.ptr) {
+  lib.glfwRequestWindowAttention(window)
+}
+
+//* Returns a GLFWmonitor pointer. Or null. Very dramatic.
+export function glfwGetWindowMonitor(window: FFIType.ptr): FFIType.ptr | null {
+  return lib.glfwGetWindowMonitor(window)
+}
+
 
 // You pass this a lambda and you get a nice safe object you can wait until the end to free. 
 // TODO: Document this like a normal person.
