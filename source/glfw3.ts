@@ -20,6 +20,54 @@ const TESTING = dlopen(libcPath, {
   }
 })
 
+const GLFW_FOCUSED                  = 0x00020001
+const GLFW_ICONIFIED                = 0x00020002
+const GLFW_RESIZABLE                = 0x00020003
+const GLFW_VISIBLE                  = 0x00020004
+const GLFW_DECORATED                = 0x00020005
+const GLFW_AUTO_ICONIFY             = 0x00020006
+const GLFW_FLOATING                 = 0x00020007
+const GLFW_MAXIMIZED                = 0x00020008
+const GLFW_CENTER_CURSOR            = 0x00020009
+const GLFW_TRANSPARENT_FRAMEBUFFER  = 0x0002000A
+const GLFW_HOVERED                  = 0x0002000B
+const GLFW_FOCUS_ON_SHOW            = 0x0002000C
+const GLFW_RED_BITS                 = 0x00021001
+const GLFW_GREEN_BITS               = 0x00021002
+const GLFW_BLUE_BITS                = 0x00021003
+const GLFW_ALPHA_BITS               = 0x00021004
+const GLFW_DEPTH_BITS               = 0x00021005
+const GLFW_STENCIL_BITS             = 0x00021006
+const GLFW_ACCUM_RED_BITS           = 0x00021007
+const GLFW_ACCUM_GREEN_BITS         = 0x00021008
+const GLFW_ACCUM_BLUE_BITS          = 0x00021009
+const GLFW_ACCUM_ALPHA_BITS         = 0x0002100A
+const GLFW_AUX_BUFFERS              = 0x0002100B
+const GLFW_STEREO                   = 0x0002100C
+const GLFW_SAMPLES                  = 0x0002100D
+const GLFW_SRGB_CAPABLE             = 0x0002100E
+const GLFW_REFRESH_RATE             = 0x0002100F
+const GLFW_DOUBLEBUFFER             = 0x00021010
+const GLFW_CLIENT_API               = 0x00022001
+const GLFW_CONTEXT_VERSION_MAJOR    = 0x00022002
+const GLFW_CONTEXT_VERSION_MINOR    = 0x00022003
+const GLFW_CONTEXT_REVISION         = 0x00022004
+const GLFW_CONTEXT_ROBUSTNESS       = 0x00022005
+const GLFW_OPENGL_FORWARD_COMPAT    = 0x00022006
+const GLFW_OPENGL_DEBUG_CONTEXT     = 0x00022007
+const GLFW_OPENGL_PROFILE           = 0x00022008
+const GLFW_CONTEXT_RELEASE_BEHAVIOR = 0x00022009
+const GLFW_CONTEXT_NO_ERROR         = 0x0002200A
+const GLFW_CONTEXT_CREATION_API     = 0x0002200B
+const GLFW_SCALE_TO_MONITOR         = 0x0002200C
+const GLFW_COCOA_RETINA_FRAMEBUFFER = 0x00023001
+const GLFW_COCOA_FRAME_NAME         = 0x00023002
+const GLFW_COCOA_GRAPHICS_SWITCHING = 0x00023003
+const GLFW_X11_CLASS_NAME           = 0x00024001
+const GLFW_X11_INSTANCE_NAME        = 0x00024002
+
+
+
 // I'm trying to keep this in the same order as it's listed on GLFW.
 
 // Let's load that library.
@@ -42,6 +90,15 @@ const VERBOSE_LIB = dlopen( path,{
   },
   // From this point on the documentation just kinda falls apart.
   // So I just made up ordering as I read through.
+  
+  // BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
+
+
+
+  glfwCreateWindow: {
+
+  }
+
 });
 
 // Now we create an internal ref so I don't have to keep typing out lib.symbols.
