@@ -12,13 +12,14 @@ if (!glfw.glfwInit()) {
   print("GLFW3 initialized successfully. Yay.")
 }
 
-// print(glfw.glfwGetVersion())
-// print(glfw.glfwGetVersionString())
+print(glfw.glfwGetVersion())
+print(glfw.glfwGetVersionString())
 
-// print(glfw.glfwInit())
-// print(glfw.glfwTerminate())
+print(glfw.glfwInit())
+print(glfw.glfwTerminate())
 
 let window = glfw.glfwCreateWindow(500, 500, "hi there", null, null)
+
 
 if (!window) {
   glfw.glfwTerminate()
