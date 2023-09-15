@@ -1,3 +1,4 @@
+import { close } from "fs";
 import { print } from "./helpers"
 import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi";
 
@@ -292,13 +293,26 @@ const VERBOSE_LIB = dlopen( path,{
 
   //* note: A callback is a pointer. See line 14613 of types.d.ts!
 
+  //? Void returns instead of function pointers
+  //? because bun has a different style of memory
+  //? management.
 
   glfwSetWindowPosCallback: {
     args: [FFIType.ptr, FFIType.ptr],
     returns: FFIType.void
   },
-  
+
   glfwSetWindowSizeCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowCloseCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowRefreshCallback: {
     args: [FFIType.ptr, FFIType.ptr],
     returns: FFIType.void
   },
@@ -528,6 +542,7 @@ export function glfwGetWindowUserPointer(window: FFIType.ptr): FFIType.ptr | nul
 //* note: A callback is a pointer. See line 14613 of types.d.ts!
 
 
+
 // You pass this a lambda and you get a nice safe object you can wait until the end to free. 
 // TODO: Document this like a normal person.
 
@@ -544,12 +559,14 @@ export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window:
   lib.glfwSetWindowPosCallback(window, callbackObject.ptr)
 
   // And now you can keep it safe until you want to free it. :)
+  //! Make sure you free (close()) the old callback before you set a new one
+  //! or else, you'll have a memory leak.
   return callbackObject
 }
 //* That's all the documentation I'm going to do for an example.
 //* This will be redocumented with JSDoc or TSDoc or whatever it's called.
 
-export function glfwSetWindowSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: number, height: number) => void) {
+export function glfwSetWindowSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: number, height: number) => void): JSCallback {
 
   const callbackObject = new JSCallback(
     callback,
@@ -558,12 +575,40 @@ export function glfwSetWindowSizeCallback(window: FFIType.ptr, callback: (window
       returns: FFIType.void,
     }
   )
+
   lib.glfwSetWindowSizeCallback(window, callbackObject.ptr)
 
   return callbackObject
 }
 
+export function glfwSetWindowCloseCallback(window: FFIType.ptr, callback: (window: FFIType.ptr) => void): JSCallback {
+  
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr],
+      returns: FFIType.void,
+    }
+  )
 
+  lib.glfwSetWindowCloseCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function glfwSetWindowRefreshCallback(window: FFIType.ptr, callback: (window: FFIType.ptr) => void): JSCallback {
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr],
+      returns: FFIType.void,
+    }
+  )
+
+  lib.glfwSetWindowRefreshCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
 
 
 
