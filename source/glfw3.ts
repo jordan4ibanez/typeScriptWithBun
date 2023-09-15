@@ -129,7 +129,8 @@ export function glfwGetVersionString(): CString {
   return lib.glfwGetVersionString()
 }
 
-
+// You pass this a lambda and you get a nice safe object you can wait until the end to free. 
+// TODO: Document this like a normal person.
 export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
 
   const callbackObject = new JSCallback(
