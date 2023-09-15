@@ -34,10 +34,6 @@ const lib = VERBOSE_LIB.symbols
 
 // Everything is wrapped for safety and so I don't have to tear my hair out.
 
-export {
-  path as GFLW_PATH
-}
-
 export function glfwInit(): boolean {
   return lib.glfwInit()
 }
@@ -55,7 +51,18 @@ export function glfwGetVersion(): number[] {
   return [major[0], minor[0], revision[0]]
 }
 
-
 export function glfwGetVersionString(): string {
   return lib.glfwGetVersionString()
+}
+
+
+const [GLFW_VERSION_MAJOR,
+       GLFW_VERSION_MINOR,
+       GLFW_VERSION_REVISION] = glfwGetVersion()
+
+export {
+  path as GFLW_PATH,
+  GLFW_VERSION_MAJOR,
+  GLFW_VERSION_MINOR,
+  GLFW_VERSION_REVISION
 }
