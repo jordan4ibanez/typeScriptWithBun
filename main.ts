@@ -1,29 +1,11 @@
 import { print } from "./source/helpers"
 import { reloadInfo } from "./source/reload_info"
-
-
-import { dlopen, FFIType, suffix } from "bun:ffi";
+import * as glfw from "./source/glfw3"
 
 let global = globalThis
 
-const path = `libglfw.${suffix}`;
 
-print(`GLFW3: ${path}`)
-
-const {
-  symbols: {
-    glfwGetVersionString,
-  }
-} = dlopen(
-  path, // a library name or file path
-  {
-    glfwGetVersionString: {
-      // no arguments, returns a string
-      args: [],
-      returns: FFIType.cstring,
-    },
-  },
-);
+print(glfw.glfwGetVersionString())
 
 
 
