@@ -85,13 +85,25 @@ const GLFW_X11_INSTANCE_NAME        = 0x00024002
 
 // I'm trying to keep this in the same order as it's listed on GLFW.
 
-let funcallAccumulator: { symbols: any; }[] = []
+let funcallAccumulator = {}
 
 //! function call limitations: 64. This is a workaround for GLFW.
 //! So what's happening is this is turning into a huge linear array.
 //! We're gonna accumulate it into a flat array later. :)
 function pushFunction(definition: Record<string, Narrow<FFIFunction>>) {
-  funcallAccumulator.push(dlopen(path, definition))
+  let rawFun = (dlopen(path, definition))
+  // This is an object
+  print(rawFun)
+  /*
+  ? Now, how do we combine them?
+  FFI {
+    close: [Function: close],
+    symbols: {
+      glfwInit: [class glfwInit]
+    }
+  }
+  */
+  
 }
 
 // Let's load that library.
@@ -472,8 +484,11 @@ pushFunction({
 // });
 
 
+
+print(funcallAccumulator)
+
 // Now we create an internal ref so I don't have to keep typing out lib.symbols.
-const lib = funcallAccumulator[0].symbols
+const lib = funcallAccumulator
 
 // Everything is wrapped for safety and so I don't have to tear my hair out.
 
