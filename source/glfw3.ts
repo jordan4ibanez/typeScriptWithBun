@@ -3,6 +3,8 @@ import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi
 
 // These are hand crafted bindings made with love. But not love2d.
 // Might be little mistakes, please let me know if so.
+// Some functions work slightly differently than C.
+// Like, destructuring assignments in TS leverage array returns.
 
 /*
 Checklist:
@@ -378,7 +380,7 @@ const VERBOSE_LIB = dlopen( path,{
 
   glfwGetPrimaryMonitor: {
     args: [],
-    returns: FFIType.void
+    returns: FFIType.ptr
   },
 
   glfwGetMonitorPos: {
@@ -403,7 +405,7 @@ const VERBOSE_LIB = dlopen( path,{
 
   glfwGetMonitorName: {
     args: [FFIType.ptr],
-    returns: FFIType.void
+    returns: FFIType.cstring
   },
 
   glfwSetMonitorUserPointer: {
@@ -413,7 +415,7 @@ const VERBOSE_LIB = dlopen( path,{
 
   glfwGetMonitorUserPointer: {
     args: [FFIType.ptr],
-    returns: FFIType.void
+    returns: FFIType.ptr
   },
 
   glfwSetMonitorCallback: {
@@ -834,7 +836,7 @@ export function glfwSwapBuffers(window: FFIType.ptr) {
   lib.glfwSwapBuffers(window)
 }
 
-export function glfwGetMonitors() {
+export function glfwGetMonitors(): FFIType.ptr[] | null {
   //TODO: test this thing. Make a safety wrapper! This is too raw!
   //FIXME: https://media.tenor.com/YHKWHhNCDOsAAAAC/ramsay-raw.gif
   let count = new Int32Array(1)
@@ -855,8 +857,77 @@ export function glfwGetMonitors() {
     pointerArray[i] = read.ptr(pointerArrayPointer, 8 * i)
   }
   
-  // Good luck with this 
+  // You use this by indexing into the table, and it 
+  //...hopefully gives you a monitor pointer
   return pointerArray
+}
+
+// See this is a bit more sane, just a normal monitor pointer
+export function glfwGetPrimaryMonitor(): FFIType.ptr | null {
+  return lib.glfwGetPrimaryMonitor()
+}
+
+export function glfwGetMonitorPos(monitor: FFIType.ptr): number[] {
+  let xpos = new Int32Array(1)
+  let ypos = new Int32Array(1)
+
+  lib.glfwGetMonitorPos(monitor, xpos, ypos)
+
+  return [xpos[0], ypos[0]]
+}
+
+export function glfwGetMonitorWorkarea(monitor: FFIType.ptr): number[] {
+  let xpos   = new Int32Array(1)
+  let ypos   = new Int32Array(1)
+  let width  = new Int32Array(1)
+  let height = new Int32Array(1)
+
+  lib.glfwGetMonitorWorkarea(monitor, xpos, ypos, width, height)
+
+  return [xpos[0], ypos[0], width[0], height[0]]
+}
+
+export function glfwGetMonitorPhysicalSize(monitor: FFIType.ptr): number[] {
+  let widthMM = new Int32Array(1)
+  let heightMM = new Int32Array(1)
+  lib.glfwGetMonitorPhysicalSize(monitor, widthMM, heightMM)
+
+  return [widthMM[0], heightMM[0]]
+}
+
+export function glfwGetMonitorContentScale(monitor: FFIType.ptr): number[] {
+  let xscale = new Int32Array(1)
+  let yscale = new Int32Array(1)
+  lib.glfwGetMonitorContentScale(monitor, xscale, yscale)
+
+  return [xscale[0], yscale[0]]
+}
+
+export function glfwGetMonitorName(monitor: FFIType.ptr): CString | null {
+  return lib.glfwGetMonitorName(monitor)
+}
+
+export function glfwSetMonitorUserPointer(monitor: FFIType.ptr, pointer: FFIType.ptr) {
+  lib.glfwSetMonitorUserPointer(monitor, pointer)
+}
+
+export function glfwGetMonitorUserPointer(monitor: FFIType.ptr): FFIType.ptr | null {
+  return lib.glfwGetMonitorUserPointer(monitor)
+}
+
+export function glfwSetMonitorCallback(callback: (monitor: FFIType.ptr, event: number) => void): JSCallback {
+
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
+
+  lib.glfwSetMonitorCallback(callbackObject.ptr)
+
+  return callbackObject
 }
 
 const [GLFW_VERSION_MAJOR,
