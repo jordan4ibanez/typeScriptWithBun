@@ -1,3 +1,4 @@
+import { isInt32Array } from "util/types";
 import { print } from "./helpers"
 import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi";
 
@@ -425,12 +426,12 @@ const VERBOSE_LIB = dlopen( path,{
 
   glfwGetVideoModes: {
     args: [FFIType.ptr, FFIType.ptr],
-    returns: FFIType.void
+    returns: FFIType.ptr
   },
 
   glfwGetVideoMode: {
     args: [FFIType.ptr],
-    returns: FFIType.void
+    returns: FFIType.ptr
   },
 
   glfwSetGamma: {
@@ -929,6 +930,45 @@ export function glfwSetMonitorCallback(callback: (monitor: FFIType.ptr, event: n
 
   return callbackObject
 }
+
+export function glfwGetVideoModes(monitor: FFIType.ptr): number[] | null {
+  
+  let count = new Int32Array(1)
+
+  let vidModeArray = lib.glfwGetVideoModes(monitor, count)
+
+  if (count[0] == 0 || vidModeArray == null) {
+    return null
+  }
+
+  let modeArray = new Array(count[0])
+
+  for (let i = 0; i < count[0]; i++) {
+    // I heard you like to just pile on unsafeness, here you go.
+    //* Assume 64 bit operating system because it's 2023
+    modeArray[i] = read.ptr(vidModeArray, 8 * i)
+  }
+
+  // Returning an array of available modes.
+  return modeArray
+}
+
+export function glfwGetVideoMode(monitor: FFIType.ptr): FFIType.ptr | null {
+  return lib.glfwGetVideoMode(monitor)
+}
+
+export function glfwSetGamma(monitor: FFIType.ptr, gamma: number) {
+  lib.glfwSetGamma(monitor, gamma)
+}
+
+export function glfwGetGammaRamp(monitor: FFIType.ptr): FFIType.ptr | null {
+  return lib.glfwGetGammaRamp(monitor)
+}
+
+export function glfwSetGammaRamp(monitor: FFIType.ptr, ramp: FFIType.ptr) {
+  lib.glfwSetGammaRamp(monitor, ramp)
+}
+
 
 const [GLFW_VERSION_MAJOR,
        GLFW_VERSION_MINOR,
