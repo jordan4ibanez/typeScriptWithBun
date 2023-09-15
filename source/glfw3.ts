@@ -94,6 +94,7 @@ function pushFunction(definition: Record<string, Narrow<FFIFunction>>) {
   let rawFun = (dlopen(path, definition))
   // This is an object
   print(rawFun)
+  print(rawFun.symbols)
   /*
   ? Now, how do we combine them?
   FFI {
