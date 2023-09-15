@@ -1,7 +1,7 @@
 import { print } from "./source/helpers"
 import { reloadInfo } from "./source/reload_info"
 import * as glfw from "./source/glfw3"
-import { CString, ptr } from "bun:ffi"
+import { CString, FFIType, ptr } from "bun:ffi"
 
 let global = globalThis
 
@@ -34,20 +34,33 @@ glfw.glfwSetWindowPosCallback(window, (_,x, y) => {
 glfw.glfwMakeContextCurrent(window)
 
 
-function main() {
-  reloadInfo()
-}
-
-let running = true
-
 let count = 0
+while (!glfw.glfwWindowShouldClose(window)) {
 
-while (running) {
-  main()
   count++
-  if (count > 0) {
-    running = false
+  print(count)
+
+  if (count > 1_000_000) {
+    print("ahhhh")
+    glfw.glfwSetWindowShouldClose(window, true)
   }
 }
 
-failedReloads -= 1
+glfw.glfwTerminate()
+print("exited")
+
+// function main() {
+//   reloadInfo()
+// }
+
+// let running = true
+
+// let count = 0
+
+// while (running) {
+//   main()
+//   count++
+//   if (count > 0) {
+//     running = false
+//   }
+// }

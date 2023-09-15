@@ -105,7 +105,14 @@ const VERBOSE_LIB = dlopen( path,{
     args: [FFIType.ptr],
     returns: FFIType.void
   },
-
+  glfwWindowShouldClose: {
+    args: [FFIType.ptr],
+    returns: FFIType.int
+  },
+  glfwSetWindowShouldClose: {
+    args: [FFIType.ptr, FFIType.int],
+    returns: FFIType.void
+  },
   //! End yelling area, AHHH
 
   //? BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
@@ -158,7 +165,7 @@ export function glfwGetVersionString(): CString {
 //! Please move this to wherever it will belong when the rest of this is laid out.
 //! It is here because I need to test if this thing actually works without crashing.
 // This will give you back the pointer of the window, very nice. Or nullptr. Not nice.
-export function glfwCreateWindow(width: number, height: number, title: string, monitor: FFIType.ptr, share: FFIType.ptr): FFIType.ptr | null {
+export function glfwCreateWindow(width: number, height: number, title: string, monitor: FFIType.ptr | null, share: FFIType.ptr | null): FFIType.ptr | null {
   const blah = Buffer.from(title + '\0')
   return lib.glfwCreateWindow(width, height, blah, monitor, share)
 
@@ -167,6 +174,17 @@ export function glfwCreateWindow(width: number, height: number, title: string, m
 export function glfwMakeContextCurrent(window: FFIType.ptr) {
   lib.glfwMakeContextCurrent(window)
 }
+
+export function glfwWindowShouldClose(window: FFIType.ptr): boolean {
+  //! FIXME: this might not only be 0 false 1 true!
+  return lib.glfwWindowShouldClose(window) != 0
+}
+
+export function glfwSetWindowShouldClose(window: FFIType.ptr, shouldClose: boolean) {
+  lib.glfwSetWindowShouldClose(window, shouldClose ? 1 : 0)
+}
+
+
 
 //! End yelling again WOOOOOOOOOOOO
 
