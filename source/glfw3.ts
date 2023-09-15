@@ -215,7 +215,7 @@ export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window:
   const callbackObject = new JSCallback(
     callback,
     {
-      args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+      args: [FFIType.ptr, FFIType.int, FFIType.int],
       returns: FFIType.void,
     }
   )

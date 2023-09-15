@@ -39,10 +39,10 @@ while (!glfw.glfwWindowShouldClose(window)) {
 
   glfw.glfwSwapBuffers(window)
   count++
-  print(count)
+  // print(count)
 
   if (count > 1_000_000) {
-    print("ahhhh")
+    // print("ahhhh")
     // glfw.glfwSetWindowShouldClose(window, true)
   }
   glfw.glfwPollEvents()
