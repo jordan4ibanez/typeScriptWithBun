@@ -113,6 +113,14 @@ const VERBOSE_LIB = dlopen( path,{
     args: [FFIType.ptr, FFIType.int],
     returns: FFIType.void
   },
+  glfwSwapBuffers: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+  glfwPollEvents: {
+    args: [],
+    returns: FFIType.void
+  },
   //! End yelling area, AHHH
 
   //? BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
@@ -184,6 +192,13 @@ export function glfwSetWindowShouldClose(window: FFIType.ptr, shouldClose: boole
   lib.glfwSetWindowShouldClose(window, shouldClose ? 1 : 0)
 }
 
+export function glfwSwapBuffers(window: FFIType.ptr) {
+  lib.glfwSwapBuffers(window)
+}
+
+export function glfwPollEvents() {
+  lib.glfwPollEvents()
+}
 
 
 //! End yelling again WOOOOOOOOOOOO
