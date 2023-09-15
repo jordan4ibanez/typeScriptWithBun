@@ -1,6 +1,8 @@
 import { print } from "./helpers"
 import { read, ptr, dlopen, FFIType, suffix } from "bun:ffi";
 
+// These are hand crafted bindings made with love. But not love2d.
+
 export default {}
 
 const path = `libglfw.${suffix}`;
@@ -27,6 +29,8 @@ const VERBOSE_LIB = dlopen( path,{
     args: [],
     returns: FFIType.cstring,
   },
+  // From this point on the documentation just kinda falls apart.
+  // So I just made up ordering as I read through.
 });
 
 // Now we create an internal ref so I don't have to keep typing out lib.symbols.
