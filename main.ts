@@ -5,11 +5,17 @@ import * as glfw from "./source/glfw3"
 let global = globalThis
 
 
-print(glfw.glfwGetVersion())
-print(glfw.glfwGetVersionString())
+if (!glfw.glfwInit()) {
+  throw new Error("FAILED TO INITIALIZE GLFW3!!!")
+} else {
+  print("GLFW3 initialized successfully. Yay.")
+}
 
-print(glfw.glfwInit())
-print(glfw.glfwTerminate())
+// print(glfw.glfwGetVersion())
+// print(glfw.glfwGetVersionString())
+
+// print(glfw.glfwInit())
+// print(glfw.glfwTerminate())
 
 
 

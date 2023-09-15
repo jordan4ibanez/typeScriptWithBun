@@ -1,4 +1,3 @@
-
 import { print } from "./helpers"
 import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi";
 
@@ -89,12 +88,27 @@ const VERBOSE_LIB = dlopen( path,{
     args: [],
     returns: FFIType.cstring,
   },
-  // From this point on the documentation just kinda falls apart.
-  // So I just made up ordering as I read through.
+
+  //* From this point on the documentation just kinda falls apart.
+  //* So I just made up ordering as I read through.
   
-  // BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
-  
+
+  //! Please move this to wherever it will belong when the rest of this is laid out.
+  //! It is here because I need to test if this thing actually works without crashing.
+
+  glfwCreateWindow: {
+    //*    width      , height     , title      , monitor    , share (null = false)   
+    args: [FFIType.int, FFIType.int, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  //! End yelling area, AHHH
+
+  //? BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
+   
+
   //note: A callback is a pointer. See line 14613 of types.d.ts!
+
   glfwSetWindowPosCallback: {
     args: [FFIType.ptr, FFIType.ptr],
     returns: FFIType.void
@@ -129,6 +143,28 @@ export function glfwGetVersionString(): CString {
   return lib.glfwGetVersionString()
 }
 
+
+
+
+
+
+
+
+
+//! Please move this to wherever it will belong when the rest of this is laid out.
+//! It is here because I need to test if this thing actually works without crashing.
+// This will give you back the pointer of the window, very nice. Or nullptr. Not nice.
+export function glfwCreateWindow(width: number, height: number, title: CString, monitor: FFIType.ptr, share: FFIType.ptr): FFIType.ptr | null {
+  return lib.glfwCreateWindow(width, height, title, monitor, share)
+}
+
+//! End yelling again WOOOOOOOOOOOO
+
+
+
+
+
+
 // You pass this a lambda and you get a nice safe object you can wait until the end to free. 
 // TODO: Document this like a normal person.
 export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
@@ -146,6 +182,18 @@ export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window:
   // And now you can keep it safe until you want to free it. :)
   return callbackObject
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const [GLFW_VERSION_MAJOR,
