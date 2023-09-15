@@ -20,6 +20,11 @@ const TESTING = dlopen(libcPath, {
   }
 })
 
+//* This is a helper function to automatically null (\0) terminate a string.
+function toBuffer(input: string) {
+  return Buffer.from(input + '\0')
+}
+
 const GLFW_FOCUSED                  = 0x00020001
 const GLFW_ICONIFIED                = 0x00020002
 const GLFW_RESIZABLE                = 0x00020003
@@ -96,23 +101,12 @@ const VERBOSE_LIB = dlopen( path,{
   //! Please move this to wherever it will belong when the rest of this is laid out.
   //! It is here because I need to test if this thing actually works without crashing.
 
-  glfwCreateWindow: {
-    //*    width      , height     , title      , monitor    , share (null = false)   
-    args: [FFIType.int, FFIType.int, FFIType.ptr, FFIType.ptr, FFIType.ptr],
-    returns: FFIType.ptr
-  },
   glfwMakeContextCurrent: {
     args: [FFIType.ptr],
     returns: FFIType.void
   },
-  glfwWindowShouldClose: {
-    args: [FFIType.ptr],
-    returns: FFIType.int
-  },
-  glfwSetWindowShouldClose: {
-    args: [FFIType.ptr, FFIType.int],
-    returns: FFIType.void
-  },
+  
+  
   glfwSwapBuffers: {
     args: [FFIType.ptr],
     returns: FFIType.void
@@ -126,12 +120,75 @@ const VERBOSE_LIB = dlopen( path,{
   //? BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
    
 
-  //note: A callback is a pointer. See line 14613 of types.d.ts!
+  //* note: A callback is a pointer. See line 14613 of types.d.ts!
 
-  glfwSetWindowPosCallback: {
-    args: [FFIType.ptr, FFIType.ptr],
+  glfwDefaultWindowHints: {
+    args: [],
     returns: FFIType.void
-  }
+  },
+
+  glfwWindowHint: {
+    args: [FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwWindowHintString: {
+    args: [FFIType.int, FFIType.cstring],
+    returns: FFIType.void
+  },
+
+  glfwCreateWindow: {
+    //*    width      , height     , title      , monitor    , share (null = false)   
+    args: [FFIType.int, FFIType.int, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwDestroyWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwWindowShouldClose: {
+    args: [FFIType.ptr],
+    returns: FFIType.int
+  },
+
+  glfwSetWindowShouldClose: {
+    args: [FFIType.ptr, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowTitle: {
+    args: [FFIType.ptr, FFIType.cstring],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowIcon: {
+    //*    window     , count      , GLFWimage*
+    args: [FFIType.ptr, FFIType.int, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowPos: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowPos: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+
+  // glfwSetWindowPosCallback: {
+  //   args: [FFIType.ptr, FFIType.ptr],
+  //   returns: FFIType.void
+  // },
+  // glfwSetWindowSizeCallback: {
+  //   args: [FFIType.ptr, FFIType.ptr],
+  //   returns: FFIType.void
+  // },
+
 
 });
 
@@ -173,24 +230,14 @@ export function glfwGetVersionString(): CString {
 //! Please move this to wherever it will belong when the rest of this is laid out.
 //! It is here because I need to test if this thing actually works without crashing.
 // This will give you back the pointer of the window, very nice. Or nullptr. Not nice.
-export function glfwCreateWindow(width: number, height: number, title: string, monitor: FFIType.ptr | null, share: FFIType.ptr | null): FFIType.ptr | null {
-  const blah = Buffer.from(title + '\0')
-  return lib.glfwCreateWindow(width, height, blah, monitor, share)
-
-}
 
 export function glfwMakeContextCurrent(window: FFIType.ptr) {
   lib.glfwMakeContextCurrent(window)
 }
 
-export function glfwWindowShouldClose(window: FFIType.ptr): boolean {
-  //! FIXME: this might not only be 0 false 1 true!
-  return lib.glfwWindowShouldClose(window) != 0
-}
 
-export function glfwSetWindowShouldClose(window: FFIType.ptr, shouldClose: boolean) {
-  lib.glfwSetWindowShouldClose(window, shouldClose ? 1 : 0)
-}
+
+
 
 export function glfwSwapBuffers(window: FFIType.ptr) {
   lib.glfwSwapBuffers(window)
@@ -206,26 +253,92 @@ export function glfwPollEvents() {
 
 
 
+export function glfwDefaultWindowHints() {
+  lib.glfwDefaultWindowHints()
+}
+
+
+export function glfwWindowHint(hint: number, value: number) {
+  lib.glfwWindowHint(hint, value)
+}
+
+export function glfwWindowHintString(hint: number, value: string) {
+  const hintBuffer = toBuffer(value)
+  lib.glfwWindowHintString(hint, hintBuffer)
+}
+
+export function glfwCreateWindow(width: number, height: number, title: string, monitor: FFIType.ptr | null, share: FFIType.ptr | null): FFIType.ptr | null {
+  const titleBuffer = toBuffer(title)
+  return lib.glfwCreateWindow(width, height, titleBuffer, monitor, share)
+}
+
+export function glfwDestroyWindow(window: FFIType.ptr) {
+  lib.glfwDestroyWindow(window)
+}
+
+export function glfwWindowShouldClose(window: FFIType.ptr): boolean {
+  //! FIXME: this might not only be 0 false 1 true!
+  return lib.glfwWindowShouldClose(window) != 0
+}
+
+export function glfwSetWindowShouldClose(window: FFIType.ptr, shouldClose: boolean) {
+  lib.glfwSetWindowShouldClose(window, shouldClose ? 1 : 0)
+}
+
+export function glfwSetWindowTitle(window: FFIType.ptr, title: string) {
+  const titleBuffer = toBuffer(title)
+  lib.glfwSetWindowTitle(window, titleBuffer)
+}
+
+export function glfwSetWindowIcon(window: FFIType.ptr, count: number, images: FFIType.ptr) {
+  lib.glfwSetWindowIcon(window, count, images)
+}
+
+export function glfwGetWindowPos(window: FFIType.ptr): number[] {
+  let xpos = new Int32Array(1)
+  let ypos = new Int32Array(1)
+  lib.glfwGetWindowPos(window, xpos, ypos)
+  return [xpos[0], ypos[0]]
+}
+
+export function glfwSetWindowPos(window: FFIType.ptr, xpos: number, ypos: number) {
+  lib.glfwSetWindowPos(window, xpos, ypos)
+}
 
 
 // You pass this a lambda and you get a nice safe object you can wait until the end to free. 
 // TODO: Document this like a normal person.
-export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
+// export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
 
-  const callbackObject = new JSCallback(
-    callback,
-    {
-      args: [FFIType.ptr, FFIType.int, FFIType.int],
-      returns: FFIType.void,
-    }
-  )
+//   const callbackObject = new JSCallback(
+//     callback,
+//     {
+//       args: [FFIType.ptr, FFIType.int, FFIType.int],
+//       returns: FFIType.void,
+//     }
+//   )
 
-  lib.glfwSetWindowPosCallback(window, callbackObject.ptr)
+//   lib.glfwSetWindowPosCallback(window, callbackObject.ptr)
 
-  // And now you can keep it safe until you want to free it. :)
-  return callbackObject
-}
+//   // And now you can keep it safe until you want to free it. :)
+//   return callbackObject
+// }
+// //* That's all the documentation I'm going to do for an example.
+// //* This will be redocumented with JSDoc or TSDoc or whatever it's called.
 
+// export function glfwSetWindowSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: number, height: number) => void) {
+
+//   const callbackObject = new JSCallback(
+//     callback,
+//     {
+//       args: [FFIType.ptr, FFIType.int, FFIType.int],
+//       returns: FFIType.void,
+//     }
+//   )
+//   lib.glfwSetWindowSizeCallback(window, callbackObject.ptr)
+
+//   return callbackObject
+// }
 
 
 
