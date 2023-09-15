@@ -1,8 +1,14 @@
-import { close } from "fs";
 import { print } from "./helpers"
 import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi";
 
 // These are hand crafted bindings made with love. But not love2d.
+// Might be little mistakes, please let me know if so.
+
+/*
+Checklist:
+1.) window reference  - DONE
+2.) monitor reference -
+*/
 
 export default {}
 
