@@ -369,6 +369,86 @@ const VERBOSE_LIB = dlopen( path,{
     returns: FFIType.void
   },
 
+  //* Begin https://www.glfw.org/docs/latest/group__monitor.html
+
+  glfwGetMonitors: {
+    args: [],
+    returns: FFIType.void
+  },
+
+  glfwGetPrimaryMonitor: {
+    args: [],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorPos: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorWorkarea: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorPhysicalSize: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorContentScale: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorName: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetMonitorUserPointer: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorUserPointer: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetMonitorCallback: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetVideoModes: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetVideoMode: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetGamma: {
+    args: [FFIType.ptr, FFIType.float],
+    returns: FFIType.void
+  },
+
+  glfwGetGammaRamp: {
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwSetGammaRamp: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  
+
+
 });
 
 
