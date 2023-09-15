@@ -50,19 +50,3 @@ while (!glfw.glfwWindowShouldClose(window)) {
 
 glfw.glfwTerminate()
 print("exited")
-
-// function main() {
-//   reloadInfo()
-// }
-
-// let running = true
-
-// let count = 0
-
-// while (running) {
-//   main()
-//   count++
-//   if (count > 0) {
-//     running = false
-//   }
-// }
