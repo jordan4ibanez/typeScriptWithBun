@@ -1,19 +1,47 @@
 import { print } from "./source/helpers"
+import { reloadInfo } from "./source/reload_info"
 
-// print("Hello via Bun!");
 
-// I have no idea why I did this but I love it.
-// Spells banana
-// print(((('b' + "a") + ([['\b'] + 'b' + 'b\n'] ["ba"] + 'ba' + + + [""] - "a" + 'a') * 1 || -1) + "a").toLocaleLowerCase() + "!");
+import { dlopen, FFIType, suffix } from "bun:ffi";
 
-// print("hi")
+let global = globalThis
 
-var test = [];
+const path = `libglfw.${suffix}`;
 
-for (let i = 0; i < 10; i++) {
-  test.push(i)
+print(`GLFW3: ${path}`)
+
+const {
+  symbols: {
+    glfwGetVersionString,
+  }
+} = dlopen(
+  path, // a library name or file path
+  {
+    glfwGetVersionString: {
+      // no arguments, returns a string
+      args: [],
+      returns: FFIType.cstring,
+    },
+  },
+);
+
+
+
+
+function main() {
+  reloadInfo()
 }
 
-test.forEach((i)=>(print(i)))
-// print(test)
-// print("anything")
+let running = true
+
+let count = 0
+
+while (running) {
+  main()
+  count++
+  if (count > 0) {
+    running = false
+  }
+}
+
+failedReloads -= 1
