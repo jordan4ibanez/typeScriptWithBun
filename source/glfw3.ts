@@ -265,6 +265,35 @@ const VERBOSE_LIB = dlopen( path,{
     returns: FFIType.ptr
   },
 
+  glfwSetWindowMonitor: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.int, FFIType.int, FFIType.int, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowAttrib: {
+    args: [FFIType.ptr, FFIType.int],
+    returns: FFIType.int
+  },
+
+  glfwSetWindowAttrib: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowUserPointer: {
+    //! This function is very dangerous.
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowUserPointer: {
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  //! BEGIN CALLBACKS!
+
+
   // glfwSetWindowPosCallback: {
   //   args: [FFIType.ptr, FFIType.ptr],
   //   returns: FFIType.void
@@ -472,6 +501,34 @@ export function glfwRequestWindowAttention(window: FFIType.ptr) {
 export function glfwGetWindowMonitor(window: FFIType.ptr): FFIType.ptr | null {
   return lib.glfwGetWindowMonitor(window)
 }
+
+export function glfwSetWindowMonitor(window: FFIType.ptr, monitor: FFIType.ptr, xpos: number, ypos: number, width: number, height: number, refreshRate: number) {
+  lib.glfwSetWindowMonitor(window, monitor, xpos, ypos, width, height, refreshRate)
+}
+
+export function glfwGetWindowAttrib(window: FFIType.ptr, attrib: number): number {
+  return lib.glfwGetWindowAttrib(window, attrib)
+}
+
+export function glfwSetWindowAttrib(window: FFIType.ptr, attrib: number, value: number) {
+  lib.glfwSetWindowAttrib(window, attrib, value)
+}
+
+export function glfwSetWindowUserPointer(window: FFIType.ptr, pointer: FFIType.ptr) {
+  //! This function is very dangerous.
+  lib.glfwSetWindowUserPointer(window, pointer)
+}
+
+export function glfwGetWindowUserPointer(window: FFIType.ptr): FFIType.ptr | null {
+  return lib.glfwGetWindowUserPointer(window)
+}
+
+//! BEGIN CALLBACKS!
+
+
+
+
+
 
 
 // You pass this a lambda and you get a nice safe object you can wait until the end to free. 
