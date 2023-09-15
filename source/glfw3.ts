@@ -1,5 +1,5 @@
 import { print } from "./helpers"
-import { read, ptr, dlopen, FFIType, suffix, CString } from "bun:ffi";
+import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi";
 
 // These are hand crafted bindings made with love. But not love2d.
 
@@ -100,6 +100,16 @@ const VERBOSE_LIB = dlopen( path,{
   }
 
 });
+
+
+new JSCallback(
+  (ptr,length) => print("hi"),
+  {
+    returns: "bool",
+    args: ["ptr", "usize"]
+  }
+)
+
 
 // Now we create an internal ref so I don't have to keep typing out lib.symbols.
 const lib = VERBOSE_LIB.symbols
