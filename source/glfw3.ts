@@ -960,6 +960,8 @@ export function glfwGetVideoMode(monitor: FFIType.ptr): FFIType.ptr | null {
   return lib.glfwGetVideoMode(monitor)
 }
 
+
+//!! FIX ME THESE ARE MISALIGNED!!
 // export function glfwSetGamma(monitor: FFIType.ptr, gamma: number) {
 //   lib.glfwSetGamma(monitor, gamma)
 // }
@@ -971,7 +973,7 @@ export function glfwGetVideoMode(monitor: FFIType.ptr): FFIType.ptr | null {
 // export function glfwSetGammaRamp(monitor: FFIType.ptr, ramp: FFIType.ptr) {
 //   lib.glfwSetGammaRamp(monitor, ramp)
 // }
-
+//!! END FIXME!!
 
 const [GLFW_VERSION_MAJOR,
        GLFW_VERSION_MINOR,
