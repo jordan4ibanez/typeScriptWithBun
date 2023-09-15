@@ -1,3 +1,4 @@
+
 import { print } from "./helpers"
 import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi";
 
@@ -82,7 +83,7 @@ const VERBOSE_LIB = dlopen( path,{
   },
   glfwGetVersion: {
     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
-    // returns: FFIType.bool,
+    returns: FFIType.void,
   },
   glfwGetVersionString: {
     args: [],
@@ -92,23 +93,14 @@ const VERBOSE_LIB = dlopen( path,{
   // So I just made up ordering as I read through.
   
   // BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
-
-
-
-  glfwCreateWindow: {
-
+  
+  //note: A callback is a pointer. See line 14613 of types.d.ts!
+  glfwSetWindowPosCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
   }
 
 });
-
-
-new JSCallback(
-  (ptr,length) => print("hi"),
-  {
-    returns: "bool",
-    args: ["ptr", "usize"]
-  }
-)
 
 
 // Now we create an internal ref so I don't have to keep typing out lib.symbols.
@@ -135,6 +127,23 @@ export function glfwGetVersion(): number[] {
 
 export function glfwGetVersionString(): CString {
   return lib.glfwGetVersionString()
+}
+
+
+export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
+
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.ptr],
+      returns: FFIType.void,
+    }
+  )
+
+  lib.glfwSetWindowPosCallback(window, callbackObject.ptr)
+
+  // And now you can keep it safe until you want to free it. :)
+  return callbackObject
 }
 
 
