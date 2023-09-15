@@ -7,9 +7,9 @@ let global = globalThis
 
 
 if (!glfw.glfwInit()) {
-  throw new Error("FAILED TO INITIALIZE GLFW3!!!")
+  throw new Error("FAILED TO INITIALIZE GLFW3!")
 } else {
-  print("GLFW3 initialized successfully. Yay.")
+  print("GLFW3 initialized successfully.")
 }
 
 print(glfw.glfwGetVersion())
@@ -48,4 +48,4 @@ while (!glfw.glfwWindowShouldClose(window)) {
 }
 
 glfw.glfwTerminate()
-print("exited")
+print("GLFW: Terminated.")
