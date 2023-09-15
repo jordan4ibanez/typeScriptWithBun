@@ -5,6 +5,7 @@ import * as glfw from "./source/glfw3"
 let global = globalThis
 
 
+print(glfw.glfwGetVersion())
 print(glfw.glfwGetVersionString())
 
 print(glfw.glfwInit())
