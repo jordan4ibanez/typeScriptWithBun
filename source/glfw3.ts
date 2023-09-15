@@ -13,6 +13,14 @@ const VERBOSE_LIB = dlopen( path,{
     args: [],
     returns: FFIType.cstring,
   },
+  glfwInit: {
+    args: [],
+    returns: FFIType.bool,
+  },
+  glfwTerminate: {
+    args: [],
+    returns: FFIType.bool,
+  },
 });
 
 // Now we create an internal ref so I don't have to keep typing out lib.symbols.
@@ -24,6 +32,14 @@ export {
   path as GFLW_PATH
 }
 
-export function glfwGetVersionString() {
+export function glfwGetVersionString(): string {
   return lib.glfwGetVersionString()
+}
+
+export function glfwInit(): boolean {
+  return lib.glfwInit()
+}
+
+export function glfwTerminate(): boolean {
+  return lib.glfwTerminate()
 }

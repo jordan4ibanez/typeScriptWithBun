@@ -7,6 +7,9 @@ let global = globalThis
 
 print(glfw.glfwGetVersionString())
 
+print(glfw.glfwInit())
+print(glfw.glfwTerminate())
+
 
 
 
