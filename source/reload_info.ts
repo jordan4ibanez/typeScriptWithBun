@@ -5,6 +5,7 @@ declare global {
   var failedReloads: number
 }
 
+
 const global = globalThis
 
 // Only assign to 0 if non-existent
