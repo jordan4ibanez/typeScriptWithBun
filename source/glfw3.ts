@@ -400,7 +400,7 @@ const {
     returns: FFIType.void
   },
 
-  // //! END CALLBACKS
+  //! END CALLBACKS
 
   glfwPollEvents: {
     args: [],
