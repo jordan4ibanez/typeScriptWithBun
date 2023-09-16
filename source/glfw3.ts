@@ -1107,8 +1107,7 @@ export function destroyWindow(window: FFIType.ptr) {
 }
 
 export function windowShouldClose(window: FFIType.ptr): boolean {
-  //! FIXME: this might not only be 0 false 1 true!
-  return glfwWindowShouldClose(window) != 0
+  return glfwWindowShouldClose(window) == GLFW_TRUE
 }
 
 export function setWindowShouldClose(window: FFIType.ptr, shouldClose: boolean) {
@@ -1561,8 +1560,7 @@ export function swapInterval(interval: number) {
 
 export function extensionSupported(extension: string): boolean {
   let extensionBuffer = toBuffer(extension)
-  //! FIXME: might not be only 0 and 1, false and true. Test
-  return glfwExtensionSupported(extensionBuffer) != 0
+  return glfwExtensionSupported(extensionBuffer) == GLFW_TRUE
 }
 
 export function getProcAddress(procname: string): FFIType.ptr | null {
@@ -1599,6 +1597,22 @@ export function setErrorCallback(callback: (error_code: number, description: FFI
 
   return callbackObject
 }
+
+//* Begin: https://www.glfw.org/docs/3.3/group__input.html
+
+export function getInputMode(window: FFIType.ptr, mode: number): number {
+  return glfwGetInputMode(window, mode)
+}
+
+export function setInputMode(window: FFIType.ptr, mode: FFIType.int, value: FFIType.int) {
+  glfwSetInputMode(window, mode, value)
+}
+
+export function rawMouseMotionSupported(): boolean {
+  return glfwRawMouseMotionSupported() == GLFW_TRUE
+}
+
+
 
 
 const [GLFW_VERSION_MAJOR,
