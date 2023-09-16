@@ -1,4 +1,3 @@
-import { isInt32Array } from "util/types";
 import { print } from "./helpers"
 import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback, Narrow, FFIFunction } from "bun:ffi";
 
@@ -747,7 +746,47 @@ const {
     glfwGetProcAddress,
     glfwInitHint,
     glfwGetError,
-    glfwSetErrorCallback
+    glfwSetErrorCallback,
+    glfwGetInputMode,
+    glfwSetInputMode,
+    glfwRawMouseMotionSupported,
+    glfwGetKeyName,
+    glfwGetKeyScancode,
+    glfwGetKey,
+    glfwGetMouseButton,
+    glfwGetCursorPos,
+    glfwSetCursorPos,
+    glfwCreateCursor,
+    glfwCreateStandardCursor,
+    glfwDestroyCursor,
+    glfwSetCursor,
+    glfwSetKeyCallback,
+    glfwSetCharCallback,
+    glfwSetCharModsCallback,
+    glfwSetMouseButtonCallback,
+    glfwSetCursorPosCallback,
+    glfwSetCursorEnterCallback,
+    glfwSetScrollCallback,
+    glfwSetDropCallback,
+    glfwJoystickPresent,
+    glfwGetJoystickAxes,
+    glfwGetJoystickButtons,
+    glfwGetJoystickHats,
+    glfwGetJoystickName,
+    glfwGetJoystickGUID,
+    glfwSetJoystickUserPointer,
+    glfwGetJoystickUserPointer,
+    glfwJoystickIsGamepad,
+    glfwSetJoystickCallback,
+    glfwUpdateGamepadMappings,
+    glfwGetGamepadName,
+    glfwGetGamepadState,
+    glfwSetClipboardString,
+    glfwGetClipboardString,
+    glfwGetTime,
+    glfwSetTime,
+    glfwGetTimerValue,
+    glfwGetTimerFrequency
   },
 
 } = dlopen(path, {   
@@ -808,6 +847,13 @@ const {
   glfwSetErrorCallback: {
     args: [FFIType.ptr],
     returns: FFIType.ptr
+  },
+
+  //* Begin: https://www.glfw.org/docs/latest/group__input.html
+  
+  glfwGetInputMode: {
+    args: [FFIType.ptr, FFIType.int],
+    returns: FFIType.int
   },
 
 
