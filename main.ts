@@ -1,45 +1,56 @@
 import { print } from "./source/helpers"
-import { reloadInfo } from "./source/reload_info"
+import * as reload from "./source/reload_info"
 import * as glfw from "./source/glfw3"
 import { CString, FFIType, ptr } from "bun:ffi"
 
-let global = globalThis
+declare global {
+  var window: FFIType.ptr | null
+}
+
+const global = globalThis
 
 
-glfw.init()
 
-// if (!glfw.init()) {
-//   throw new Error("FAILED TO INITIALIZE GLFW3!")
-// } else {
-//   print("GLFW3 initialized successfully.")
-// }
+if (!reload.isReload()) {
+  if (!glfw.init()) {
+    throw new Error("FAILED TO INITIALIZE GLFW3!")
+  } else {
+    print("GLFW3 initialized successfully.")
+  }
 
-print("got here")
-// print(glfw.glfwGetVersion())
-// print(glfw.glfwGetVersionString())
+  print(glfw.getVersion())
+  print(glfw.getVersionString())
 
-// let window = glfw.glfwCreateWindow(500, 500, "hi there", null, null)
+  global.window = glfw.createWindow(500, 500, "hi there", null, null)
 
-// print(`Window pointer: ${window}`)
+  print(`Window pointer: ${window}`)
 
-// if (!window) {
-//   glfw.glfwTerminate()
-//   throw new Error("FAILED TO INITIALIZE WINDOW!")
-// } else {
-//   print(`Window pointer is: ${window}`)
-// }
+  if (!global.window) {
+    glfw.terminate()
+    throw new Error("FAILED TO INITIALIZE WINDOW!")
+  } else {
+    print(`Window pointer is: ${window}`)
+  }
 
-// glfw.glfwSetWindowPosCallback(window, (_, x, y) => {
-//   print(`hi I'm now at: ${x} and ${y}`)
-// })
+  glfw.makeContextCurrent(global.window)
+}
 
-// glfw.glfwMakeContextCurrent(window)
+if (global.window != null) {
+  // print("hi")
+  glfw.setWindowPosCallback(global.window, (_, x, y) => {
+    // print(`hi I'm now at: ${x} and ${y}`)
+  })
+}
 
-
+//! This is commented out to test if anything segfaults
 // let count = 0
-// while (!glfw.glfwWindowShouldClose(window)) {
+// while (!glfw.windowShouldClose(window)) {
 
-//   glfw.glfwSwapBuffers(window)
+if (global.window != null) {
+  glfw.swapBuffers(global.window)
+  glfw.pollEvents()
+}
+
 //   count++
 //   // print(`loop: ${count} `)
 
@@ -47,8 +58,20 @@ print("got here")
 //     // print("ahhhh")
 //     // glfw.glfwSetWindowShouldClose(window, true)
 //   }
-//   glfw.glfwPollEvents()
+  // glfw.pollEvents()
 // }
 
-// glfw.glfwTerminate()
-// print("GLFW: Terminated.")
+reload.reloadInfo()
+
+let readyToExit = false
+
+if (readyToExit) {
+  if (global.window != null) {
+    print("destroyed window")
+    glfw.destroyWindow(global.window)
+  }
+  glfw.terminate()
+  print("GLFW: Terminated.")
+}
+
+reload.successfulRun()
