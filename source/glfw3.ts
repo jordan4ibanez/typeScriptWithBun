@@ -82,11 +82,6 @@ const GLFW_X11_CLASS_NAME           = 0x00024001
 const GLFW_X11_INSTANCE_NAME        = 0x00024002
 
 
-
-// I'm trying to keep this in the same order as it's listed on GLFW.
-
-let funcallAccumulator = {}
-
 // Let's load that library.
 const { 
   symbols: {
@@ -535,12 +530,6 @@ const {
 })
 
 
-
-print(funcallAccumulator)
-
-// Now we create an internal ref so I don't have to keep typing out lib.symbols.
-const lib = funcallAccumulator
-
 // Everything is wrapped for safety and so I don't have to tear my hair out.
 
 export function init(): boolean {
@@ -584,155 +573,154 @@ export function defaultWindowHints() {
 }
 
 
-export function glfwWindowHint(hint: number, value: number) {
-  lib.glfwWindowHint(hint, value)
+export function windowHint(hint: number, value: number) {
+  glfwWindowHint(hint, value)
 }
 
-export function glfwWindowHintString(hint: number, value: string) {
+export function windowHintString(hint: number, value: string) {
   const hintBuffer = toBuffer(value)
-  lib.glfwWindowHintString(hint, hintBuffer)
+  glfwWindowHintString(hint, hintBuffer)
 }
 
-export function glfwCreateWindow(width: number, height: number, title: string, monitor: FFIType.ptr | null, share: FFIType.ptr | null): FFIType.ptr | null {
+export function createWindow(width: number, height: number, title: string, monitor: FFIType.ptr | null, share: FFIType.ptr | null): FFIType.ptr | null {
   const titleBuffer = toBuffer(title)
-  return lib.glfwCreateWindow(width, height, titleBuffer, monitor, share)
+  return glfwCreateWindow(width, height, titleBuffer, monitor, share)
 }
 
-export function glfwDestroyWindow(window: FFIType.ptr) {
-  lib.glfwDestroyWindow(window)
+export function destroyWindow(window: FFIType.ptr) {
+  glfwDestroyWindow(window)
 }
 
-export function glfwWindowShouldClose(window: FFIType.ptr): boolean {
+export function windowShouldClose(window: FFIType.ptr): boolean {
   //! FIXME: this might not only be 0 false 1 true!
-  return lib.glfwWindowShouldClose(window) != 0
+  return glfwWindowShouldClose(window) != 0
 }
 
-export function glfwSetWindowShouldClose(window: FFIType.ptr, shouldClose: boolean) {
-  lib.glfwSetWindowShouldClose(window, shouldClose ? 1 : 0)
+export function setWindowShouldClose(window: FFIType.ptr, shouldClose: boolean) {
+  glfwSetWindowShouldClose(window, shouldClose ? 1 : 0)
 }
 
-export function glfwSetWindowTitle(window: FFIType.ptr, title: string) {
+export function setWindowTitle(window: FFIType.ptr, title: string) {
   const titleBuffer = toBuffer(title)
-  lib.glfwSetWindowTitle(window, titleBuffer)
+  glfwSetWindowTitle(window, titleBuffer)
 }
 
-export function glfwSetWindowIcon(window: FFIType.ptr, count: number, images: FFIType.ptr) {
-  lib.glfwSetWindowIcon(window, count, images)
+export function setWindowIcon(window: FFIType.ptr, count: number, images: FFIType.ptr) {
+  glfwSetWindowIcon(window, count, images)
 }
 
-export function glfwGetWindowPos(window: FFIType.ptr): number[] {
+export function getWindowPos(window: FFIType.ptr): number[] {
   let xpos = new Int32Array(1)
   let ypos = new Int32Array(1)
-  lib.glfwGetWindowPos(window, xpos, ypos)
+  glfwGetWindowPos(window, xpos, ypos)
   return [xpos[0], ypos[0]]
 }
 
-export function glfwSetWindowPos(window: FFIType.ptr, xpos: number, ypos: number) {
-  lib.glfwSetWindowPos(window, xpos, ypos)
+export function setWindowPos(window: FFIType.ptr, xpos: number, ypos: number) {
+  glfwSetWindowPos(window, xpos, ypos)
 }
 
-export function glfwGetWindowSize(window: FFIType.ptr): number[] {
+export function getWindowSize(window: FFIType.ptr): number[] {
   let width  = new Int32Array(1)
   let height = new Int32Array(1)
-  lib.glfwGetWindowSize(window, width, height)
+  glfwGetWindowSize(window, width, height)
   return [width[0], height[0]]
 }
 
-export function glfwSetWindowSizeLimits(window: FFIType.ptr, minwidth: number, minheight: number, maxwidth: number, maxheight: number) {
-  lib.glfwSetWindowSizeLimits(window, minwidth, minheight, maxwidth, maxheight)
+export function setWindowSizeLimits(window: FFIType.ptr, minwidth: number, minheight: number, maxwidth: number, maxheight: number) {
+  glfwSetWindowSizeLimits(window, minwidth, minheight, maxwidth, maxheight)
 }
 
-export function glfwSetWindowAspectRatio(window: FFIType.ptr, numer: number, denom: number) {
-  lib.glfwSetWindowAspectRatio(window, numer, denom)
+export function setWindowAspectRatio(window: FFIType.ptr, numer: number, denom: number) {
+  glfwSetWindowAspectRatio(window, numer, denom)
 }
 
-export function glfwSetWindowSize(window: FFIType.ptr, width: number, height: number) {
-  lib.glfwSetWindowSize(window, width, height)
+export function setWindowSize(window: FFIType.ptr, width: number, height: number) {
+  glfwSetWindowSize(window, width, height)
 }
 
-export function glfwGetFramebufferSize(window: FFIType.ptr): number[] {
+export function getFramebufferSize(window: FFIType.ptr): number[] {
   let width  = new Int32Array(1)
   let height = new Int32Array(1)
-  lib.glfwGetFramebufferSize(window, width, height)
+  glfwGetFramebufferSize(window, width, height)
   return [width[0], height[0]]
 }
 
-export function glfwGetWindowFrameSize(window: FFIType.ptr): number[] {
+export function getWindowFrameSize(window: FFIType.ptr): number[] {
   let left   = new Int32Array(1)
   let top    = new Int32Array(1)
   let right  = new Int32Array(1)
   let bottom = new Int32Array(1)
-  lib.glfwGetWindowFrameSize(window, left, top, right, bottom)
+  glfwGetWindowFrameSize(window, left, top, right, bottom)
   return [left[0], top[0], right[0], bottom[0]]
 } 
 
-export function glfwGetWindowContentScale(window: FFIType.ptr): number[] {
+export function getWindowContentScale(window: FFIType.ptr): number[] {
   let xscale = new Int32Array(1)
   let yscale = new Int32Array(1)
-  lib.glfwGetWindowContentScale(window, xscale, yscale)
+  glfwGetWindowContentScale(window, xscale, yscale)
   return [xscale[0], yscale[0]]
 }
 
-export function glfwGetWindowOpacity(window: FFIType.ptr): number {
-  return lib.glfwGetWindowOpacity(window)
+export function getWindowOpacity(window: FFIType.ptr): number {
+  return glfwGetWindowOpacity(window)
 }
 
-export function glfwSetWindowOpacity(window: FFIType, opacity: number) {
-  lib.glfwSetWindowOpacity(window, opacity)
+export function setWindowOpacity(window: FFIType, opacity: number) {
+  glfwSetWindowOpacity(window, opacity)
 }
 
-export function glfwIconifyWindow(window: FFIType.ptr) {
-  lib.glfwIconifyWindow(window)
+export function iconifyWindow(window: FFIType.ptr) {
+  glfwIconifyWindow(window)
 }
 
-export function glfwRestoreWindow(window: FFIType.ptr) {
-  lib.glfwRestoreWindow(window)
+export function restoreWindow(window: FFIType.ptr) {
+  glfwRestoreWindow(window)
 }
 
-export function glfwMaximizeWindow(window: FFIType.ptr) {
-  lib.glfwMaximizeWindow(window)
+export function maximizeWindow(window: FFIType.ptr) {
+  glfwMaximizeWindow(window)
 }
 
-export function glfwShowWindow(window: FFIType.ptr) {
-  lib.glfwShowWindow(window)
+export function showWindow(window: FFIType.ptr) {
+  glfwShowWindow(window)
 }
 
-export function glfwHideWindow(window: FFIType.ptr) {
-  lib.glfwHideWindow(window)
+export function hideWindow(window: FFIType.ptr) {
+  glfwHideWindow(window)
 }
 
-export function glfwFocusWindow(window: FFIType.ptr) {
-  lib.glfwFocusWindow(window)
+export function focusWindow(window: FFIType.ptr) {
+  glfwFocusWindow(window)
 }
 
-export function glfwRequestWindowAttention(window: FFIType.ptr) {
-  lib.glfwRequestWindowAttention(window)
+export function requestWindowAttention(window: FFIType.ptr) {
+  glfwRequestWindowAttention(window)
 }
-
 //* Returns a GLFWmonitor pointer. Or null. Very dramatic.
-export function glfwGetWindowMonitor(window: FFIType.ptr): FFIType.ptr | null {
-  return lib.glfwGetWindowMonitor(window)
+export function getWindowMonitor(window: FFIType.ptr): FFIType.ptr | null {
+  return glfwGetWindowMonitor(window)
 }
 
-export function glfwSetWindowMonitor(window: FFIType.ptr, monitor: FFIType.ptr, xpos: number, ypos: number, width: number, height: number, refreshRate: number) {
-  lib.glfwSetWindowMonitor(window, monitor, xpos, ypos, width, height, refreshRate)
+export function setWindowMonitor(window: FFIType.ptr, monitor: FFIType.ptr, xpos: number, ypos: number, width: number, height: number, refreshRate: number) {
+  glfwSetWindowMonitor(window, monitor, xpos, ypos, width, height, refreshRate)
 }
 
-export function glfwGetWindowAttrib(window: FFIType.ptr, attrib: number): number {
-  return lib.glfwGetWindowAttrib(window, attrib)
+export function getWindowAttrib(window: FFIType.ptr, attrib: number): number {
+  return glfwGetWindowAttrib(window, attrib)
 }
 
-export function glfwSetWindowAttrib(window: FFIType.ptr, attrib: number, value: number) {
-  lib.glfwSetWindowAttrib(window, attrib, value)
+export function setWindowAttrib(window: FFIType.ptr, attrib: number, value: number) {
+  glfwSetWindowAttrib(window, attrib, value)
 }
 
-export function glfwSetWindowUserPointer(window: FFIType.ptr, pointer: FFIType.ptr) {
+export function setWindowUserPointer(window: FFIType.ptr, pointer: FFIType.ptr) {
   //! This function is very dangerous.
-  lib.glfwSetWindowUserPointer(window, pointer)
+  glfwSetWindowUserPointer(window, pointer)
 }
 
-export function glfwGetWindowUserPointer(window: FFIType.ptr): FFIType.ptr | null {
-  return lib.glfwGetWindowUserPointer(window)
+export function getWindowUserPointer(window: FFIType.ptr): FFIType.ptr | null {
+  return glfwGetWindowUserPointer(window)
 }
 
 //! BEGIN CALLBACKS!
@@ -740,11 +728,10 @@ export function glfwGetWindowUserPointer(window: FFIType.ptr): FFIType.ptr | nul
 //* note: A callback is a pointer. See line 14613 of types.d.ts!
 
 
-
 // You pass this a lambda and you get a nice safe object you can wait until the end to free. 
 // TODO: Document this like a normal person.
 
-export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
+export function setWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
 
   const callbackObject = new JSCallback(
     callback,
@@ -754,7 +741,7 @@ export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window:
     }
   )
 
-  lib.glfwSetWindowPosCallback(window, callbackObject.ptr)
+  glfwSetWindowPosCallback(window, callbackObject.ptr)
 
   // And now you can keep it safe until you want to free it. :)
   //! Make sure you free (close()) the old callback before you set a new one
@@ -764,7 +751,7 @@ export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window:
 //* That's all the documentation I'm going to do for an example.
 //* This will be redocumented with JSDoc or TSDoc or whatever it's called.
 
-export function glfwSetWindowSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: number, height: number) => void): JSCallback {
+export function setWindowSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: number, height: number) => void): JSCallback {
 
   const callbackObject = new JSCallback(
     callback,
@@ -774,12 +761,12 @@ export function glfwSetWindowSizeCallback(window: FFIType.ptr, callback: (window
     }
   )
 
-  lib.glfwSetWindowSizeCallback(window, callbackObject.ptr)
+  glfwSetWindowSizeCallback(window, callbackObject.ptr)
 
   return callbackObject
 }
 
-export function glfwSetWindowCloseCallback(window: FFIType.ptr, callback: (window: FFIType.ptr) => void): JSCallback {
+export function setWindowCloseCallback(window: FFIType.ptr, callback: (window: FFIType.ptr) => void): JSCallback {
   
   const callbackObject = new JSCallback(
     callback,
@@ -789,12 +776,12 @@ export function glfwSetWindowCloseCallback(window: FFIType.ptr, callback: (windo
     }
   )
 
-  lib.glfwSetWindowCloseCallback(window, callbackObject.ptr)
+  glfwSetWindowCloseCallback(window, callbackObject.ptr)
 
   return callbackObject
 }
 
-export function glfwSetWindowRefreshCallback(window: FFIType.ptr, callback: (window: FFIType.ptr) => void): JSCallback {
+export function setWindowRefreshCallback(window: FFIType.ptr, callback: (window: FFIType.ptr) => void): JSCallback {
   const callbackObject = new JSCallback(
     callback,
     {
@@ -803,12 +790,12 @@ export function glfwSetWindowRefreshCallback(window: FFIType.ptr, callback: (win
     }
   )
 
-  lib.glfwSetWindowRefreshCallback(window, callbackObject.ptr)
+  glfwSetWindowRefreshCallback(window, callbackObject.ptr)
 
   return callbackObject
 }
 
-export function glfwSetWindowFocusCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, focused: FFIType.int) => void): JSCallback {
+export function setWindowFocusCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, focused: FFIType.int) => void): JSCallback {
 
   const callbackObject = new JSCallback(
     callback,
@@ -818,12 +805,12 @@ export function glfwSetWindowFocusCallback(window: FFIType.ptr, callback: (windo
     }
   )
 
-  lib.glfwSetWindowFocusCallback(window, callbackObject.ptr)
+  glfwSetWindowFocusCallback(window, callbackObject.ptr)
 
   return callbackObject
 }
 
-export function glfwSetWindowIconifyCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, iconified: FFIType.int) => void): JSCallback {
+export function setWindowIconifyCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, iconified: FFIType.int) => void): JSCallback {
 
   const callbackObject = new JSCallback(
     callback,
@@ -833,12 +820,12 @@ export function glfwSetWindowIconifyCallback(window: FFIType.ptr, callback: (win
     }
   )
 
-  lib.glfwSetWindowIconifyCallback(window, callbackObject.ptr)
+  glfwSetWindowIconifyCallback(window, callbackObject.ptr)
   
   return callbackObject
 }
 
-export function glfwSetWindowMaximizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, maximized: FFIType.int) => void): JSCallback {
+export function setWindowMaximizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, maximized: FFIType.int) => void): JSCallback {
   
   const callbackObject = new JSCallback(
     callback,
@@ -848,12 +835,12 @@ export function glfwSetWindowMaximizeCallback(window: FFIType.ptr, callback: (wi
     }
   )
 
-  lib.glfwSetWindowMaximizeCallback(window, callbackObject.ptr)
+  glfwSetWindowMaximizeCallback(window, callbackObject.ptr)
 
   return callbackObject
 }
 
-export function glfwSetFramebufferSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: FFIType.int, height: FFIType.int) => void): JSCallback {
+export function setFramebufferSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: FFIType.int, height: FFIType.int) => void): JSCallback {
 
   const callbackObject = new JSCallback(
     callback,
@@ -863,12 +850,12 @@ export function glfwSetFramebufferSizeCallback(window: FFIType.ptr, callback: (w
     }
   )
 
-  lib.glfwSetFramebufferSizeCallback(window, callbackObject.ptr)
+  glfwSetFramebufferSizeCallback(window, callbackObject.ptr)
 
   return callbackObject
 }
 
-export function glfwSetWindowContentScaleCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xscale: FFIType.float, yscale: FFIType.float) => void): JSCallback {
+export function setWindowContentScaleCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xscale: FFIType.float, yscale: FFIType.float) => void): JSCallback {
 
   const callbackObject = new JSCallback(
     callback,
@@ -878,40 +865,40 @@ export function glfwSetWindowContentScaleCallback(window: FFIType.ptr, callback:
     }
   )
 
-  lib.glfwSetWindowContentScaleCallback(window, callbackObject.ptr)
+  glfwSetWindowContentScaleCallback(window, callbackObject.ptr)
 
   return callbackObject
 }
 
 //! END CALLBACKS
 
-export function glfwPollEvents() {
-  lib.glfwPollEvents()
+export function pollEvents() {
+  glfwPollEvents()
 }
 
-export function glfwWaitEvents() {
-  lib.glfwWaitEvents()
+export function waitEvents() {
+  glfwWaitEvents()
 }
 
-export function glfwWaitEventsTimeout(timeout: number) {
-  lib.glfwWaitEventsTimeout(timeout)
+export function waitEventsTimeout(timeout: number) {
+  glfwWaitEventsTimeout(timeout)
 }
 
-export function glfwPostEmptyEvent() {
-  lib.glfwPostEmptyEvent()
+export function postEmptyEvent() {
+  glfwPostEmptyEvent()
 }
 
-export function glfwSwapBuffers(window: FFIType.ptr) {
-  lib.glfwSwapBuffers(window)
+export function swapBuffers(window: FFIType.ptr) {
+  glfwSwapBuffers(window)
 }
 
 //? BEGIN MONITORS
 
-export function glfwGetMonitors(): FFIType.ptr[] | null {
+export function getMonitors(): FFIType.ptr[] | null {
   //TODO: test this thing. Make a safety wrapper! This is too raw!
   //FIXME: https://media.tenor.com/YHKWHhNCDOsAAAAC/ramsay-raw.gif
   let count = new Int32Array(1)
-  let pointerArrayPointer = lib.glfwGetMonitors(count)
+  let pointerArrayPointer = glfwGetMonitors(count)
 
   // I have no idea if this works.
   //TODO: test this garbage!
@@ -934,59 +921,59 @@ export function glfwGetMonitors(): FFIType.ptr[] | null {
 }
 
 // See this is a bit more sane, just a normal monitor pointer
-export function glfwGetPrimaryMonitor(): FFIType.ptr | null {
-  return lib.glfwGetPrimaryMonitor()
+export function getPrimaryMonitor(): FFIType.ptr | null {
+  return glfwGetPrimaryMonitor()
 }
 
-export function glfwGetMonitorPos(monitor: FFIType.ptr): number[] {
+export function getMonitorPos(monitor: FFIType.ptr): number[] {
   let xpos = new Int32Array(1)
   let ypos = new Int32Array(1)
 
-  lib.glfwGetMonitorPos(monitor, xpos, ypos)
+  glfwGetMonitorPos(monitor, xpos, ypos)
 
   return [xpos[0], ypos[0]]
 }
 
-export function glfwGetMonitorWorkarea(monitor: FFIType.ptr): number[] {
+export function getMonitorWorkarea(monitor: FFIType.ptr): number[] {
   let xpos   = new Int32Array(1)
   let ypos   = new Int32Array(1)
   let width  = new Int32Array(1)
   let height = new Int32Array(1)
 
-  lib.glfwGetMonitorWorkarea(monitor, xpos, ypos, width, height)
+  glfwGetMonitorWorkarea(monitor, xpos, ypos, width, height)
 
   return [xpos[0], ypos[0], width[0], height[0]]
 }
 
-export function glfwGetMonitorPhysicalSize(monitor: FFIType.ptr): number[] {
+export function getMonitorPhysicalSize(monitor: FFIType.ptr): number[] {
   let widthMM = new Int32Array(1)
   let heightMM = new Int32Array(1)
-  lib.glfwGetMonitorPhysicalSize(monitor, widthMM, heightMM)
+  glfwGetMonitorPhysicalSize(monitor, widthMM, heightMM)
 
   return [widthMM[0], heightMM[0]]
 }
 
-export function glfwGetMonitorContentScale(monitor: FFIType.ptr): number[] {
+export function getMonitorContentScale(monitor: FFIType.ptr): number[] {
   let xscale = new Int32Array(1)
   let yscale = new Int32Array(1)
-  lib.glfwGetMonitorContentScale(monitor, xscale, yscale)
+  glfwGetMonitorContentScale(monitor, xscale, yscale)
 
   return [xscale[0], yscale[0]]
 }
 
-export function glfwGetMonitorName(monitor: FFIType.ptr): CString | null {
-  return lib.glfwGetMonitorName(monitor)
+export function getMonitorName(monitor: FFIType.ptr): CString | null {
+  return glfwGetMonitorName(monitor)
 }
 
-export function glfwSetMonitorUserPointer(monitor: FFIType.ptr, pointer: FFIType.ptr) {
-  lib.glfwSetMonitorUserPointer(monitor, pointer)
+export function setMonitorUserPointer(monitor: FFIType.ptr, pointer: FFIType.ptr) {
+  glfwSetMonitorUserPointer(monitor, pointer)
 }
 
-export function glfwGetMonitorUserPointer(monitor: FFIType.ptr): FFIType.ptr | null {
-  return lib.glfwGetMonitorUserPointer(monitor)
+export function getMonitorUserPointer(monitor: FFIType.ptr): FFIType.ptr | null {
+  return glfwGetMonitorUserPointer(monitor)
 }
 
-export function glfwSetMonitorCallback(callback: (monitor: FFIType.ptr, event: number) => void): JSCallback {
+export function setMonitorCallback(callback: (monitor: FFIType.ptr, event: number) => void): JSCallback {
 
   const callbackObject = new JSCallback(
     callback,
@@ -996,16 +983,16 @@ export function glfwSetMonitorCallback(callback: (monitor: FFIType.ptr, event: n
     }
   )
 
-  lib.glfwSetMonitorCallback(callbackObject.ptr)
+  glfwSetMonitorCallback(callbackObject.ptr)
 
   return callbackObject
 }
 
-export function glfwGetVideoModes(monitor: FFIType.ptr): number[] | null {
+export function getVideoModes(monitor: FFIType.ptr): number[] | null {
   
   let count = new Int32Array(1)
 
-  let vidModeArray = lib.glfwGetVideoModes(monitor, count)
+  let vidModeArray = glfwGetVideoModes(monitor, count)
 
   if (count[0] == 0 || vidModeArray == null) {
     return null
@@ -1023,22 +1010,22 @@ export function glfwGetVideoModes(monitor: FFIType.ptr): number[] | null {
   return modeArray
 }
 
-export function glfwGetVideoMode(monitor: FFIType.ptr): FFIType.ptr | null {
-  return lib.glfwGetVideoMode(monitor)
+export function getVideoMode(monitor: FFIType.ptr): FFIType.ptr | null {
+  return glfwGetVideoMode(monitor)
 }
 
 
 //!! FIX ME THESE ARE MISALIGNED!!
 // export function glfwSetGamma(monitor: FFIType.ptr, gamma: number) {
-//   lib.glfwSetGamma(monitor, gamma)
+//   glfwSetGamma(monitor, gamma)
 // }
 
 // export function glfwGetGammaRamp(monitor: FFIType.ptr): FFIType.ptr | null {
-//   return lib.glfwGetGammaRamp(monitor)
+//   return glfwGetGammaRamp(monitor)
 // }
 
 // export function glfwSetGammaRamp(monitor: FFIType.ptr, ramp: FFIType.ptr) {
-//   lib.glfwSetGammaRamp(monitor, ramp)
+//   glfwSetGammaRamp(monitor, ramp)
 // }
 //!! END FIXME!!
 
