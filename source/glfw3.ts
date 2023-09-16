@@ -991,8 +991,65 @@ const {
     returns: FFIType.void
   },
 
-  
+  glfwGetJoystickUserPointer: {
+    args: [FFIType.int],
+    returns: FFIType.ptr
+  },
 
+  glfwJoystickIsGamepad: {
+    args: [FFIType.int],
+    returns: FFIType.int
+  },
+
+  glfwSetJoystickCallback: {
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwUpdateGamepadMappings: {
+    args: [FFIType.ptr],
+    returns: FFIType.int
+  },
+
+  glfwGetGamepadName: {
+    args: [FFIType.int],
+    returns: FFIType.ptr
+  },
+
+  glfwGetGamepadState: {
+    args: [FFIType.int, FFIType.ptr],
+    returns: FFIType.int
+  },
+
+  glfwSetClipboardString: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetClipboardString: {
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwGetTime: {
+    args: [],
+    returns: FFIType.double
+  },
+
+  glfwSetTime: {
+    args: [FFIType.double],
+    returns: FFIType.void
+  },
+
+  glfwGetTimerValue: {
+    args: [],
+    returns: FFIType.uint64_t
+  },
+
+  glfwGetTimerFrequency: {
+    args: [],
+    returns: FFIType.uint64_t
+  },
 
 })
 
