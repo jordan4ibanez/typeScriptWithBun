@@ -1,5 +1,5 @@
 import { print } from "./helpers"
-import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback, Narrow, FFIFunction } from "bun:ffi";
+import { read, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi";
 
 // These are hand crafted bindings made with love. But not love2d.
 // Might be little mistakes, please let me know if so.
