@@ -94,9 +94,12 @@ const GLFW_PLATFORM_ERROR      = 0x00010008
 const GLFW_FORMAT_UNAVAILABLE  = 0x00010009
 const GLFW_NO_WINDOW_CONTEXT   = 0x0001000A
 
-
-
-
+//* Whatever this is https://www.glfw.org/docs/latest/group__init.html
+const GLFW_TRUE                  = 1
+const GLFW_FALSE                 = 0
+const GLFW_JOYSTICK_HAT_BUTTONS  = 0x00050001
+const GLFW_COCOA_CHDIR_RESOURCES = 0x00051001
+const GLFW_COCOA_MENUBAR         = 0x00051002
 
 // Let's load that library.
 const { 
@@ -538,7 +541,7 @@ const {
     returns: FFIType.void
   },
 
-  //* begin https://www.glfw.org/docs/latest/group__context.html
+  //* Begin: https://www.glfw.org/docs/latest/group__context.html
 
   glfwMakeContextCurrent: {
     args: [FFIType.ptr],
@@ -564,6 +567,25 @@ const {
     args: [FFIType.cstring],
     returns: FFIType.ptr
   },
+
+  //* Begin: https://www.glfw.org/docs/latest/group__init.html
+
+  glfwInitHint: {
+    args: [FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwGetError: {
+    args: [FFIType.ptr],
+    returns: FFIType.int
+  },
+
+  glfwSetErrorCallback: {
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+
 
 })
 
