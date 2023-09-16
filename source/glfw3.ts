@@ -971,6 +971,28 @@ const {
     returns: FFIType.ptr
   },
 
+  glfwGetJoystickHats: {
+    args: [FFIType.int, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwGetJoystickName: {
+    args: [FFIType.int],
+    returns: FFIType.ptr
+  },
+
+  glfwGetJoystickGUID: {
+    args: [FFIType.int],
+    returns: FFIType.ptr
+  },
+
+  glfwSetJoystickUserPointer: {
+    args: [FFIType.int, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  
+
 
 })
 
