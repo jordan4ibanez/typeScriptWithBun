@@ -87,402 +87,452 @@ const GLFW_X11_INSTANCE_NAME        = 0x00024002
 
 let funcallAccumulator = {}
 
-//! function call limitations: 64. This is a workaround for GLFW.
-//! So what's happening is this is turning into a huge linear array.
-//! We're gonna accumulate it into a flat array later. :)
-function pushFunction(definition: Record<string, Narrow<FFIFunction>>) {
-  let rawFun = (dlopen(path, definition))
-  // This is an object
-  print(rawFun)
-  print(rawFun.symbols)
-  /*
-  ? Now, how do we combine them?
-  FFI {
-    close: [Function: close],
-    symbols: {
-      glfwInit: [class glfwInit]
-    }
-  }
-  */
-  
-}
-
 // Let's load that library.
-pushFunction({
+const { 
+  symbols: {
+    glfwInit,
+    glfwTerminate,
+    glfwGetVersion,
+    glfwGetVersionString,
+    //!FIXME THIS NEEDS TO BE MOVED!
+    glfwMakeContextCurrent,
+    //!END FIXME
+    glfwDefaultWindowHints,
+    glfwWindowHint,
+    glfwWindowHintString,
+    glfwCreateWindow,
+    glfwDestroyWindow,
+    glfwWindowShouldClose,
+    glfwSetWindowShouldClose,
+    glfwSetWindowTitle,
+    glfwSetWindowIcon,
+    glfwGetWindowPos,
+    glfwSetWindowPos,
+    glfwGetWindowSize,
+    glfwSetWindowSizeLimits,
+    glfwSetWindowAspectRatio,
+    glfwSetWindowSize,
+    glfwGetFramebufferSize,
+    glfwGetWindowFrameSize,
+    glfwGetWindowContentScale,
+    glfwGetWindowOpacity,
+    glfwSetWindowOpacity,
+    glfwIconifyWindow,
+    glfwRestoreWindow,
+    glfwMaximizeWindow,
+    glfwShowWindow,
+    glfwHideWindow,
+    glfwFocusWindow,
+    glfwRequestWindowAttention,
+    glfwGetWindowMonitor,
+    glfwSetWindowMonitor,
+    glfwGetWindowAttrib,
+    glfwSetWindowAttrib,
+    glfwSetWindowUserPointer,
+    glfwGetWindowUserPointer,
+    glfwSetWindowPosCallback,
+    glfwSetWindowSizeCallback,
+    glfwSetWindowCloseCallback,
+    glfwSetWindowRefreshCallback,
+    glfwSetWindowFocusCallback,
+    glfwSetWindowIconifyCallback,
+    glfwSetWindowMaximizeCallback,
+    glfwSetFramebufferSizeCallback,
+    glfwSetWindowContentScaleCallback,
+    glfwPollEvents,
+    glfwWaitEvents,
+    glfwWaitEventsTimeout,
+    glfwPostEmptyEvent,
+    glfwSwapBuffers,
+    glfwGetMonitors,
+    glfwGetPrimaryMonitor,
+    glfwGetMonitorPos,
+    glfwGetMonitorWorkarea,
+    glfwGetMonitorPhysicalSize,
+    glfwGetMonitorContentScale,
+    glfwGetMonitorName,
+    glfwSetMonitorUserPointer,
+    glfwGetMonitorUserPointer,
+    glfwSetMonitorCallback,
+    glfwGetVideoModes,
+    glfwGetVideoMode
+  },
+
+} = dlopen(path, {
+
   glfwInit: {
     args: [],
     returns: FFIType.bool,
   },
-})
-//   glfwTerminate: {
-//     args: [],
-//     returns: FFIType.bool,
-//   },
-//   glfwGetVersion: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void,
-//   },
-//   glfwGetVersionString: {
-//     args: [],
-//     returns: FFIType.cstring,
-//   },
 
-//   //* From this point on the documentation just kinda falls apart.
-//   //* So I just made up ordering as I read through.
+  glfwTerminate: {
+    args: [],
+    returns: FFIType.bool,
+  },
+  
+  glfwGetVersion: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glfwGetVersionString: {
+    args: [],
+    returns: FFIType.cstring,
+  },
+
+  //* From this point on the documentation just kinda falls apart.
+  //* So I just made up ordering as I read through.
   
 
-//   //! Please move this to wherever it will belong when the rest of this is laid out.
-//   //! It is here because I need to test if this thing actually works without crashing.
+  //! Please move this to wherever it will belong when the rest of this is laid out.
+  //! It is here because I need to test if this thing actually works without crashing.
 
-//   glfwMakeContextCurrent: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
+  glfwMakeContextCurrent: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
   
-  
-  
-  
-//   //! End yelling area, AHHH
+  //! End yelling area, AHHH
 
-//   //* BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
+  //* BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
   
-//   //? BEGIN WINDOW
+  //? BEGIN WINDOW
    
-//   glfwDefaultWindowHints: {
-//     args: [],
-//     returns: FFIType.void
-//   },
-
-//   glfwWindowHint: {
-//     args: [FFIType.int, FFIType.int],
-//     returns: FFIType.void
-//   },
-
-//   glfwWindowHintString: {
-//     args: [FFIType.int, FFIType.cstring],
-//     returns: FFIType.void
-//   },
-
-//   glfwCreateWindow: {
-//     //*    width      , height     , title      , monitor    , share (null = false)   
-//     args: [FFIType.int, FFIType.int, FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.ptr
-//   },
-
-//   glfwDestroyWindow: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwWindowShouldClose: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.int
-//   },
-
-//   glfwSetWindowShouldClose: {
-//     args: [FFIType.ptr, FFIType.int],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowTitle: {
-//     args: [FFIType.ptr, FFIType.cstring],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowIcon: {
-//     //*    window     , count      , GLFWimage*
-//     args: [FFIType.ptr, FFIType.int, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetWindowPos: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowPos: {
-//     args: [FFIType.ptr, FFIType.int, FFIType.int],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetWindowSize: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowSizeLimits: {
-//     args: [FFIType.ptr, FFIType.int, FFIType.int, FFIType.int, FFIType.int],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowAspectRatio: {
-//     args: [FFIType.ptr, FFIType.int, FFIType.int],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowSize: {
-//     args: [FFIType.ptr, FFIType.int, FFIType.int],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetFramebufferSize: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetWindowFrameSize: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetWindowContentScale: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetWindowOpacity: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.float
-//   },
-
-//   glfwSetWindowOpacity: {
-//     args: [FFIType.ptr, FFIType.float],
-//     returns: FFIType.void
-//   },
-
-//   glfwIconifyWindow: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwRestoreWindow: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwMaximizeWindow: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwShowWindow: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwHideWindow: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwFocusWindow: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwRequestWindowAttention: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetWindowMonitor: {
-//     args: [FFIType.ptr],
-//     //* Returning a GLFWmonitor pointer.
-//     returns: FFIType.ptr
-//   },
-
-//   glfwSetWindowMonitor: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.int, FFIType.int, FFIType.int, FFIType.int, FFIType.int],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetWindowAttrib: {
-//     args: [FFIType.ptr, FFIType.int],
-//     returns: FFIType.int
-//   },
-
-//   glfwSetWindowAttrib: {
-//     args: [FFIType.ptr, FFIType.int, FFIType.int],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowUserPointer: {
-//     //! This function is very dangerous.
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetWindowUserPointer: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.ptr
-//   },
-
-//   //! BEGIN CALLBACKS!
-
-//   //* note: A callback is a pointer. See line 14613 of types.d.ts!
-
-//   //? Void returns instead of function pointers
-//   //? because bun has a different style of memory
-//   //? management.
-
-//   glfwSetWindowPosCallback: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowSizeCallback: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowCloseCallback: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowRefreshCallback: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowFocusCallback: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowIconifyCallback: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowMaximizeCallback: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetFramebufferSizeCallback: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwSetWindowContentScaleCallback: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   // //! END CALLBACKS
-
-//   glfwPollEvents: {
-//     args: [],
-//     returns: FFIType.void
-//   },
-
-//   glfwWaitEvents: {
-//     args: [],
-//     returns: FFIType.void
-//   },
-
-//   glfwWaitEventsTimeout: {
-//     args: [FFIType.double],
-//     returns: FFIType.void
-//   },
-
-//   glfwPostEmptyEvent: {
-//     args: [],
-//     returns: FFIType.void
-//   },
-
-//   glfwSwapBuffers: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   // //* Begin https://www.glfw.org/docs/latest/group__monitor.html
-
-//   //? BEGIN MONITOR
-
-//   glfwGetMonitors: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.ptr
-//   },
-
-//   glfwGetPrimaryMonitor: {
-//     args: [],
-//     returns: FFIType.ptr
-//   },
-
-//   glfwGetMonitorPos: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetMonitorWorkarea: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetMonitorPhysicalSize: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetMonitorContentScale: {
-//     args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetMonitorName: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.cstring
-//   },
-
-//   glfwSetMonitorUserPointer: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetMonitorUserPointer: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.ptr
-//   },
-
-//   glfwSetMonitorCallback: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.void
-//   },
-
-//   glfwGetVideoModes: {
-//     args: [FFIType.ptr, FFIType.ptr],
-//     returns: FFIType.ptr
-//   },
-
-//   glfwGetVideoMode: {
-//     args: [FFIType.ptr],
-//     returns: FFIType.ptr
-//   },
-
-//   //!!! FIXME!!! THIS HAS WRONG ALIGNMENT!!!
-//   glfwSetGamma: {
-//     args: [FFIType.ptr, FFIType.float],
-//     returns: FFIType.void
-//   },
-
-//   // glfwGetGammaRamp: {
-//   //   args: [FFIType.ptr],
-//   //   returns: FFIType.ptr
-//   // },
-
-//   // glfwSetGammaRamp: {
-//   //   args: [FFIType.ptr, FFIType.ptr],
-//   //   returns: FFIType.void
-//   // },
-
-//   //!!! END WRONG ALIGNMENT!!!
-
-
-
-
-// });
+  glfwDefaultWindowHints: {
+    args: [],
+    returns: FFIType.void
+  },
+
+  glfwWindowHint: {
+    args: [FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwWindowHintString: {
+    args: [FFIType.int, FFIType.cstring],
+    returns: FFIType.void
+  },
+
+  glfwCreateWindow: {
+    //*    width      , height     , title      , monitor    , share (null = false)   
+    args: [FFIType.int, FFIType.int, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwDestroyWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwWindowShouldClose: {
+    args: [FFIType.ptr],
+    returns: FFIType.int
+  },
+
+  glfwSetWindowShouldClose: {
+    args: [FFIType.ptr, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowTitle: {
+    args: [FFIType.ptr, FFIType.cstring],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowIcon: {
+    //*    window     , count      , GLFWimage*
+    args: [FFIType.ptr, FFIType.int, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowPos: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowPos: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowSize: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowSizeLimits: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowAspectRatio: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowSize: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwGetFramebufferSize: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowFrameSize: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowContentScale: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowOpacity: {
+    args: [FFIType.ptr],
+    returns: FFIType.float
+  },
+
+  glfwSetWindowOpacity: {
+    args: [FFIType.ptr, FFIType.float],
+    returns: FFIType.void
+  },
+
+  glfwIconifyWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwRestoreWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwMaximizeWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwShowWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwHideWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwFocusWindow: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwRequestWindowAttention: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowMonitor: {
+    args: [FFIType.ptr],
+    //* Returning a GLFWmonitor pointer.
+    returns: FFIType.ptr
+  },
+
+  glfwSetWindowMonitor: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.int, FFIType.int, FFIType.int, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowAttrib: {
+    args: [FFIType.ptr, FFIType.int],
+    returns: FFIType.int
+  },
+
+  glfwSetWindowAttrib: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowUserPointer: {
+    //! This function is very dangerous.
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetWindowUserPointer: {
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  //! BEGIN CALLBACKS!
+
+  //* note: A callback is a pointer. See line 14613 of types.d.ts!
+
+  //? Void returns instead of function pointers
+  //? because bun has a different style of memory
+  //? management.
+
+  glfwSetWindowPosCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowSizeCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowCloseCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowRefreshCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowFocusCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowIconifyCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowMaximizeCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetFramebufferSizeCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetWindowContentScaleCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  // //! END CALLBACKS
+
+  glfwPollEvents: {
+    args: [],
+    returns: FFIType.void
+  },
+
+  glfwWaitEvents: {
+    args: [],
+    returns: FFIType.void
+  },
+
+  glfwWaitEventsTimeout: {
+    args: [FFIType.double],
+    returns: FFIType.void
+  },
+
+  glfwPostEmptyEvent: {
+    args: [],
+    returns: FFIType.void
+  },
+
+  glfwSwapBuffers: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  // //* Begin https://www.glfw.org/docs/latest/group__monitor.html
+
+  //? BEGIN MONITOR
+
+  glfwGetMonitors: {
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwGetPrimaryMonitor: {
+    args: [],
+    returns: FFIType.ptr
+  },
+
+  glfwGetMonitorPos: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorWorkarea: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorPhysicalSize: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorContentScale: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorName: {
+    args: [FFIType.ptr],
+    returns: FFIType.cstring
+  },
+
+  glfwSetMonitorUserPointer: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetMonitorUserPointer: {
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwSetMonitorCallback: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwGetVideoModes: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwGetVideoMode: {
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  //!!! FIXME!!! THIS HAS WRONG ALIGNMENT!!!
+  // glfwSetGamma: {
+  //   args: [FFIType.ptr, FFIType.float],
+  //   returns: FFIType.void
+  // },
+
+  // glfwGetGammaRamp: {
+  //   args: [FFIType.ptr],
+  //   returns: FFIType.ptr
+  // },
+
+  // glfwSetGammaRamp: {
+  //   args: [FFIType.ptr, FFIType.ptr],
+  //   returns: FFIType.void
+  // },
+
+  // !!! END WRONG ALIGNMENT!!!
+
+
+
+
+})
 
 
 
@@ -493,26 +543,26 @@ const lib = funcallAccumulator
 
 // Everything is wrapped for safety and so I don't have to tear my hair out.
 
-export function glfwInit(): boolean {
-  return lib.glfwInit()
+export function init(): boolean {
+  return glfwInit()
 }
 
-// export function glfwTerminate(): boolean {
-//   return lib.glfwTerminate()
-// }
+export function terminate(): boolean {
+  return glfwTerminate()
+}
 
-// export function glfwGetVersion(): number[] {
-//   // Have internal pointers, auto referenced into C function.
-//   let major    = new Int32Array(1)
-//   let minor    = new Int32Array(1)
-//   let revision = new Int32Array(1)
-//   lib.glfwGetVersion(major, minor, revision)
-//   return [major[0], minor[0], revision[0]]
-// }
+export function getVersion(): number[] {
+  // Have internal pointers, auto referenced into C function.
+  let major    = new Int32Array(1)
+  let minor    = new Int32Array(1)
+  let revision = new Int32Array(1)
+  glfwGetVersion(major, minor, revision)
+  return [major[0], minor[0], revision[0]]
+}
 
-// export function glfwGetVersionString(): CString {
-//   return lib.glfwGetVersionString()
-// }
+export function glfwGetVersionString(): CString {
+  return lib.glfwGetVersionString()
+}
 
 
 
