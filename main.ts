@@ -12,6 +12,7 @@ const global = globalThis
 
 
 if (!reload.isReload()) {
+  print ("entering")
   if (!glfw.init()) {
     throw new Error("FAILED TO INITIALIZE GLFW3!")
   } else {
@@ -38,7 +39,15 @@ if (!reload.isReload()) {
 if (global.window != null) {
   // print("hi")
   glfw.setWindowPosCallback(global.window, (_, x, y) => {
-    // print(`hi I'm now at: ${x} and ${y}`)
+    print(`hi I'm now at: ${x} and ${y}`)
+  })
+
+  glfw.setErrorCallback((error_code, description) => {
+    print("GLFW ERROR!!!")
+    print(error_code)
+    const debugError = new CString(description)
+    print(debugError.toString())
+    print("END GLFW ERROR!!!")
   })
 }
 
@@ -47,9 +56,11 @@ if (global.window != null) {
 // while (!glfw.windowShouldClose(window)) {
 
 if (global.window != null) {
+  print("refreshing GLFW")
   glfw.swapBuffers(global.window)
   glfw.pollEvents()
 }
+
 
 //   count++
 //   // print(`loop: ${count} `)
@@ -62,6 +73,7 @@ if (global.window != null) {
 // }
 
 reload.reloadInfo()
+
 
 let readyToExit = false
 

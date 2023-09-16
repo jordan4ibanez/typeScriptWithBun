@@ -23,6 +23,7 @@ const libcPath = `libc.${suffix}.6`
 
 print(libcPath)
 
+
 const TESTING = dlopen(libcPath, {
   free: {
     args: [FFIType.ptr],
@@ -522,7 +523,10 @@ const {
     glfwGetCurrentContext,
     glfwSwapInterval,
     glfwExtensionSupported,
-    glfwGetProcAddress
+    glfwGetProcAddress,
+    glfwInitHint,
+    glfwGetError,
+    glfwSetErrorCallback
   },
 
 } = dlopen(path, {   
@@ -1098,6 +1102,36 @@ export function getProcAddress(procname: string): FFIType.ptr | null {
   return glfwGetProcAddress(procnameBuffer)
 }
 
+//* Begin: https://www.glfw.org/docs/latest/group__init.html
+
+export function initHint(hint: number, value: number) {
+  glfwInitHint(hint, value)
+}
+
+export function getError(): [number, string] {
+  //* This will return [GLFW_ERROR, error explanation]
+  let rawBuffer = Buffer.alloc(1024, " ")
+  let glfwError = glfwGetError(rawBuffer)
+  let usableString = rawBuffer.toString()
+
+  return [glfwError, usableString]
+}
+
+export function setErrorCallback(callback: (error_code: number, description: FFIType.ptr) => void): JSCallback {
+
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.int, FFIType.ptr],
+      returns: FFIType.void,
+    }
+  )
+
+  glfwSetErrorCallback(callbackObject.ptr)
+
+  return callbackObject
+}
+
 
 const [GLFW_VERSION_MAJOR,
        GLFW_VERSION_MINOR,
@@ -1165,5 +1199,12 @@ export {
   GLFW_VERSION_UNAVAILABLE,
   GLFW_PLATFORM_ERROR,
   GLFW_FORMAT_UNAVAILABLE,
-  GLFW_NO_WINDOW_CONTEXT
+  GLFW_NO_WINDOW_CONTEXT,
+
+  //* Whatever this is https://www.glfw.org/docs/latest/group__init.html
+  GLFW_TRUE,
+  GLFW_FALSE,
+  GLFW_JOYSTICK_HAT_BUTTONS,
+  GLFW_COCOA_CHDIR_RESOURCES,
+  GLFW_COCOA_MENUBAR,
 }
