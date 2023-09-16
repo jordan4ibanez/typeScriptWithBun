@@ -1035,11 +1035,23 @@ export function setGammaRamp(monitor: FFIType.ptr, ramp: FFIType.ptr) {
   glfwSetGammaRamp(monitor, ramp)
 }
 
+//* begin https://www.glfw.org/docs/latest/group__context.html
+
 export function makeContextCurrent(window: FFIType.ptr) {
   glfwMakeContextCurrent(window)
 }
 
+export function getCurrentContext(): FFIType.ptr | null {
+  return glfwGetCurrentContext()
+}
 
+export function swapInterval(interval: number) {
+  glfwSwapInterval(interval)
+}
+
+export function glfwExtensionSupported(extension: string): bool {
+  
+}
 
 
 const [GLFW_VERSION_MAJOR,
