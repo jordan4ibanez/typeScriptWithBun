@@ -102,6 +102,67 @@ export const GLFW_JOYSTICK_HAT_BUTTONS  = 0x00050001
 export const GLFW_COCOA_CHDIR_RESOURCES = 0x00051001
 export const GLFW_COCOA_MENUBAR         = 0x00051002
 
+//* https://www.glfw.org/docs/latest/group__gamepad__axes.html
+export const GLFW_GAMEPAD_AXIS_LEFT_X        = 0
+export const GLFW_GAMEPAD_AXIS_LEFT_Y        = 1
+export const GLFW_GAMEPAD_AXIS_RIGHT_X       = 2
+export const GLFW_GAMEPAD_AXIS_RIGHT_Y       = 3
+export const GLFW_GAMEPAD_AXIS_LEFT_TRIGGER  = 4
+export const GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER = 5
+export const GLFW_GAMEPAD_AXIS_LAST          = GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER
+
+//* https://www.glfw.org/docs/latest/group__gamepad__buttons.html
+export const GLFW_GAMEPAD_BUTTON_A            = 0
+export const GLFW_GAMEPAD_BUTTON_B            = 1
+export const GLFW_GAMEPAD_BUTTON_X            = 2
+export const GLFW_GAMEPAD_BUTTON_Y            = 3
+export const GLFW_GAMEPAD_BUTTON_LEFT_BUMPER  = 4
+export const GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER = 5
+export const GLFW_GAMEPAD_BUTTON_BACK         = 6
+export const GLFW_GAMEPAD_BUTTON_START        = 7
+export const GLFW_GAMEPAD_BUTTON_GUIDE        = 8
+export const GLFW_GAMEPAD_BUTTON_LEFT_THUMB   = 9
+export const GLFW_GAMEPAD_BUTTON_RIGHT_THUMB  = 10
+export const GLFW_GAMEPAD_BUTTON_DPAD_UP      = 11
+export const GLFW_GAMEPAD_BUTTON_DPAD_RIGHT   = 12
+export const GLFW_GAMEPAD_BUTTON_DPAD_DOWN    = 13
+export const GLFW_GAMEPAD_BUTTON_DPAD_LEFT    = 14
+export const GLFW_GAMEPAD_BUTTON_LAST         = GLFW_GAMEPAD_BUTTON_DPAD_LEFT
+export const GLFW_GAMEPAD_BUTTON_CROSS        = GLFW_GAMEPAD_BUTTON_A
+export const GLFW_GAMEPAD_BUTTON_CIRCLE       = GLFW_GAMEPAD_BUTTON_B
+export const GLFW_GAMEPAD_BUTTON_SQUARE       = GLFW_GAMEPAD_BUTTON_X
+export const GLFW_GAMEPAD_BUTTON_TRIANGLE     = GLFW_GAMEPAD_BUTTON_Y
+
+//* https://www.glfw.org/docs/latest/group__hat__state.html
+export const GLFW_HAT_CENTERED   = 0
+export const GLFW_HAT_UP         = 1
+export const GLFW_HAT_RIGHT      = 2
+export const GLFW_HAT_DOWN       = 4
+export const GLFW_HAT_LEFT       = 8
+export const GLFW_HAT_RIGHT_UP   = (GLFW_HAT_RIGHT | GLFW_HAT_UP)
+export const GLFW_HAT_RIGHT_DOWN = (GLFW_HAT_RIGHT | GLFW_HAT_DOWN)
+export const GLFW_HAT_LEFT_UP    = (GLFW_HAT_LEFT | GLFW_HAT_UP)
+export const GLFW_HAT_LEFT_DOWN  = (GLFW_HAT_LEFT | GLFW_HAT_DOWN)
+
+//* https://www.glfw.org/docs/latest/group__joysticks.html
+export const GLFW_JOYSTICK_1    = 0
+export const GLFW_JOYSTICK_2    = 1
+export const GLFW_JOYSTICK_3    = 2
+export const GLFW_JOYSTICK_4    = 3
+export const GLFW_JOYSTICK_5    = 4
+export const GLFW_JOYSTICK_6    = 5
+export const GLFW_JOYSTICK_7    = 6
+export const GLFW_JOYSTICK_8    = 7
+export const GLFW_JOYSTICK_9    = 8
+export const GLFW_JOYSTICK_10   = 9
+export const GLFW_JOYSTICK_11   = 10
+export const GLFW_JOYSTICK_12   = 11
+export const GLFW_JOYSTICK_13   = 12
+export const GLFW_JOYSTICK_14   = 13
+export const GLFW_JOYSTICK_15   = 14
+export const GLFW_JOYSTICK_16   = 15
+export const GLFW_JOYSTICK_LAST = GLFW_JOYSTICK_16
+
 //* https://www.glfw.org/docs/latest/group__keys.html
 export const GLFW_KEY_UNKNOWN       = -1
 export const GLFW_KEY_SPACE         = 32
@@ -225,6 +286,36 @@ export const GLFW_KEY_RIGHT_ALT     = 346
 export const GLFW_KEY_RIGHT_SUPER   = 347
 export const GLFW_KEY_MENU          = 348
 export const GLFW_KEY_LAST          = GLFW_KEY_MENU
+
+//* https://www.glfw.org/docs/latest/group__mods.html
+export const GLFW_MOD_SHIFT     = 0x0001
+export const GLFW_MOD_CONTROL   = 0x0002
+export const GLFW_MOD_ALT       = 0x0004
+export const GLFW_MOD_SUPER     = 0x0008
+export const GLFW_MOD_CAPS_LOCK = 0x0010
+export const GLFW_MOD_NUM_LOCK  = 0x0020
+
+//* https://www.glfw.org/docs/latest/group__buttons.html
+export const GLFW_MOUSE_BUTTON_1      = 0
+export const GLFW_MOUSE_BUTTON_2      = 1
+export const GLFW_MOUSE_BUTTON_3      = 2
+export const GLFW_MOUSE_BUTTON_4      = 3
+export const GLFW_MOUSE_BUTTON_5      = 4
+export const GLFW_MOUSE_BUTTON_6      = 5
+export const GLFW_MOUSE_BUTTON_7      = 6
+export const GLFW_MOUSE_BUTTON_8      = 7
+export const GLFW_MOUSE_BUTTON_LAST   = GLFW_MOUSE_BUTTON_8
+export const GLFW_MOUSE_BUTTON_LEFT   = GLFW_MOUSE_BUTTON_1
+export const GLFW_MOUSE_BUTTON_RIGHT  = GLFW_MOUSE_BUTTON_2
+export const GLFW_MOUSE_BUTTON_MIDDLE = GLFW_MOUSE_BUTTON_3
+
+//* https://www.glfw.org/docs/latest/group__shapes.html
+export const GLFW_ARROW_CURSOR     = 0x00036001
+export const GLFW_IBEAM_CURSOR     = 0x00036002
+export const GLFW_CROSSHAIR_CURSOR = 0x00036003
+export const GLFW_HAND_CURSOR      = 0x00036004
+export const GLFW_HRESIZE_CURSOR   = 0x00036005
+export const GLFW_VRESIZE_CURSOR   = 0x00036006
 
 // Let's load that library.
 const { 
