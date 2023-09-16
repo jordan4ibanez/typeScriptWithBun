@@ -172,7 +172,7 @@ const {
 
 } = dlopen(path, {
 
-  //!FIXME: figure out what page these functions came from!
+  //* Begin: https://www.glfw.org/docs/latest/group__init.html
 
   glfwInit: {
     args: [],
