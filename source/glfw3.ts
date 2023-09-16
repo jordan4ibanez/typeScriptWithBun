@@ -1049,8 +1049,15 @@ export function swapInterval(interval: number) {
   glfwSwapInterval(interval)
 }
 
-export function glfwExtensionSupported(extension: string): bool {
-  
+export function extensionSupported(extension: string): boolean {
+  let extensionBuffer = toBuffer(extension)
+  //! FIXME: might not be only 0 and 1, false and true. Test
+  return glfwExtensionSupported(extensionBuffer) != 0
+}
+
+export function getProcAddress(procname: string): FFIType.ptr | null {
+  let procnameBuffer = toBuffer(procname)
+  return glfwGetProcAddress(procnameBuffer)
 }
 
 
