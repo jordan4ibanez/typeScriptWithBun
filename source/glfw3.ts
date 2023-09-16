@@ -89,9 +89,6 @@ const {
     glfwTerminate,
     glfwGetVersion,
     glfwGetVersionString,
-    //!FIXME THIS NEEDS TO BE MOVED!
-    glfwMakeContextCurrent,
-    //!END FIXME
     glfwDefaultWindowHints,
     glfwWindowHint,
     glfwWindowHintString,
@@ -155,6 +152,8 @@ const {
 
 } = dlopen(path, {
 
+  //!FIXME: figure out what page these functions came from!
+
   glfwInit: {
     args: [],
     returns: FFIType.bool,
@@ -174,20 +173,6 @@ const {
     args: [],
     returns: FFIType.cstring,
   },
-
-  //* From this point on the documentation just kinda falls apart.
-  //* So I just made up ordering as I read through.
-  
-
-  //! Please move this to wherever it will belong when the rest of this is laid out.
-  //! It is here because I need to test if this thing actually works without crashing.
-
-  glfwMakeContextCurrent: {
-    args: [FFIType.ptr],
-    returns: FFIType.void
-  },
-  
-  //! End yelling area, AHHH
 
   //* BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
   
@@ -442,7 +427,7 @@ const {
     returns: FFIType.void
   },
 
-  // //* Begin https://www.glfw.org/docs/latest/group__monitor.html
+  //* Begin https://www.glfw.org/docs/latest/group__monitor.html
 
   //? BEGIN MONITOR
 
@@ -506,12 +491,15 @@ const {
     returns: FFIType.ptr
   },
 })
+
 //* dlopen has a limit of 64 functions per call, so move into next scope.
+
 const { 
   symbols: {
     glfwSetGamma,
     glfwGetGammaRamp,
-    glfwSetGammaRamp
+    glfwSetGammaRamp,
+    glfwMakeContextCurrent
   },
 
 } = dlopen(path, {   
@@ -529,7 +517,17 @@ const {
     args: [FFIType.ptr, FFIType.ptr],
     returns: FFIType.void
   },
+
+  //* begin https://www.glfw.org/docs/latest/group__context.html
+
+  glfwMakeContextCurrent: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
 })
+
+
 // Everything is wrapped for safety and so I don't have to tear my hair out.
 
 export function init(): boolean {
@@ -552,19 +550,6 @@ export function getVersion(): number[] {
 export function getVersionString(): CString {
   return glfwGetVersionString()
 }
-
-
-
-//! Please move this to wherever it will belong when the rest of this is laid out.
-//! It is here because I need to test if this thing actually works without crashing.
-// This will give you back the pointer of the window, very nice. Or nullptr. Not nice.
-
-export function makeContextCurrent(window: FFIType.ptr) {
-  glfwMakeContextCurrent(window)
-}
-
-//! End yelling again WOOOOOOOOOOOO
-
 
 //? BEGIN WINDOW
 
@@ -1025,6 +1010,13 @@ export function getGammaRamp(monitor: FFIType.ptr): FFIType.ptr | null {
 export function setGammaRamp(monitor: FFIType.ptr, ramp: FFIType.ptr) {
   glfwSetGammaRamp(monitor, ramp)
 }
+
+export function makeContextCurrent(window: FFIType.ptr) {
+  glfwMakeContextCurrent(window)
+}
+
+
+
 
 const [GLFW_VERSION_MAJOR,
        GLFW_VERSION_MINOR,
