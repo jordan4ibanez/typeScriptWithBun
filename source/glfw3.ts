@@ -505,31 +505,31 @@ const {
     args: [FFIType.ptr],
     returns: FFIType.ptr
   },
-
-  //!!! FIXME!!! THIS HAS WRONG ALIGNMENT!!!
-  // glfwSetGamma: {
-  //   args: [FFIType.ptr, FFIType.float],
-  //   returns: FFIType.void
-  // },
-
-  // glfwGetGammaRamp: {
-  //   args: [FFIType.ptr],
-  //   returns: FFIType.ptr
-  // },
-
-  // glfwSetGammaRamp: {
-  //   args: [FFIType.ptr, FFIType.ptr],
-  //   returns: FFIType.void
-  // },
-
-  // !!! END WRONG ALIGNMENT!!!
-
-
-
-
 })
+//* dlopen has a limit of 64 functions per call, so move into next scope.
+const { 
+  symbols: {
+    glfwSetGamma,
+    glfwGetGammaRamp,
+    glfwSetGammaRamp
+  },
 
+} = dlopen(path, {   
+  glfwSetGamma: {
+    args: [FFIType.ptr, FFIType.float],
+    returns: FFIType.void
+  },
 
+  glfwGetGammaRamp: {
+    args: [FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwSetGammaRamp: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+})
 // Everything is wrapped for safety and so I don't have to tear my hair out.
 
 export function init(): boolean {
@@ -1014,30 +1014,27 @@ export function getVideoMode(monitor: FFIType.ptr): FFIType.ptr | null {
   return glfwGetVideoMode(monitor)
 }
 
+export function setGamma(monitor: FFIType.ptr, gamma: number) {
+  glfwSetGamma(monitor, gamma)
+}
 
-//!! FIX ME THESE ARE MISALIGNED!!
-// export function glfwSetGamma(monitor: FFIType.ptr, gamma: number) {
-//   glfwSetGamma(monitor, gamma)
-// }
+export function getGammaRamp(monitor: FFIType.ptr): FFIType.ptr | null {
+  return glfwGetGammaRamp(monitor)
+}
 
-// export function glfwGetGammaRamp(monitor: FFIType.ptr): FFIType.ptr | null {
-//   return glfwGetGammaRamp(monitor)
-// }
+export function setGammaRamp(monitor: FFIType.ptr, ramp: FFIType.ptr) {
+  glfwSetGammaRamp(monitor, ramp)
+}
 
-// export function glfwSetGammaRamp(monitor: FFIType.ptr, ramp: FFIType.ptr) {
-//   glfwSetGammaRamp(monitor, ramp)
-// }
-//!! END FIXME!!
-
-// const [GLFW_VERSION_MAJOR,
-//        GLFW_VERSION_MINOR,
-//        GLFW_VERSION_REVISION] = glfwGetVersion()
+const [GLFW_VERSION_MAJOR,
+       GLFW_VERSION_MINOR,
+       GLFW_VERSION_REVISION] = getVersion()
 
 export {
   path as GFLW_PATH,
-  // GLFW_VERSION_MAJOR,
-  // GLFW_VERSION_MINOR,
-  // GLFW_VERSION_REVISION,
+  GLFW_VERSION_MAJOR,
+  GLFW_VERSION_MINOR,
+  GLFW_VERSION_REVISION,
   GLFW_FOCUSED,
   GLFW_ICONIFIED,
   GLFW_RESIZABLE,
