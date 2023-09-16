@@ -411,7 +411,7 @@ const {
 
   glfwGetVersionString: {
     args: [],
-    returns: FFIType.cstring,
+    returns: FFIType.ptr,
   },
 
   //* BEGIN: https://www.glfw.org/docs/latest/group__window.html#ga3555a418df92ad53f917597fe2f64aeb
@@ -703,7 +703,7 @@ const {
 
   glfwGetMonitorName: {
     args: [FFIType.ptr],
-    returns: FFIType.cstring
+    returns: FFIType.ptr
   },
 
   glfwSetMonitorUserPointer: {
@@ -856,6 +856,120 @@ const {
     returns: FFIType.int
   },
 
+  glfwSetInputMode: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwRawMouseMotionSupported: {
+    args: [],
+    returns: FFIType.int
+  },
+
+  glfwGetKeyName: {
+    args: [FFIType.int, FFIType.int],
+    returns: FFIType.ptr
+  },
+
+  glfwGetKeyScancode: {
+    args: [FFIType.int],
+    returns: FFIType.int
+  },
+
+  glfwGetKey: {
+    args: [FFIType.ptr, FFIType.int],
+    returns: FFIType.int
+  },
+
+  glfwGetMouseButton: {
+    args: [FFIType.int, FFIType.int],
+    returns: FFIType.int
+  },
+
+  glfwGetCursorPos: {
+    args: [FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetCursorPos: {
+    args: [FFIType.ptr, FFIType.double, FFIType.double],
+    returns: FFIType.void
+  },
+
+  glfwCreateCursor: {
+    args: [FFIType.ptr, FFIType.int, FFIType.int],
+    returns: FFIType.ptr
+  },
+
+  glfwCreateStandardCursor: {
+    args: [FFIType.int],
+    returns: FFIType.ptr
+  },
+
+  glfwDestroyCursor: {
+    args: [FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetCursor: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void
+  },
+
+  glfwSetKeyCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwSetCharCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwSetCharModsCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwSetMouseButtonCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwSetCursorPosCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwSetCursorEnterCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwSetScrollCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwSetDropCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwJoystickPresent: {
+    args: [FFIType.int],
+    returns: FFIType.int
+  },
+
+  glfwGetJoystickAxes: {
+    args: [FFIType.int, FFIType.ptr],
+    returns: FFIType.ptr
+  },
+
+  glfwGetJoystickButtons: {
+    args: [FFIType.int, FFIType.ptr],
+    returns: FFIType.ptr
+  },
 
 
 })
@@ -881,7 +995,11 @@ export function getVersion(): number[] {
 }
 
 export function getVersionString(): CString {
-  return glfwGetVersionString()
+  let versionStringPointer = glfwGetVersionString()
+  if (versionStringPointer == null) {
+    throw new Error("GLFW ERROR! version string was null!")
+  }
+  return new CString(versionStringPointer)
 }
 
 //? BEGIN WINDOW
@@ -1279,8 +1397,12 @@ export function getMonitorContentScale(monitor: FFIType.ptr): number[] {
   return [xscale[0], yscale[0]]
 }
 
-export function getMonitorName(monitor: FFIType.ptr): CString | null {
-  return glfwGetMonitorName(monitor)
+export function getMonitorName(monitor: FFIType.ptr): CString {
+  let monitorNamePointer = glfwGetMonitorName(monitor)
+  if (monitorNamePointer == null) {
+    throw new Error("GLFW ERROR: monitor name is null!")
+  }
+  return new CString(monitorNamePointer)
 }
 
 export function setMonitorUserPointer(monitor: FFIType.ptr, pointer: FFIType.ptr) {
