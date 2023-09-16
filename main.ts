@@ -10,9 +10,10 @@ declare global {
 const global = globalThis
 
 
-
+//? So this is so the game doesn't spawn 50 different GLFW contexts
 if (!reload.isReload()) {
   print ("entering")
+
   if (!glfw.init()) {
     throw new Error("FAILED TO INITIALIZE GLFW3!")
   } else {
@@ -42,6 +43,7 @@ if (global.window != null) {
     print(`hi I'm now at: ${x} and ${y}`)
   })
 
+
   glfw.setErrorCallback((error_code, description) => {
     print("GLFW ERROR!!!")
     print(error_code)
@@ -62,16 +64,6 @@ if (global.window != null) {
 }
 
 
-//   count++
-//   // print(`loop: ${count} `)
-
-//   if (count > 1_000_000) {
-//     // print("ahhhh")
-//     // glfw.glfwSetWindowShouldClose(window, true)
-//   }
-  // glfw.pollEvents()
-// }
-
 reload.reloadInfo()
 
 
@@ -87,3 +79,5 @@ if (readyToExit) {
 }
 
 reload.successfulRun()
+
+print("exiting")
