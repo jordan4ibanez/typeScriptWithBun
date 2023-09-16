@@ -36,6 +36,7 @@ function toBuffer(input: string) {
   return Buffer.from(input + '\0')
 }
 
+//* https://www.glfw.org/docs/latest/group__window.html
 export const GLFW_FOCUSED                  = 0x00020001
 export const GLFW_ICONIFIED                = 0x00020002
 export const GLFW_RESIZABLE                = 0x00020003
@@ -316,6 +317,11 @@ export const GLFW_CROSSHAIR_CURSOR = 0x00036003
 export const GLFW_HAND_CURSOR      = 0x00036004
 export const GLFW_HRESIZE_CURSOR   = 0x00036005
 export const GLFW_VRESIZE_CURSOR   = 0x00036006
+
+//* https://www.glfw.org/docs/latest/group__input.html
+export const GLFW_RELEASE = 0
+export const GLFW_PRESS   = 1
+export const GLFW_REPEAT  = 2
 
 // Let's load that library.
 const { 
