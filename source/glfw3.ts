@@ -499,7 +499,11 @@ const {
     glfwSetGamma,
     glfwGetGammaRamp,
     glfwSetGammaRamp,
-    glfwMakeContextCurrent
+    glfwMakeContextCurrent,
+    glfwGetCurrentContext,
+    glfwSwapInterval,
+    glfwExtensionSupported,
+    glfwGetProcAddress
   },
 
 } = dlopen(path, {   
@@ -523,6 +527,26 @@ const {
   glfwMakeContextCurrent: {
     args: [FFIType.ptr],
     returns: FFIType.void
+  },
+
+  glfwGetCurrentContext: {
+    args: [],
+    returns: FFIType.ptr
+  },
+
+  glfwSwapInterval: {
+    args: [FFIType.int],
+    returns: FFIType.void
+  },
+
+  glfwExtensionSupported: {
+    args: [FFIType.cstring],
+    returns: FFIType.int
+  },
+
+  glfwGetProcAddress: {
+    args: [FFIType.cstring],
+    returns: FFIType.ptr
   },
 
 })
