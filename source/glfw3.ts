@@ -560,487 +560,472 @@ export function getVersion(): number[] {
   return [major[0], minor[0], revision[0]]
 }
 
-export function glfwGetVersionString(): CString {
-  return lib.glfwGetVersionString()
+export function getVersionString(): CString {
+  return glfwGetVersionString()
 }
 
 
 
+//! Please move this to wherever it will belong when the rest of this is laid out.
+//! It is here because I need to test if this thing actually works without crashing.
+// This will give you back the pointer of the window, very nice. Or nullptr. Not nice.
+
+export function makeContextCurrent(window: FFIType.ptr) {
+  glfwMakeContextCurrent(window)
+}
+
+//! End yelling again WOOOOOOOOOOOO
+
+
+//? BEGIN WINDOW
+
+export function defaultWindowHints() {
+  glfwDefaultWindowHints()
+}
+
+
+export function glfwWindowHint(hint: number, value: number) {
+  lib.glfwWindowHint(hint, value)
+}
+
+export function glfwWindowHintString(hint: number, value: string) {
+  const hintBuffer = toBuffer(value)
+  lib.glfwWindowHintString(hint, hintBuffer)
+}
+
+export function glfwCreateWindow(width: number, height: number, title: string, monitor: FFIType.ptr | null, share: FFIType.ptr | null): FFIType.ptr | null {
+  const titleBuffer = toBuffer(title)
+  return lib.glfwCreateWindow(width, height, titleBuffer, monitor, share)
+}
+
+export function glfwDestroyWindow(window: FFIType.ptr) {
+  lib.glfwDestroyWindow(window)
+}
+
+export function glfwWindowShouldClose(window: FFIType.ptr): boolean {
+  //! FIXME: this might not only be 0 false 1 true!
+  return lib.glfwWindowShouldClose(window) != 0
+}
+
+export function glfwSetWindowShouldClose(window: FFIType.ptr, shouldClose: boolean) {
+  lib.glfwSetWindowShouldClose(window, shouldClose ? 1 : 0)
+}
+
+export function glfwSetWindowTitle(window: FFIType.ptr, title: string) {
+  const titleBuffer = toBuffer(title)
+  lib.glfwSetWindowTitle(window, titleBuffer)
+}
+
+export function glfwSetWindowIcon(window: FFIType.ptr, count: number, images: FFIType.ptr) {
+  lib.glfwSetWindowIcon(window, count, images)
+}
+
+export function glfwGetWindowPos(window: FFIType.ptr): number[] {
+  let xpos = new Int32Array(1)
+  let ypos = new Int32Array(1)
+  lib.glfwGetWindowPos(window, xpos, ypos)
+  return [xpos[0], ypos[0]]
+}
+
+export function glfwSetWindowPos(window: FFIType.ptr, xpos: number, ypos: number) {
+  lib.glfwSetWindowPos(window, xpos, ypos)
+}
+
+export function glfwGetWindowSize(window: FFIType.ptr): number[] {
+  let width  = new Int32Array(1)
+  let height = new Int32Array(1)
+  lib.glfwGetWindowSize(window, width, height)
+  return [width[0], height[0]]
+}
+
+export function glfwSetWindowSizeLimits(window: FFIType.ptr, minwidth: number, minheight: number, maxwidth: number, maxheight: number) {
+  lib.glfwSetWindowSizeLimits(window, minwidth, minheight, maxwidth, maxheight)
+}
+
+export function glfwSetWindowAspectRatio(window: FFIType.ptr, numer: number, denom: number) {
+  lib.glfwSetWindowAspectRatio(window, numer, denom)
+}
+
+export function glfwSetWindowSize(window: FFIType.ptr, width: number, height: number) {
+  lib.glfwSetWindowSize(window, width, height)
+}
+
+export function glfwGetFramebufferSize(window: FFIType.ptr): number[] {
+  let width  = new Int32Array(1)
+  let height = new Int32Array(1)
+  lib.glfwGetFramebufferSize(window, width, height)
+  return [width[0], height[0]]
+}
+
+export function glfwGetWindowFrameSize(window: FFIType.ptr): number[] {
+  let left   = new Int32Array(1)
+  let top    = new Int32Array(1)
+  let right  = new Int32Array(1)
+  let bottom = new Int32Array(1)
+  lib.glfwGetWindowFrameSize(window, left, top, right, bottom)
+  return [left[0], top[0], right[0], bottom[0]]
+} 
+
+export function glfwGetWindowContentScale(window: FFIType.ptr): number[] {
+  let xscale = new Int32Array(1)
+  let yscale = new Int32Array(1)
+  lib.glfwGetWindowContentScale(window, xscale, yscale)
+  return [xscale[0], yscale[0]]
+}
+
+export function glfwGetWindowOpacity(window: FFIType.ptr): number {
+  return lib.glfwGetWindowOpacity(window)
+}
 
+export function glfwSetWindowOpacity(window: FFIType, opacity: number) {
+  lib.glfwSetWindowOpacity(window, opacity)
+}
 
+export function glfwIconifyWindow(window: FFIType.ptr) {
+  lib.glfwIconifyWindow(window)
+}
 
+export function glfwRestoreWindow(window: FFIType.ptr) {
+  lib.glfwRestoreWindow(window)
+}
 
+export function glfwMaximizeWindow(window: FFIType.ptr) {
+  lib.glfwMaximizeWindow(window)
+}
 
+export function glfwShowWindow(window: FFIType.ptr) {
+  lib.glfwShowWindow(window)
+}
 
-// //! Please move this to wherever it will belong when the rest of this is laid out.
-// //! It is here because I need to test if this thing actually works without crashing.
-// // This will give you back the pointer of the window, very nice. Or nullptr. Not nice.
+export function glfwHideWindow(window: FFIType.ptr) {
+  lib.glfwHideWindow(window)
+}
 
-// export function glfwMakeContextCurrent(window: FFIType.ptr) {
-//   lib.glfwMakeContextCurrent(window)
-// }
+export function glfwFocusWindow(window: FFIType.ptr) {
+  lib.glfwFocusWindow(window)
+}
 
+export function glfwRequestWindowAttention(window: FFIType.ptr) {
+  lib.glfwRequestWindowAttention(window)
+}
 
+//* Returns a GLFWmonitor pointer. Or null. Very dramatic.
+export function glfwGetWindowMonitor(window: FFIType.ptr): FFIType.ptr | null {
+  return lib.glfwGetWindowMonitor(window)
+}
 
+export function glfwSetWindowMonitor(window: FFIType.ptr, monitor: FFIType.ptr, xpos: number, ypos: number, width: number, height: number, refreshRate: number) {
+  lib.glfwSetWindowMonitor(window, monitor, xpos, ypos, width, height, refreshRate)
+}
 
+export function glfwGetWindowAttrib(window: FFIType.ptr, attrib: number): number {
+  return lib.glfwGetWindowAttrib(window, attrib)
+}
 
+export function glfwSetWindowAttrib(window: FFIType.ptr, attrib: number, value: number) {
+  lib.glfwSetWindowAttrib(window, attrib, value)
+}
 
+export function glfwSetWindowUserPointer(window: FFIType.ptr, pointer: FFIType.ptr) {
+  //! This function is very dangerous.
+  lib.glfwSetWindowUserPointer(window, pointer)
+}
 
+export function glfwGetWindowUserPointer(window: FFIType.ptr): FFIType.ptr | null {
+  return lib.glfwGetWindowUserPointer(window)
+}
 
+//! BEGIN CALLBACKS!
 
+//* note: A callback is a pointer. See line 14613 of types.d.ts!
 
-// //! End yelling again WOOOOOOOOOOOO
 
 
-// //? BEGIN WINDOW
+// You pass this a lambda and you get a nice safe object you can wait until the end to free. 
+// TODO: Document this like a normal person.
 
-// export function glfwDefaultWindowHints() {
-//   lib.glfwDefaultWindowHints()
-// }
+export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
 
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
-// export function glfwWindowHint(hint: number, value: number) {
-//   lib.glfwWindowHint(hint, value)
-// }
+  lib.glfwSetWindowPosCallback(window, callbackObject.ptr)
 
-// export function glfwWindowHintString(hint: number, value: string) {
-//   const hintBuffer = toBuffer(value)
-//   lib.glfwWindowHintString(hint, hintBuffer)
-// }
+  // And now you can keep it safe until you want to free it. :)
+  //! Make sure you free (close()) the old callback before you set a new one
+  //! or else, you'll have a memory leak.
+  return callbackObject
+}
+//* That's all the documentation I'm going to do for an example.
+//* This will be redocumented with JSDoc or TSDoc or whatever it's called.
 
-// export function glfwCreateWindow(width: number, height: number, title: string, monitor: FFIType.ptr | null, share: FFIType.ptr | null): FFIType.ptr | null {
-//   const titleBuffer = toBuffer(title)
-//   return lib.glfwCreateWindow(width, height, titleBuffer, monitor, share)
-// }
+export function glfwSetWindowSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: number, height: number) => void): JSCallback {
 
-// export function glfwDestroyWindow(window: FFIType.ptr) {
-//   lib.glfwDestroyWindow(window)
-// }
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
-// export function glfwWindowShouldClose(window: FFIType.ptr): boolean {
-//   //! FIXME: this might not only be 0 false 1 true!
-//   return lib.glfwWindowShouldClose(window) != 0
-// }
+  lib.glfwSetWindowSizeCallback(window, callbackObject.ptr)
 
-// export function glfwSetWindowShouldClose(window: FFIType.ptr, shouldClose: boolean) {
-//   lib.glfwSetWindowShouldClose(window, shouldClose ? 1 : 0)
-// }
+  return callbackObject
+}
 
-// export function glfwSetWindowTitle(window: FFIType.ptr, title: string) {
-//   const titleBuffer = toBuffer(title)
-//   lib.glfwSetWindowTitle(window, titleBuffer)
-// }
-
-// export function glfwSetWindowIcon(window: FFIType.ptr, count: number, images: FFIType.ptr) {
-//   lib.glfwSetWindowIcon(window, count, images)
-// }
-
-// export function glfwGetWindowPos(window: FFIType.ptr): number[] {
-//   let xpos = new Int32Array(1)
-//   let ypos = new Int32Array(1)
-//   lib.glfwGetWindowPos(window, xpos, ypos)
-//   return [xpos[0], ypos[0]]
-// }
-
-// export function glfwSetWindowPos(window: FFIType.ptr, xpos: number, ypos: number) {
-//   lib.glfwSetWindowPos(window, xpos, ypos)
-// }
-
-// export function glfwGetWindowSize(window: FFIType.ptr): number[] {
-//   let width  = new Int32Array(1)
-//   let height = new Int32Array(1)
-//   lib.glfwGetWindowSize(window, width, height)
-//   return [width[0], height[0]]
-// }
-
-// export function glfwSetWindowSizeLimits(window: FFIType.ptr, minwidth: number, minheight: number, maxwidth: number, maxheight: number) {
-//   lib.glfwSetWindowSizeLimits(window, minwidth, minheight, maxwidth, maxheight)
-// }
-
-// export function glfwSetWindowAspectRatio(window: FFIType.ptr, numer: number, denom: number) {
-//   lib.glfwSetWindowAspectRatio(window, numer, denom)
-// }
-
-// export function glfwSetWindowSize(window: FFIType.ptr, width: number, height: number) {
-//   lib.glfwSetWindowSize(window, width, height)
-// }
-
-// export function glfwGetFramebufferSize(window: FFIType.ptr): number[] {
-//   let width  = new Int32Array(1)
-//   let height = new Int32Array(1)
-//   lib.glfwGetFramebufferSize(window, width, height)
-//   return [width[0], height[0]]
-// }
-
-// export function glfwGetWindowFrameSize(window: FFIType.ptr): number[] {
-//   let left   = new Int32Array(1)
-//   let top    = new Int32Array(1)
-//   let right  = new Int32Array(1)
-//   let bottom = new Int32Array(1)
-//   lib.glfwGetWindowFrameSize(window, left, top, right, bottom)
-//   return [left[0], top[0], right[0], bottom[0]]
-// } 
-
-// export function glfwGetWindowContentScale(window: FFIType.ptr): number[] {
-//   let xscale = new Int32Array(1)
-//   let yscale = new Int32Array(1)
-//   lib.glfwGetWindowContentScale(window, xscale, yscale)
-//   return [xscale[0], yscale[0]]
-// }
-
-// export function glfwGetWindowOpacity(window: FFIType.ptr): number {
-//   return lib.glfwGetWindowOpacity(window)
-// }
-
-// export function glfwSetWindowOpacity(window: FFIType, opacity: number) {
-//   lib.glfwSetWindowOpacity(window, opacity)
-// }
-
-// export function glfwIconifyWindow(window: FFIType.ptr) {
-//   lib.glfwIconifyWindow(window)
-// }
-
-// export function glfwRestoreWindow(window: FFIType.ptr) {
-//   lib.glfwRestoreWindow(window)
-// }
-
-// export function glfwMaximizeWindow(window: FFIType.ptr) {
-//   lib.glfwMaximizeWindow(window)
-// }
-
-// export function glfwShowWindow(window: FFIType.ptr) {
-//   lib.glfwShowWindow(window)
-// }
-
-// export function glfwHideWindow(window: FFIType.ptr) {
-//   lib.glfwHideWindow(window)
-// }
-
-// export function glfwFocusWindow(window: FFIType.ptr) {
-//   lib.glfwFocusWindow(window)
-// }
-
-// export function glfwRequestWindowAttention(window: FFIType.ptr) {
-//   lib.glfwRequestWindowAttention(window)
-// }
-
-// //* Returns a GLFWmonitor pointer. Or null. Very dramatic.
-// export function glfwGetWindowMonitor(window: FFIType.ptr): FFIType.ptr | null {
-//   return lib.glfwGetWindowMonitor(window)
-// }
-
-// export function glfwSetWindowMonitor(window: FFIType.ptr, monitor: FFIType.ptr, xpos: number, ypos: number, width: number, height: number, refreshRate: number) {
-//   lib.glfwSetWindowMonitor(window, monitor, xpos, ypos, width, height, refreshRate)
-// }
-
-// export function glfwGetWindowAttrib(window: FFIType.ptr, attrib: number): number {
-//   return lib.glfwGetWindowAttrib(window, attrib)
-// }
-
-// export function glfwSetWindowAttrib(window: FFIType.ptr, attrib: number, value: number) {
-//   lib.glfwSetWindowAttrib(window, attrib, value)
-// }
-
-// export function glfwSetWindowUserPointer(window: FFIType.ptr, pointer: FFIType.ptr) {
-//   //! This function is very dangerous.
-//   lib.glfwSetWindowUserPointer(window, pointer)
-// }
-
-// export function glfwGetWindowUserPointer(window: FFIType.ptr): FFIType.ptr | null {
-//   return lib.glfwGetWindowUserPointer(window)
-// }
-
-// //! BEGIN CALLBACKS!
-
-// //* note: A callback is a pointer. See line 14613 of types.d.ts!
-
-
-
-// // You pass this a lambda and you get a nice safe object you can wait until the end to free. 
-// // TODO: Document this like a normal person.
-
-// export function glfwSetWindowPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: number, ypos: number) => void): JSCallback {
-
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr, FFIType.int, FFIType.int],
-//       returns: FFIType.void,
-//     }
-//   )
-
-//   lib.glfwSetWindowPosCallback(window, callbackObject.ptr)
-
-//   // And now you can keep it safe until you want to free it. :)
-//   //! Make sure you free (close()) the old callback before you set a new one
-//   //! or else, you'll have a memory leak.
-//   return callbackObject
-// }
-// //* That's all the documentation I'm going to do for an example.
-// //* This will be redocumented with JSDoc or TSDoc or whatever it's called.
-
-// export function glfwSetWindowSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: number, height: number) => void): JSCallback {
-
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr, FFIType.int, FFIType.int],
-//       returns: FFIType.void,
-//     }
-//   )
-
-//   lib.glfwSetWindowSizeCallback(window, callbackObject.ptr)
-
-//   return callbackObject
-// }
-
-// export function glfwSetWindowCloseCallback(window: FFIType.ptr, callback: (window: FFIType.ptr) => void): JSCallback {
+export function glfwSetWindowCloseCallback(window: FFIType.ptr, callback: (window: FFIType.ptr) => void): JSCallback {
   
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr],
-//       returns: FFIType.void,
-//     }
-//   )
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr],
+      returns: FFIType.void,
+    }
+  )
 
-//   lib.glfwSetWindowCloseCallback(window, callbackObject.ptr)
+  lib.glfwSetWindowCloseCallback(window, callbackObject.ptr)
 
-//   return callbackObject
-// }
+  return callbackObject
+}
 
-// export function glfwSetWindowRefreshCallback(window: FFIType.ptr, callback: (window: FFIType.ptr) => void): JSCallback {
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr],
-//       returns: FFIType.void,
-//     }
-//   )
+export function glfwSetWindowRefreshCallback(window: FFIType.ptr, callback: (window: FFIType.ptr) => void): JSCallback {
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr],
+      returns: FFIType.void,
+    }
+  )
 
-//   lib.glfwSetWindowRefreshCallback(window, callbackObject.ptr)
+  lib.glfwSetWindowRefreshCallback(window, callbackObject.ptr)
 
-//   return callbackObject
-// }
+  return callbackObject
+}
 
-// export function glfwSetWindowFocusCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, focused: FFIType.int) => void): JSCallback {
+export function glfwSetWindowFocusCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, focused: FFIType.int) => void): JSCallback {
 
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr, FFIType.int],
-//       returns: FFIType.void,
-//     }
-//   )
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
-//   lib.glfwSetWindowFocusCallback(window, callbackObject.ptr)
+  lib.glfwSetWindowFocusCallback(window, callbackObject.ptr)
 
-//   return callbackObject
-// }
+  return callbackObject
+}
 
-// export function glfwSetWindowIconifyCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, iconified: FFIType.int) => void): JSCallback {
+export function glfwSetWindowIconifyCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, iconified: FFIType.int) => void): JSCallback {
 
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr, FFIType.int],
-//       returns: FFIType.void,
-//     }
-//   )
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
-//   lib.glfwSetWindowIconifyCallback(window, callbackObject.ptr)
+  lib.glfwSetWindowIconifyCallback(window, callbackObject.ptr)
   
-//   return callbackObject
-// }
+  return callbackObject
+}
 
-// export function glfwSetWindowMaximizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, maximized: FFIType.int) => void): JSCallback {
+export function glfwSetWindowMaximizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, maximized: FFIType.int) => void): JSCallback {
   
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr, FFIType.int],
-//       returns: FFIType.void,
-//     }
-//   )
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
-//   lib.glfwSetWindowMaximizeCallback(window, callbackObject.ptr)
+  lib.glfwSetWindowMaximizeCallback(window, callbackObject.ptr)
 
-//   return callbackObject
-// }
+  return callbackObject
+}
 
-// export function glfwSetFramebufferSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: FFIType.int, height: FFIType.int) => void): JSCallback {
+export function glfwSetFramebufferSizeCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, width: FFIType.int, height: FFIType.int) => void): JSCallback {
 
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr, FFIType.int, FFIType.int],
-//       returns: FFIType.void,
-//     }
-//   )
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
-//   lib.glfwSetFramebufferSizeCallback(window, callbackObject.ptr)
+  lib.glfwSetFramebufferSizeCallback(window, callbackObject.ptr)
 
-//   return callbackObject
-// }
+  return callbackObject
+}
 
-// export function glfwSetWindowContentScaleCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xscale: FFIType.float, yscale: FFIType.float) => void): JSCallback {
+export function glfwSetWindowContentScaleCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xscale: FFIType.float, yscale: FFIType.float) => void): JSCallback {
 
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr, FFIType.float, FFIType.float],
-//       returns: FFIType.void,
-//     }
-//   )
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.float, FFIType.float],
+      returns: FFIType.void,
+    }
+  )
 
-//   lib.glfwSetWindowContentScaleCallback(window, callbackObject.ptr)
+  lib.glfwSetWindowContentScaleCallback(window, callbackObject.ptr)
 
-//   return callbackObject
-// }
+  return callbackObject
+}
 
-// //! END CALLBACKS
+//! END CALLBACKS
 
-// export function glfwPollEvents() {
-//   lib.glfwPollEvents()
-// }
+export function glfwPollEvents() {
+  lib.glfwPollEvents()
+}
 
-// export function glfwWaitEvents() {
-//   lib.glfwWaitEvents()
-// }
+export function glfwWaitEvents() {
+  lib.glfwWaitEvents()
+}
 
-// export function glfwWaitEventsTimeout(timeout: number) {
-//   lib.glfwWaitEventsTimeout(timeout)
-// }
+export function glfwWaitEventsTimeout(timeout: number) {
+  lib.glfwWaitEventsTimeout(timeout)
+}
 
-// export function glfwPostEmptyEvent() {
-//   lib.glfwPostEmptyEvent()
-// }
+export function glfwPostEmptyEvent() {
+  lib.glfwPostEmptyEvent()
+}
 
-// export function glfwSwapBuffers(window: FFIType.ptr) {
-//   lib.glfwSwapBuffers(window)
-// }
+export function glfwSwapBuffers(window: FFIType.ptr) {
+  lib.glfwSwapBuffers(window)
+}
 
-// //? BEGIN MONITORS
+//? BEGIN MONITORS
 
-// export function glfwGetMonitors(): FFIType.ptr[] | null {
-//   //TODO: test this thing. Make a safety wrapper! This is too raw!
-//   //FIXME: https://media.tenor.com/YHKWHhNCDOsAAAAC/ramsay-raw.gif
-//   let count = new Int32Array(1)
-//   let pointerArrayPointer = lib.glfwGetMonitors(count)
+export function glfwGetMonitors(): FFIType.ptr[] | null {
+  //TODO: test this thing. Make a safety wrapper! This is too raw!
+  //FIXME: https://media.tenor.com/YHKWHhNCDOsAAAAC/ramsay-raw.gif
+  let count = new Int32Array(1)
+  let pointerArrayPointer = lib.glfwGetMonitors(count)
 
-//   // I have no idea if this works.
-//   //TODO: test this garbage!
-//   if (count[0] == 0 || pointerArrayPointer == null) {
-//     // You don't have any monitors?!
-//     return null
-//   }
+  // I have no idea if this works.
+  //TODO: test this garbage!
+  if (count[0] == 0 || pointerArrayPointer == null) {
+    // You don't have any monitors?!
+    return null
+  }
   
-//   let pointerArray = new Array(count[0])
+  let pointerArray = new Array(count[0])
 
-//   for (let i = 0; i < count[0]; i++) {
-//     // I heard you like to just pile on unsafeness, here you go.
-//     //* Assume 64 bit operating system because it's 2023
-//     pointerArray[i] = read.ptr(pointerArrayPointer, 8 * i)
-//   }
+  for (let i = 0; i < count[0]; i++) {
+    // I heard you like to just pile on unsafeness, here you go.
+    //* Assume 64 bit operating system because it's 2023
+    pointerArray[i] = read.ptr(pointerArrayPointer, 8 * i)
+  }
   
-//   // You use this by indexing into the table, and it 
-//   //...hopefully gives you a monitor pointer
-//   return pointerArray
-// }
+  // You use this by indexing into the table, and it 
+  //...hopefully gives you a monitor pointer
+  return pointerArray
+}
 
-// // See this is a bit more sane, just a normal monitor pointer
-// export function glfwGetPrimaryMonitor(): FFIType.ptr | null {
-//   return lib.glfwGetPrimaryMonitor()
-// }
+// See this is a bit more sane, just a normal monitor pointer
+export function glfwGetPrimaryMonitor(): FFIType.ptr | null {
+  return lib.glfwGetPrimaryMonitor()
+}
 
-// export function glfwGetMonitorPos(monitor: FFIType.ptr): number[] {
-//   let xpos = new Int32Array(1)
-//   let ypos = new Int32Array(1)
+export function glfwGetMonitorPos(monitor: FFIType.ptr): number[] {
+  let xpos = new Int32Array(1)
+  let ypos = new Int32Array(1)
 
-//   lib.glfwGetMonitorPos(monitor, xpos, ypos)
+  lib.glfwGetMonitorPos(monitor, xpos, ypos)
 
-//   return [xpos[0], ypos[0]]
-// }
+  return [xpos[0], ypos[0]]
+}
 
-// export function glfwGetMonitorWorkarea(monitor: FFIType.ptr): number[] {
-//   let xpos   = new Int32Array(1)
-//   let ypos   = new Int32Array(1)
-//   let width  = new Int32Array(1)
-//   let height = new Int32Array(1)
+export function glfwGetMonitorWorkarea(monitor: FFIType.ptr): number[] {
+  let xpos   = new Int32Array(1)
+  let ypos   = new Int32Array(1)
+  let width  = new Int32Array(1)
+  let height = new Int32Array(1)
 
-//   lib.glfwGetMonitorWorkarea(monitor, xpos, ypos, width, height)
+  lib.glfwGetMonitorWorkarea(monitor, xpos, ypos, width, height)
 
-//   return [xpos[0], ypos[0], width[0], height[0]]
-// }
+  return [xpos[0], ypos[0], width[0], height[0]]
+}
 
-// export function glfwGetMonitorPhysicalSize(monitor: FFIType.ptr): number[] {
-//   let widthMM = new Int32Array(1)
-//   let heightMM = new Int32Array(1)
-//   lib.glfwGetMonitorPhysicalSize(monitor, widthMM, heightMM)
+export function glfwGetMonitorPhysicalSize(monitor: FFIType.ptr): number[] {
+  let widthMM = new Int32Array(1)
+  let heightMM = new Int32Array(1)
+  lib.glfwGetMonitorPhysicalSize(monitor, widthMM, heightMM)
 
-//   return [widthMM[0], heightMM[0]]
-// }
+  return [widthMM[0], heightMM[0]]
+}
 
-// export function glfwGetMonitorContentScale(monitor: FFIType.ptr): number[] {
-//   let xscale = new Int32Array(1)
-//   let yscale = new Int32Array(1)
-//   lib.glfwGetMonitorContentScale(monitor, xscale, yscale)
+export function glfwGetMonitorContentScale(monitor: FFIType.ptr): number[] {
+  let xscale = new Int32Array(1)
+  let yscale = new Int32Array(1)
+  lib.glfwGetMonitorContentScale(monitor, xscale, yscale)
 
-//   return [xscale[0], yscale[0]]
-// }
+  return [xscale[0], yscale[0]]
+}
 
-// export function glfwGetMonitorName(monitor: FFIType.ptr): CString | null {
-//   return lib.glfwGetMonitorName(monitor)
-// }
+export function glfwGetMonitorName(monitor: FFIType.ptr): CString | null {
+  return lib.glfwGetMonitorName(monitor)
+}
 
-// export function glfwSetMonitorUserPointer(monitor: FFIType.ptr, pointer: FFIType.ptr) {
-//   lib.glfwSetMonitorUserPointer(monitor, pointer)
-// }
+export function glfwSetMonitorUserPointer(monitor: FFIType.ptr, pointer: FFIType.ptr) {
+  lib.glfwSetMonitorUserPointer(monitor, pointer)
+}
 
-// export function glfwGetMonitorUserPointer(monitor: FFIType.ptr): FFIType.ptr | null {
-//   return lib.glfwGetMonitorUserPointer(monitor)
-// }
+export function glfwGetMonitorUserPointer(monitor: FFIType.ptr): FFIType.ptr | null {
+  return lib.glfwGetMonitorUserPointer(monitor)
+}
 
-// export function glfwSetMonitorCallback(callback: (monitor: FFIType.ptr, event: number) => void): JSCallback {
+export function glfwSetMonitorCallback(callback: (monitor: FFIType.ptr, event: number) => void): JSCallback {
 
-//   const callbackObject = new JSCallback(
-//     callback,
-//     {
-//       args: [FFIType.ptr, FFIType.int],
-//       returns: FFIType.void,
-//     }
-//   )
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
 
-//   lib.glfwSetMonitorCallback(callbackObject.ptr)
+  lib.glfwSetMonitorCallback(callbackObject.ptr)
 
-//   return callbackObject
-// }
+  return callbackObject
+}
 
-// export function glfwGetVideoModes(monitor: FFIType.ptr): number[] | null {
+export function glfwGetVideoModes(monitor: FFIType.ptr): number[] | null {
   
-//   let count = new Int32Array(1)
+  let count = new Int32Array(1)
 
-//   let vidModeArray = lib.glfwGetVideoModes(monitor, count)
+  let vidModeArray = lib.glfwGetVideoModes(monitor, count)
 
-//   if (count[0] == 0 || vidModeArray == null) {
-//     return null
-//   }
+  if (count[0] == 0 || vidModeArray == null) {
+    return null
+  }
 
-//   let modeArray = new Array(count[0])
+  let modeArray = new Array(count[0])
 
-//   for (let i = 0; i < count[0]; i++) {
-//     // I heard you like to just pile on unsafeness, here you go.
-//     //* Assume 64 bit operating system because it's 2023
-//     modeArray[i] = read.ptr(vidModeArray, 8 * i)
-//   }
+  for (let i = 0; i < count[0]; i++) {
+    // I heard you like to just pile on unsafeness, here you go.
+    //* Assume 64 bit operating system because it's 2023
+    modeArray[i] = read.ptr(vidModeArray, 8 * i)
+  }
 
-//   // Returning an array of available modes.
-//   return modeArray
-// }
+  // Returning an array of available modes.
+  return modeArray
+}
 
-// export function glfwGetVideoMode(monitor: FFIType.ptr): FFIType.ptr | null {
-//   return lib.glfwGetVideoMode(monitor)
-// }
+export function glfwGetVideoMode(monitor: FFIType.ptr): FFIType.ptr | null {
+  return lib.glfwGetVideoMode(monitor)
+}
 
 
 //!! FIX ME THESE ARE MISALIGNED!!
