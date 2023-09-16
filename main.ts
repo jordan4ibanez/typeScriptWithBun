@@ -1,7 +1,7 @@
 import { print } from "./source/helpers"
 import * as reload from "./source/reload_info"
 import * as glfw from "./source/glfw3"
-import { CString, FFIType, ptr } from "bun:ffi"
+import { CString, FFIType } from "bun:ffi"
 
 declare global {
   var window: FFIType.ptr | null
