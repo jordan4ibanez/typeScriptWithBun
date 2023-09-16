@@ -6,12 +6,6 @@ import { read, ptr, dlopen, FFIType, suffix, CString, JSCallback, Narrow, FFIFun
 // Some functions work slightly differently than C.
 // Like, destructuring assignments in TS leverage array returns.
 
-/*
-Checklist:
-1.) window reference  - DONE
-2.) monitor reference -
-*/
-
 export default {}
 
 const path = `libglfw.${suffix}`;
@@ -21,14 +15,6 @@ print(`GLFW3: ${path}`)
 const libcPath = `libc.${suffix}.6`
 
 print(libcPath)
-
-
-const TESTING = dlopen(libcPath, {
-  free: {
-    args: [FFIType.ptr],
-    return: FFIType.void
-  }
-})
 
 //* This is a helper function to automatically null (\0) terminate a string.
 function toBuffer(input: string) {
@@ -1052,7 +1038,6 @@ const {
   },
 
 })
-
 
 // Everything is wrapped for safety and so I don't have to tear my hair out.
 
