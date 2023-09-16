@@ -1510,9 +1510,9 @@ export function getVideoModes(monitor: FFIType.ptr): number[] | null {
   
   let count = new Int32Array(1)
 
-  let vidModeArray = glfwGetVideoModes(monitor, count)
+  let vidModeArrayPointer = glfwGetVideoModes(monitor, count)
 
-  if (count[0] == 0 || vidModeArray == null) {
+  if (count[0] == 0 || vidModeArrayPointer == null) {
     return null
   }
 
@@ -1521,7 +1521,7 @@ export function getVideoModes(monitor: FFIType.ptr): number[] | null {
   for (let i = 0; i < count[0]; i++) {
     // I heard you like to just pile on unsafeness, here you go.
     //* Assume 64 bit operating system because it's 2023
-    modeArray[i] = read.ptr(vidModeArray, 8 * i)
+    modeArray[i] = read.ptr(vidModeArrayPointer, 8 * i)
   }
 
   // Returning an array of available modes.
@@ -1610,6 +1610,352 @@ export function setInputMode(window: FFIType.ptr, mode: FFIType.int, value: FFIT
 
 export function rawMouseMotionSupported(): boolean {
   return glfwRawMouseMotionSupported() == GLFW_TRUE
+}
+
+export function getKeyName(key: number, scancode: number): string | null {
+  let keyNamePointer = glfwGetKeyName(key, scancode)
+  if (keyNamePointer == null) {
+    return null
+  }
+  const keyName = new CString(keyNamePointer)
+  //!Fixme: This needs to be tested!
+  return keyName.toString()
+}
+
+export function getKeyScancode(key: number): number {
+  return glfwGetKeyScancode(key)
+}
+
+export function getKey(window: FFIType.ptr, key: number): number {
+  return glfwGetKey(window, key)
+}
+
+export function getMouseButton(window: FFIType.ptr, button: number): number {
+  return glfwGetMouseButton(window, button)
+}
+
+export function getCursorPos(window: FFIType.ptr): number[] {
+  let xpos = new Float64Array(1)
+  let ypos = new Float64Array(1)
+  glfwGetCursorPos(window, xpos, ypos)
+  return [xpos[0], ypos[0]]
+}
+
+export function setCursorPos(window: FFIType.ptr, xpos: number, ypos: number) {
+  glfwSetCursorPos(window, xpos, ypos)
+}
+
+export function createCursor(image: FFIType.ptr, xhot: number, yhot: number): FFIType.ptr | null {
+  return glfwCreateCursor(image, xhot, yhot)
+}
+
+export function createStandardCursor(shape: number): FFIType.ptr | null {
+  return glfwCreateStandardCursor(shape)
+}
+
+export function destroyCursor(cursor: FFIType.ptr) {
+  glfwDestroyCursor(cursor)
+}
+
+export function setCursor(window: FFIType.ptr, cursor: FFIType.ptr) {
+  glfwSetCursor(window, cursor)
+}
+
+export function setKeyCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, key: FFIType.int, scancode: FFIType.int, action: FFIType.int, mods: FFIType.int) => void): JSCallback {
+ 
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int, FFIType.int, FFIType.int, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
+
+  glfwSetKeyCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function setCharCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, codepoint: FFIType.uint32_t) => void): JSCallback {
+  
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.uint32_t],
+      returns: FFIType.void,
+    }
+  )
+
+  glfwSetCharCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function setCharModsCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, codepoint: FFIType.uint32_t, mods: FFIType.int) => void): JSCallback {
+  
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.uint32_t, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
+
+  glfwSetCharModsCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function setMouseButtonCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, button: FFIType.int, action: FFIType.int, mods: FFIType.int) => void): JSCallback {
+  
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int, FFIType.int, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
+
+  glfwSetMouseButtonCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function setCursorPosCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xpos: FFIType.double, ypos: FFIType.double) => void): JSCallback {
+
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.double, FFIType.double],
+      returns: FFIType.void,
+    }
+  )
+
+  glfwSetCursorPosCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function setCursorEnterCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, entered: FFIType.int) => void): JSCallback {
+  
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
+
+  glfwSetCursorEnterCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function setScrollCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, xoffset: FFIType.double, yoffset: FFIType.double) => void): JSCallback {
+  
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.double, FFIType.double],
+      returns: FFIType.void,
+    }
+  )
+
+  glfwSetScrollCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function setDropCallback(window: FFIType.ptr, callback: (window: FFIType.ptr, path_count: FFIType.int, paths: FFIType.ptr) => void): JSCallback {
+  
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.ptr, FFIType.int, FFIType.ptr],
+      returns: FFIType.void,
+    }
+  )
+
+  glfwSetDropCallback(window, callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function joystickPresent(jid: number): number {
+  return glfwJoystickPresent(jid)
+}
+
+export function getJoystickAxes(jid: number): number[] | null {
+  
+  let count = new Int32Array(1)
+  let axisArrayPointer = glfwGetJoystickAxes(jid, count)
+
+  if (count[0] == 0 || axisArrayPointer == null) {
+    return null
+  }
+
+  let axisArray = new Array(count[0])
+
+  for (let i = 0; i < count[0]; i++) {
+    // I heard you like to just pile on unsafeness, here you go.
+    //* Assume 64 bit operating system because it's 2023
+    axisArray[i] = read.ptr(axisArrayPointer, 8 * i)
+  }
+
+  // Returning an array of available axis.
+  return axisArray
+}
+
+export function getJoystickButtons(jid: number): number[] | null {
+
+  let count = new Int32Array(1)
+  let buttonStatePointer = glfwGetJoystickButtons(jid, count)
+
+  if (count[0] == 0 || buttonStatePointer == null) {
+    return null
+  }
+
+  let buttonArray = new Array(count[0])
+
+  for (let i = 0; i < count[0]; i++) {
+    // I heard you like to just pile on unsafeness, here you go.
+    //* Assume 64 bit operating system because it's 2023
+    //!FIXME: This might be u8 which is 1 byte
+    buttonArray[i] = read.ptr(buttonStatePointer, 8 * i)
+  }
+
+  // Returning an array of available axis.
+  return buttonArray
+}
+
+export function getJoystickHats(jid: number): number[] | null {
+  
+  let count = new Int32Array(1)
+  let hatStatePointer = glfwGetJoystickHats(jid, count)
+
+  if (count[0] == 0 || hatStatePointer == null) {
+    return null
+  }
+
+  let hatArray = new Array(count[0])
+
+  for (let i = 0; i < count[0]; i++) {
+    // I heard you like to just pile on unsafeness, here you go.
+    //* Assume 64 bit operating system because it's 2023
+    //!FIXME: This might be u8 which is 1 byte
+    hatArray[i] = read.ptr(hatStatePointer, 8 * i)
+  }
+
+  // Returning an array of available axis.
+  return hatArray
+}
+
+export function getJoystickName(jid: number): string | null {
+  let keyNamePointer = glfwGetJoystickName(jid)
+  if (keyNamePointer == null) {
+    return null
+  }
+  const keyName = new CString(keyNamePointer)
+  //!Fixme: This needs to be tested!
+  return keyName.toString()
+}
+
+export function getJoystickGUID(jid: number): string | null {
+  let keyNamePointer = glfwGetJoystickGUID(jid)
+  if (keyNamePointer == null) {
+    return null
+  }
+  const keyName = new CString(keyNamePointer)
+  //!Fixme: This needs to be tested!
+  return keyName.toString()
+}
+
+export function setJoystickUserPointer(jid: number, pointer: FFIType.ptr) {
+  glfwSetJoystickUserPointer(jid, pointer)
+}
+
+export function getJoystickUserPointer(jid: number): FFIType.ptr | null {
+  return glfwGetJoystickUserPointer(jid)
+}
+
+export function joystickIsGamepad(jid: number): boolean {
+  return glfwJoystickIsGamepad(jid) == GLFW_TRUE
+}
+
+export function setJoystickCallback(callback: (jid: FFIType.int, event: FFIType.int) => void): JSCallback {
+
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [FFIType.int, FFIType.int],
+      returns: FFIType.void,
+    }
+  )
+
+  glfwSetJoystickCallback(callbackObject.ptr)
+
+  return callbackObject
+}
+
+export function updateGamepadMappings(map: string): boolean {
+  
+  let mapBuffer = toBuffer(map)
+
+  let result = glfwUpdateGamepadMappings(mapBuffer)
+
+  return result == GLFW_TRUE
+}
+
+export function getGamepadName(jid: number): string | null {
+  let keyNamePointer = glfwGetGamepadName(jid)
+  if (keyNamePointer == null) {
+    return null
+  }
+  const keyName = new CString(keyNamePointer)
+  //!Fixme: This needs to be tested!
+  return keyName.toString()
+}
+
+export function getGamepadState(jid: number): [boolean, FFIType.ptr | null] {
+  //!FIXME: this is too raw. Don't make me get Gordon Ramsey in here.
+  let state = new Int32Array(1)
+  let success =  glfwGetGamepadState(jid, state)
+  return [success == GLFW_TRUE, state[0]]
+}
+
+export function setClipboardString(window: FFIType.ptr, text: string) {
+  let textBuffer = toBuffer(text)
+  glfwSetClipboardString(window, textBuffer)
+}
+
+export function etClipboardString(window: FFIType.ptr): string | null {
+
+  let cStringPointer = glfwGetClipboardString(window)
+
+  if (cStringPointer == null) {
+    return null
+  }
+
+  let cString = new CString(cStringPointer)
+
+  //!FIXME: I have no idea if this works!
+  return cString.toString()
+}
+
+export function getTime(): number {
+  return glfwGetTime()
+}
+
+export function setTime(time: number) {
+  glfwSetTime(time)
+}
+
+export function getTimerValue(): bigint {
+  return glfwGetTimerValue()
+}
+
+export function getTimerFrequency(): bigint {
+  return glfwGetTimerFrequency()
 }
 
 
