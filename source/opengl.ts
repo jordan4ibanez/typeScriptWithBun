@@ -13,7 +13,7 @@ const path = `libGL.${suffix}`;
 //* Cross references
 // https://www.khronos.org/opengl/wiki/OpenGL_Type
 // https://hackage.haskell.org/package/OpenGLRaw-3.3.4.1/docs/Graphics-GL-Types.html
-// https://docs.rs/gl/latest/gl/types/type.GLhalf.html
+// https://docs.rs/gl/latest/gl/types/index.html
 //           GLType       TSType            Bits       Description
 export const GLboolean  = FFIType.bool   // 1+       | A boolean value, either GL_TRUE or GL_FALSE  
 export type  GLboolean  = FFIType.bool
@@ -39,10 +39,10 @@ export const GLsizei    = FFIType.u32    // 32       | A non-negative binary int
 export type  GLsizei    = FFIType.u32
 export const GLenum     = FFIType.u32    // 32       | An OpenGL enumerator value  
 export type  GLenum     = FFIType.u32
-export const GLintptr   = FFIType.ptr    // ptrbits​1 | Signed, 2's complement binary integer  
-export type  GLintptr   = FFIType.ptr
-export const GLsizeiptr = FFIType.ptr    // ptrbits​1 | Non-negative binary integer size, for memory offsets and ranges  
-export type  GLsizeiptr = FFIType.ptr
+export const GLintptr   = FFIType.int    // ptrbits​1 | Signed, 2's complement binary integer  
+export type  GLintptr   = FFIType.int
+export const GLsizeiptr = FFIType.int    // ptrbits​1 | Non-negative binary integer size, for memory offsets and ranges  
+export type  GLsizeiptr = FFIType.int
 export const GLsync     = FFIType.ptr    // ptrbits​1 | Sync Object handle  
 export type  GLsync     = FFIType.ptr
 export const GLbitfield = FFIType.u32    // 32       | A bitfield value  
@@ -76,6 +76,21 @@ const {
   symbols: {
     glActiveShaderProgram,
     glActiveTexture,
+    glAttachShader,
+    glBeginConditionalRender,
+    glEndConditionalRender,
+    glBeginQuery,
+    glEndQuery,
+    glBeginQueryIndexed,
+    glEndQueryIndexed,
+    glBeginTransformFeedback,
+    glEndTransformFeedback,
+    glBindAttribLocation,
+    glBindBuffer,
+    glBindBufferBase,
+    glBindBufferRange,
+
+
   }
 } = dlopen(path, {
 
@@ -85,12 +100,135 @@ const {
   },
 
   glActiveTexture: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glAttachShader: {
+    args: [GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glBeginConditionalRender: {
+    args: [GLuint, GLenum],
+    returns: FFIType.void,
+  },
+
+  glEndConditionalRender: {
     args: [],
     returns: FFIType.void,
   },
+
+  glBeginQuery: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glEndQuery: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glBeginQueryIndexed: {
+    args: [GLenum, GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glEndQueryIndexed: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glBeginTransformFeedback: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glEndTransformFeedback: {
+    args: [],
+    returns: FFIType.void,
+  },
+
+  glBindAttribLocation: {
+    args: [GLuint, GLuint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glBindBuffer: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glBindBufferBase: {
+    args: [GLenum, GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glBindBufferRange: {
+    args: [GLenum, GLuint, GLuint, GLintptr, GLsizeiptr],
+    returns: FFIType.void,
+  },
+
 })
 
 export function activeShaderProgram(pipeline: number, program: number) {
   glActiveShaderProgram(pipeline, program)
 } 
+
+export function activeTexture(texture: number) {
+  glActiveTexture(texture)
+}
+
+export function attachShader(program: number, shader: number) {
+  glAttachShader(program, shader)
+}
+
+export function beginConditionalRender(id: number, mode: number) {
+  glBeginConditionalRender(id, mode)
+}
+
+export function endConditionalRender() {
+  glEndConditionalRender()
+}
+
+export function beginQuery(target: number, id: number) {
+  glBeginQuery(target, id)
+}
+
+export function endQuery(target: number) {
+  glEndQuery(target)
+}
+
+export function beginQueryIndexed(target: number, index: number, id: number) {
+  glBeginQueryIndexed(target, index, id)
+}
+
+export function endQueryIndexed(target: number, index: number) {
+  glEndQueryIndexed(target, index)
+}
+
+export function beginTransformFeedback(primitiveMode: number) {
+  glBeginTransformFeedback(primitiveMode)
+}
+
+export function endTransformFeedback() {
+  glEndTransformFeedback()
+}
+
+export function bindAttribLocation(program: number, index: number, name: string) {
+  let nameBuffer = toBuffer(name)
+  glBindAttribLocation(program, index, nameBuffer)
+}
+
+export function bindBuffer(target: number, buffer: number) {
+  glBindBuffer(target, buffer)
+}
+
+export function bindBufferBase(target: number, index: number, buffer: number) {
+  glBindBufferBase(target, index, buffer)
+}
+
+export function bindBufferRange(target: number, index: number, buffer: number, offset: number, size: number) {
+  glBindBufferRange(target, index, buffer, offset, size)
+}
 
