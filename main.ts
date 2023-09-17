@@ -69,16 +69,18 @@ if (global.window == null) {
   throw new Error("Error: Window is null!")
 }
 
-//! This is commented out to test if anything segfaults
-// let count = 0
 while (!glfw.windowShouldClose(global.window)) {
 
   let i = Math.random()
   print(`refreshing GLFW: ${i}`)
+  print("another test")
   glfw.swapBuffers(global.window)
   glfw.pollEvents()
-}
 
+  if (glfw.getKey(window, glfw.KEY_F1) == glfw.TRUE) {
+    break;
+  }
+}
 
 reload.reloadInfo()
 
