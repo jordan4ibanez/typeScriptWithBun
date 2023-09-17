@@ -6,15 +6,17 @@ import { read, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi";
 // Some functions work slightly differently than C.
 // Like, destructuring assignments in TS leverage array returns.
 
+//!FIXME: Glfw types need to be translated!
+
 export default {}
 
 const path = `libglfw.${suffix}`;
 
 print(`GLFW3: ${path}`)
 
-const libcPath = `libc.${suffix}.6`
+// const libcPath = `libc.${suffix}.6`
 
-print(libcPath)
+// print(libcPath)
 
 //* This is a helper function to automatically null (\0) terminate a string.
 function toBuffer(input: string) {
