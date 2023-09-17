@@ -1,8 +1,9 @@
 import { print } from "./source/helpers"
-import { CString, FFIType } from "bun:ffi"
 import * as reload from "./source/reload_info"
 import * as glfw from "./source/glfw3"
 import * as gl from "./source/opengl"
+import { CString, FFIType } from "bun:ffi"
+
 
 declare global {
   var window: FFIType.ptr
@@ -36,7 +37,6 @@ if (!reload.isReload()) {
      return gottenPointer
   })()
 
-  print(`Window pointer: ${window}`)
 
   if (global.window == null) {
     glfw.terminate()
@@ -48,6 +48,7 @@ if (!reload.isReload()) {
   glfw.makeContextCurrent(global.window)
 
 } else {
+  print("resetting the window close flag")
   //* We want the hot reload to reset the window close state!
   glfw.setWindowShouldClose(window, false)
 }
