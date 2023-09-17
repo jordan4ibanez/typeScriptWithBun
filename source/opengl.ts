@@ -89,7 +89,8 @@ const {
     glBindBuffer,
     glBindBufferBase,
     glBindBufferRange,
-
+    glBindBuffersBase,
+    glBindBuffersRange,
 
   }
 } = dlopen(path, {
@@ -169,6 +170,16 @@ const {
     returns: FFIType.void,
   },
 
+  glBindBuffersBase: {
+    args: [GLenum, GLuint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glBindBuffersRange: {
+    args: [GLenum, GLuint, GLsizei, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
 })
 
 export function activeShaderProgram(pipeline: number, program: number) {
@@ -230,5 +241,17 @@ export function bindBufferBase(target: number, index: number, buffer: number) {
 
 export function bindBufferRange(target: number, index: number, buffer: number, offset: number, size: number) {
   glBindBufferRange(target, index, buffer, offset, size)
+}
+
+export function bindBuffersBase(target: number, first: number, count: number, buffers: number[]) {
+  let buffersPointer = new Uint32Array(buffers)
+  glBindBuffersBase(target, first, count, buffersPointer)
+}
+
+export function bindBuffersRange(target: number, first: number, count: number, buffers: number[], offsets: number[], sizes: number[]) {
+  let buffersPointer = new Uint32Array(buffers)
+  let offsetsPointer = new Int32Array(offsets)
+  let sizesPointer = new Int32Array(sizes)
+  glBindBuffersRange(target, first, count, buffersPointer, offsetsPointer, sizesPointer)
 }
 
