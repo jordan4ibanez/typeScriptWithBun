@@ -4,7 +4,7 @@ import * as glfw from "./source/glfw3"
 import { CString, FFIType } from "bun:ffi"
 
 declare global {
-  var window: FFIType.ptr | null
+  var window: FFIType.ptr
 }
 
 const global = globalThis
@@ -23,8 +23,16 @@ if (!reload.isReload()) {
   print(glfw.getVersion())
   print(glfw.getVersionString())
 
-  global.window = glfw.createWindow(500, 500, "hi there", null, null)
 
+  let windowPrototypePointer = glfw.createWindow(500, 500, "hi there", null, null)
+
+  if (windowPrototypePointer == null){
+    throw new Error("FAILED TO INITIALIZE WINDOW!")
+  }
+
+  global.window = windowPrototypePointer
+
+  //! Fixme: change the logic below to use the protoype pointer
   print(`Window pointer: ${window}`)
 
   if (!global.window) {
@@ -35,6 +43,10 @@ if (!reload.isReload()) {
   }
 
   glfw.makeContextCurrent(global.window)
+
+} else {
+  //* We want the hot reload to reset the window close state!
+  glfw.setWindowShouldClose(window, false)
 }
 
 if (global.window != null) {
@@ -53,12 +65,16 @@ if (global.window != null) {
   })
 }
 
+if (global.window == null) {
+  throw new Error("Error: Window is null!")
+}
+
 //! This is commented out to test if anything segfaults
 // let count = 0
-// while (!glfw.windowShouldClose(window)) {
+while (!glfw.windowShouldClose(global.window)) {
 
-if (global.window != null) {
-  print("refreshing GLFW")
+  let i = Math.random()
+  print(`refreshing GLFW: ${i}`)
   glfw.swapBuffers(global.window)
   glfw.pollEvents()
 }
