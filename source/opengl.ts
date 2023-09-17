@@ -99,7 +99,17 @@ const {
     glBindFramebuffer,
     glBindImageTexture,
     glBindImageTextures,
-
+    glBindProgramPipeline,
+    glBindRenderbuffer,
+    glBindSampler,
+    glBindSamplers,
+    glBindTexture,
+    glBindTextures,
+    glBindTextureUnit,
+    glBindTransformFeedback,
+    glBindVertexArray,
+    glBindVertexBuffer,
+    glVertexArrayVertexBuffer,
 
   }
 } = dlopen(path, {
@@ -208,7 +218,67 @@ const {
     args: [GLuint, GLuint, GLint, GLboolean, GLint, GLenum, GLenum],
     returns: FFIType.void,
   },
+
+  glBindImageTextures: {
+    args: [GLuint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glBindProgramPipeline: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glBindRenderbuffer: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glBindSampler: {
+    args: [GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glBindSamplers: {
+    args: [GLuint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
   
+  glBindTexture: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glBindTextures: {
+    args: [GLuint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glBindTextureUnit: {
+    args: [GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glBindTransformFeedback: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glBindVertexArray: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glBindVertexBuffer: {
+    args: [GLuint, GLuint, GLintptr, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glVertexArrayVertexBuffer: {
+    args: [GLuint, GLuint, GLuint, GLintptr, GLsizei],
+    returns: FFIType.void,
+  },
+
 })
 
 export function activeShaderProgram(pipeline: number, program: number) {
@@ -300,5 +370,56 @@ export function bindFramebuffer(target: number, framebuffer: number) {
 
 export function bindImageTexture(unit: number, texture: number, level: number, layered: boolean, layer: number, access: number, format: number) {
   glBindImageTexture(unit, texture, level, layered, layer, access, format)
+}
+
+export function bindImageTextures(first: number, count: number, textures: number[]) {
+  let texturesPointer = new Uint32Array(textures)
+  glBindImageTextures(first, count, texturesPointer)
+}
+
+export function bindProgramPipeline(pipeline: number) {
+  glBindProgramPipeline(pipeline)
+}
+
+export function bindRenderbuffer(target: number, renderbuffer: number) {
+  glBindRenderbuffer(target, renderbuffer)
+}
+
+export function bindSampler(unit: number, sampler: number) {
+  glBindSampler(unit, sampler)
+}
+
+export function bindSamplers(first: number, count: number, samplers: number[]) {
+  let samplersPointer = new Uint32Array(samplers)
+  glBindSamplers(first, count, samplersPointer)
+}
+
+export function bindTexture(target: number, texture: number) {
+  glBindTexture(target, texture)
+}
+
+export function bindTextures(first: number, count: number, textures: number[]) {
+  let texturesPointer = new Uint32Array(textures)
+  glBindTextures(first, count, texturesPointer)
+}
+
+export function bindTextureUnit(unit: number, texture: number) {
+  glBindTextureUnit(unit, texture)
+}
+
+export function bindTransformFeedback(target: number, id: number) {
+  glBindTransformFeedback(target, id)
+}
+
+export function bindVertexArray(target: number) {
+  glBindVertexArray(target)
+}
+
+export function bindVertexBuffer(bindingindex: number, buffer: number, offset: number, stride: number) {
+  glBindVertexBuffer(bindingindex, buffer, offset, stride)
+}
+
+export function vertexArrayVertexBuffer(vaobj: number, bindingindex: number, buffer: number, offset: number, stride: number) {
+  glVertexArrayVertexBuffer(vaobj, bindingindex, buffer, offset, stride)
 }
 
