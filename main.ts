@@ -65,10 +65,6 @@ if (global.window != null) {
   })
 }
 
-if (global.window == null) {
-  throw new Error("Error: Window is null!")
-}
-
 while (!glfw.windowShouldClose(global.window)) {
 
   let i = Math.random()
@@ -88,6 +84,7 @@ reload.reloadInfo()
 let readyToExit = false
 
 if (readyToExit) {
+
   if (global.window != null) {
     print("destroyed window")
     glfw.destroyWindow(global.window)
