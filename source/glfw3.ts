@@ -7,6 +7,7 @@ import { read, dlopen, FFIType, suffix, CString, JSCallback } from "bun:ffi";
 // Like, destructuring assignments in TS leverage array returns.
 
 //!FIXME: Glfw types need to be translated!
+//! This is optional, can work with raw data, but it could be nicer.
 
 export default {}
 
