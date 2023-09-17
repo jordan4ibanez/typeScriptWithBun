@@ -1948,8 +1948,6 @@ export function getTimerFrequency(): bigint {
 }
 
 
-
-
 //! This causes REPL crashes unfortunately :(
 // const [VERSION_MAJOR,
 //        VERSION_MINOR,
