@@ -65,7 +65,7 @@ if (global.window != null) {
   })
 }
 
-while (!glfw.windowShouldClose(global.window)) {
+// while (!glfw.windowShouldClose(global.window)) {
 
   let i = Math.random()
   print(`refreshing GLFW: ${i}`)
@@ -73,10 +73,10 @@ while (!glfw.windowShouldClose(global.window)) {
   glfw.swapBuffers(global.window)
   glfw.pollEvents()
 
-  if (glfw.getKey(window, glfw.KEY_F1) == glfw.TRUE) {
-    break;
-  }
-}
+  // if (glfw.getKey(window, glfw.KEY_F1) == glfw.TRUE) {
+  //   break;
+  // }
+// }
 
 reload.reloadInfo()
 
