@@ -58,6 +58,9 @@ export type  GLdouble   = FFIType.double
 export const GLclampd   = FFIType.double // 64       | An IEEE-754 floating-point value, clamped to the range [0,1]  
 export type  GLclampd   = FFIType.double
 
+export const GL_TRUE  = 1
+export const GL_FALSE = 0
+
 // Begin this monster.
 /*
 Implementation note: All functions are input in the order they appear in Khronos' documentation.
@@ -91,6 +94,12 @@ const {
     glBindBufferRange,
     glBindBuffersBase,
     glBindBuffersRange,
+    glBindFragDataLocation,
+    glBindFragDataLocationIndexed,
+    glBindFramebuffer,
+    glBindImageTexture,
+    glBindImageTextures,
+
 
   }
 } = dlopen(path, {
@@ -180,6 +189,26 @@ const {
     returns: FFIType.void,
   },
 
+  glBindFragDataLocation: {
+    args: [GLuint, GLuint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glBindFragDataLocationIndexed: {
+    args: [GLuint, GLuint, GLuint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glBindFramebuffer: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glBindImageTexture: {
+    args: [GLuint, GLuint, GLint, GLboolean, GLint, GLenum, GLenum],
+    returns: FFIType.void,
+  },
+  
 })
 
 export function activeShaderProgram(pipeline: number, program: number) {
@@ -253,5 +282,23 @@ export function bindBuffersRange(target: number, first: number, count: number, b
   let offsetsPointer = new Int32Array(offsets)
   let sizesPointer = new Int32Array(sizes)
   glBindBuffersRange(target, first, count, buffersPointer, offsetsPointer, sizesPointer)
+}
+
+export function bindFragDataLocation(program: number, colorNumber: number, name: string) {
+  let namePointer = toBuffer(name)
+  glBindFragDataLocation(program, colorNumber, namePointer)
+}
+
+export function bindFragDataLocationIndexed(program: number, colorNumber: number, index: number, name: string) {
+  let namePointer = toBuffer(name)
+  glBindFragDataLocationIndexed(program, colorNumber, index, namePointer)
+}
+
+export function bindFramebuffer(target: number, framebuffer: number) {
+  glBindFramebuffer(target, framebuffer)
+}
+
+export function bindImageTexture(unit: number, texture: number, level: number, layered: boolean, layer: number, access: number, format: number) {
+  glBindImageTexture(unit, texture, level, layered, layer, access, format)
 }
 
