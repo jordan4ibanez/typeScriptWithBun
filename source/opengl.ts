@@ -2,6 +2,10 @@ import { FFIType, dlopen, suffix } from "bun:ffi"
 
 // OpenGL Supa Dupa library. I hope.
 
+export function forceReload() {
+  console.log("OpenGL reloaded!")
+}
+
 export default {}
 
 const path = `libGL.${suffix}`;
@@ -59,7 +63,7 @@ export type  GLclampd   = FFIType.double
 Implementation note: All functions are input in the order they appear in Khronos' documentation.
 https://registry.khronos.org/OpenGL-Refpages/gl4/
 
-If I missed anything: Please let me know!
+! If I missed anything: Please let me know!
 */
 
 
@@ -70,13 +74,23 @@ function toBuffer(input: string) {
 
 const { 
   symbols: {
-    glActiveShaderProgram
+    glActiveShaderProgram,
+    glActiveTexture,
   }
 } = dlopen(path, {
+
   glActiveShaderProgram: {
     args: [GLuint, GLuint],
     returns: FFIType.void,
   },
+
+  glActiveTexture: {
+    args: [],
+    returns: FFIType.void,
+  },
 })
 
-// export function glActiveShaderProgram: 
+export function activeShaderProgram(pipeline: number, program: number) {
+  glActiveShaderProgram(pipeline, program)
+} 
+

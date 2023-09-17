@@ -8,6 +8,8 @@ declare global {
   var window: FFIType.ptr
 }
 
+gl.forceReload()
+
 const global = globalThis
 
 
