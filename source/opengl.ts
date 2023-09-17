@@ -110,6 +110,13 @@ const {
     glBindVertexArray,
     glBindVertexBuffer,
     glVertexArrayVertexBuffer,
+    glBindVertexBuffers,
+    glVertexArrayVertexBuffers,
+    glBlendColor,
+    glBlendEquation,
+    glBlendEquationi,
+    glBlendEquationSeparate,
+    glBlendEquationSeparatei,
 
   }
 } = dlopen(path, {
@@ -279,6 +286,41 @@ const {
     returns: FFIType.void,
   },
 
+  glBindVertexBuffers: {
+    args: [GLuint, GLsizei, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glVertexArrayVertexBuffers: {
+    args: [GLuint, GLuint, GLsizei, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glBlendColor: {
+    args: [GLfloat, GLfloat, GLfloat, GLfloat],
+    returns: FFIType.void,
+  },
+
+  glBlendEquation: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glBlendEquationi: {
+    args: [GLuint, GLenum],
+    returns: FFIType.void,
+  },
+
+  glBlendEquationSeparate: {
+    args: [GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glBlendEquationSeparatei: {
+    args: [GLuint, GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
 })
 
 export function activeShaderProgram(pipeline: number, program: number) {
@@ -423,3 +465,39 @@ export function vertexArrayVertexBuffer(vaobj: number, bindingindex: number, buf
   glVertexArrayVertexBuffer(vaobj, bindingindex, buffer, offset, stride)
 }
 
+export function bindVertexBuffers(first: number, count: number, buffers: number[], offsets: number[], strides: number[]) {
+  let buffersPointer = new Uint32Array(buffers)
+  let offsetsPointer = new Int32Array(offsets)
+  let stridesPointer = new Int32Array(strides)
+  glBindVertexBuffers(first, count, buffersPointer, offsetsPointer, stridesPointer)
+}
+
+export function vertexArrayVertexBuffers(vaobj: number, first: number, count: number, buffers: number[], offsets: number[], strides: number[]) {
+  let buffersPointer = new Uint32Array(buffers)
+  let offsetsPointer = new Int32Array(offsets)
+  let stridesPointer = new Int32Array(strides)
+  glVertexArrayVertexBuffers(vaobj, first, count, buffersPointer, offsetsPointer, stridesPointer)
+}
+
+export function blendColor(red: number, green: number, blue: number, alpha: number) {
+  glBlendColor(red, green, blue, alpha)
+}
+
+export function blendEquation(mode: number) {
+  glBlendEquation(mode)
+}
+
+export function blendEquationi(buf: number, mode: number) {
+  glBlendEquationi(buf, mode)
+}
+
+export function blendEquationSeparate(modeRGB: number, modeAlpha: number) {
+  glBlendEquationSeparate(modeRGB, modeAlpha)
+}
+
+export function blendEquationSeparatei(buf: number, modeRGB: number, modeAlpha: number) {
+  glBlendEquationSeparatei(buf, modeRGB, modeAlpha)
+}
+
+//! WAS ON: https://registry.khronos.org/OpenGL-Refpages/gl4/
+//! glBlendFunc
