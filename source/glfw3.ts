@@ -1950,13 +1950,14 @@ export function getTimerFrequency(): bigint {
 
 
 
-const [VERSION_MAJOR,
-       VERSION_MINOR,
-       VERSION_REVISION] = getVersion()
+//! This causes REPL crashes unfortunately :(
+// const [VERSION_MAJOR,
+//        VERSION_MINOR,
+//        VERSION_REVISION] = getVersion()
 
 export {
   path as GFLW_PATH,
-  VERSION_MAJOR,
-  VERSION_MINOR,
-  VERSION_REVISION
+  // VERSION_MAJOR,
+  // VERSION_MINOR,
+  // VERSION_REVISION
 }
