@@ -1,7 +1,7 @@
 import { print } from "./source/helpers"
+import { CString, FFIType } from "bun:ffi"
 import * as reload from "./source/reload_info"
 import * as glfw from "./source/glfw3"
-import { CString, FFIType } from "bun:ffi"
 
 declare global {
   var window: FFIType.ptr
@@ -24,18 +24,18 @@ if (!reload.isReload()) {
   print(glfw.getVersionString())
 
 
-  let windowPrototypePointer = glfw.createWindow(500, 500, "hi there", null, null)
+  // Typescript is pretty cool :)
+  global.window = (() => {
+     let gottenPointer = glfw.createWindow(500, 500, "hi there", null, null)
+     if (gottenPointer == null) {
+      throw new Error("Failed to initialize glfw window!")
+     }
+     return gottenPointer
+  })()
 
-  if (windowPrototypePointer == null){
-    throw new Error("FAILED TO INITIALIZE WINDOW!")
-  }
-
-  global.window = windowPrototypePointer
-
-  //! Fixme: change the logic below to use the protoype pointer
   print(`Window pointer: ${window}`)
 
-  if (!global.window) {
+  if (global.window == null) {
     glfw.terminate()
     throw new Error("FAILED TO INITIALIZE WINDOW!")
   } else {
