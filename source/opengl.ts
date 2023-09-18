@@ -475,6 +475,33 @@ const {
   symbols: {
     glClearBufferSubData,
     glClearNamedBufferSubData,
+    glClearColor,
+    glClearDepth,
+    glClearDepthf,
+    //! This part of the documentation is pretty confusing.
+    //! Missed this function so I'm just adding it back into here.
+    //! Khronos made this an absolute mess!
+    glClearBufferData,
+    glClearNamedBufferData,
+    //! Rant over. :P
+    glClearStencil,
+    glClearTexImage,
+    glClearTexSubImage,
+    glClientWaitSync,
+    glClipControl,
+    glColorMask,
+    glColorMaski,
+    glCompileShader,
+    glCompressedTexImage1D,
+    glCompressedTexImage2D,
+    glCompressedTexImage3D,
+    glCompressedTexSubImage1D,
+    glCompressedTextureSubImage1D,
+    glCompressedTexSubImage2D,
+    glCompressedTextureSubImage2D,
+    glCompressedTexSubImage3D,
+    glCompressedTextureSubImage3D,
+
 
   }
 } = dlopen(path, {
@@ -489,6 +516,115 @@ const {
     returns: FFIType.void,
   },
 
+  glClearColor: {
+    args: [GLfloat, GLfloat, GLfloat, GLfloat],
+    returns: FFIType.void,
+  },
+
+  glClearDepth: {
+    args: [GLdouble],
+    returns: FFIType.void,
+  },
+
+  glClearDepthf: {
+    args: [GLfloat],
+    returns: FFIType.void,
+  },
+
+  glClearBufferData: {
+    args: [GLenum, GLenum, GLenum, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClearNamedBufferData: {
+    args: [GLuint, GLenum, GLenum, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClearStencil: {
+    args: [GLint],
+    returns: FFIType.void,
+  },
+
+  glClearTexImage: {
+    args: [GLuint, GLint, GLenum, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClearTexSubImage: {
+    args: [GLuint, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClientWaitSync: {
+    args: [GLsync, GLbitfield, GLuint64],
+    returns: FFIType.void,
+  },
+
+  glClipControl: {
+    args: [GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glColorMask: {
+    args: [GLboolean, GLboolean, GLboolean, GLboolean],
+    returns: FFIType.void,
+  },
+
+  glColorMaski: {
+    args: [GLuint, GLboolean, GLboolean, GLboolean, GLboolean],
+    returns: FFIType.void,
+  },
+
+  glCompileShader: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glCompressedTexImage1D: {
+    args: [GLenum, GLint, GLenum, GLsizei, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCompressedTexImage2D: {
+    args: [GLenum, GLint, GLenum, GLsizei, GLsizei, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCompressedTexImage3D: {
+    args: [GLenum, GLint, GLenum, GLsizei, GLsizei, GLsizei, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCompressedTexSubImage1D: {
+    args: [GLenum, GLint, GLint, GLsizei, GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCompressedTextureSubImage1D: {
+    args: [GLuint, GLint, GLint, GLsizei, GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCompressedTexSubImage2D: {
+    args: [GLenum, GLint, GLint, GLint, GLsizei, GLsizei, GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCompressedTextureSubImage2D: {
+    args: [GLuint, GLint, GLint, GLint, GLsizei, GLsizei, GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCompressedTexSubImage3D: {
+    args: [GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCompressedTextureSubImage3D: {
+    args: [GLuint, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
 
 })
 
@@ -803,6 +939,135 @@ export function clearNamedBufferSubData(buffer: number, internalformat: number, 
   glClearNamedBufferSubData(buffer, internalformat, offset, size, format, type, data)
 }
 
+export function clearColor(red: number, green: number, blue: number, alpha: number) {
+  glClearColor(red, green, blue, alpha)
+}
 
+export function clearDepth(depth: number) {
+  glClearDepth(depth)
+}
 
+export function clearDepthf(depth: number) {
+  glClearDepthf(depth)
+}
 
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function clearBufferData(target: number, internalformat: number, format: number, type: number, data: TypedArray) {
+  glClearBufferData(target, internalformat, format, type, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function clearNamedBufferData(buffer: number, internalformat: number, format: number, type: number, data: TypedArray) {
+  glClearNamedBufferData(buffer, internalformat, format, type, data)
+}
+
+export function clearStencil(s: number) {
+  glClearStencil(s)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function clearTexImage(texture: number, level: number, format: number, type: number, data: TypedArray) {
+  glClearTexImage(texture, level, format, type, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function clearTexSubImage(texture: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, type: number, data: TypedArray) {
+  glClearTexSubImage(texture, level, xoffset, yoffset, zoffset, width, height, depth, format, type, data)
+}
+
+export function clientWaitSync(sync: number, flags: number, timeout: number) {
+  glClientWaitSync(sync, flags, timeout)
+}
+
+export function clipControl(origin: number, depth: number) {
+  glClipControl(origin, depth)
+}
+
+export function colorMask(red: boolean, green: boolean, blue: boolean, alpha: boolean) {
+  glColorMask(red, green, blue, alpha)
+}
+
+export function colorMaski(buf: number, red: boolean, green: boolean, blue: boolean, alpha: boolean) {
+  glColorMaski(buf, red, green, blue, alpha)
+}
+
+export function compileShader(shader: number) {
+  glCompileShader(shader)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function compressedTexImage1D(target: number, level: number, internalformat: number, width: number, border: number, imageSize: number, data: TypedArray) {
+  glCompressedTexImage1D(target, level, internalformat, width, border, imageSize, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function compressedTexImage2D(target: number, level: number, internalformat: number, width: number, height: number, border: number, imageSize: number, data: TypedArray) {
+  glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function compressedTexImage3D(target: number, level: number, internalformat: number, width: number, height: number, depth: number, border: number, imageSize: number, data: TypedArray) {
+  glCompressedTexImage3D(target, level, internalformat, width, height, depth, border, imageSize, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function compressedTexSubImage1D(target: number, level: number, xoffset: number, width: number, format: number, imageSize: number, data: TypedArray) {
+  glCompressedTexSubImage1D(target, level, xoffset, width, format, imageSize, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function compressedTextureSubImage1D(texture: number, level: number, xoffset: number, width: number, format: number, imageSize: number, data: TypedArray) {
+  glCompressedTextureSubImage1D(texture, level, xoffset, width, format, imageSize, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function compressedTexSubImage2D(target: number, level: number, xoffset: number, yoffset: number, width: number, height: number, format: number, imageSize: number, data: TypedArray) {
+  glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function compressedTextureSubImage2D(texture: number, level: number, xoffset: number, yoffset: number, width: number, height: number, format: number, imageSize: number, data: TypedArray) {
+  glCompressedTextureSubImage2D(texture, level, xoffset, yoffset, width, height, format, imageSize, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function compressedTexSubImage3D(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, imageSize: number, data: TypedArray) {
+  glCompressedTexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function compressedTextureSubImage3D(texture: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number, format: number, imageSize: number, data: TypedArray) {
+  glCompressedTextureSubImage3D(texture, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, data)
+}
+
+/*
+! Was on glCopyBufferSubData
+! https://registry.khronos.org/OpenGL-Refpages/gl4/
+
+*/
