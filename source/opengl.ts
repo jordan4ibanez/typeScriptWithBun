@@ -117,6 +117,16 @@ const {
     glBlendEquationi,
     glBlendEquationSeparate,
     glBlendEquationSeparatei,
+    glBlendFunc,
+    glBlendFunci,
+    glBlendFuncSeparate,
+    glBlendFuncSeparatei,
+    glBlitFramebuffer,
+    glBlitNamedFramebuffer,
+    glBufferData,
+    glNamedBufferData,
+    glBufferStorage,
+    glNamedBufferStorage,
 
   }
 } = dlopen(path, {
@@ -321,6 +331,56 @@ const {
     returns: FFIType.void,
   },
 
+  glBlendFunc: {
+    args: [GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glBlendFunci: {
+    args: [GLuint, GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glBlendFuncSeparate: {
+    args: [GLenum, GLenum, GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glBlendFuncSeparatei: {
+    args: [GLuint, GLenum, GLenum, GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glBlitFramebuffer: {
+    args: [GLint, GLint, GLint, GLint, GLint, GLint, GLint, GLint, GLbitfield, GLenum],
+    returns: FFIType.void,
+  },
+
+  glBlitNamedFramebuffer: {
+    args: [GLuint, GLuint, GLint, GLint, GLint, GLint, GLint, GLint, GLint, GLint, GLbitfield, GLenum],
+    returns: FFIType.void,
+  },
+
+  glBufferData: {
+    args: [GLenum, GLsizeiptr, FFIType.ptr, GLenum],
+    returns: FFIType.void,
+  },
+
+  glNamedBufferData: {
+    args: [GLuint, GLsizeiptr, FFIType.ptr, GLenum],
+    returns: FFIType.void,
+  },
+
+  glBufferStorage: {
+    args: [GLenum, GLsizeiptr, FFIType.ptr, GLbitfield],
+    returns: FFIType.void,
+  },
+
+  glNamedBufferStorage: {
+    args: [GLuint, GLsizeiptr, FFIType.ptr, GLbitfield],
+    returns: FFIType.void,
+  },
+
 })
 
 export function activeShaderProgram(pipeline: number, program: number) {
@@ -499,5 +559,55 @@ export function blendEquationSeparatei(buf: number, modeRGB: number, modeAlpha: 
   glBlendEquationSeparatei(buf, modeRGB, modeAlpha)
 }
 
-//! WAS ON: https://registry.khronos.org/OpenGL-Refpages/gl4/
-//! glBlendFunc
+export function blendFunc(sfactor: number, dfactor: number) {
+  glBlendFunc(sfactor, dfactor)
+}
+
+export function blendFunci(buf: number, sfactor: number, dfactor: number) {
+  glBlendFunci(buf, sfactor, dfactor)
+}
+
+export function blendFuncSeparate(srcRGB: number, dstRGB: number, srcAlpha: number, dstAlpha: number) {
+  glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha)
+}
+
+export function blendFuncSeparatei(buf: number, srcRGB: number, dstRGB: number, srcAlpha: number, dstAlpha: number) {
+  glBlendFuncSeparatei(buf, srcRGB, dstRGB, srcAlpha, dstAlpha)
+}
+
+// This is ridiculous
+export function blitFramebuffer(srcX0: number, srcY0: number, srcX1: number, srcY1: number, dstX0: number, dstY0: number, dstX1: number, dstY1: number, mask: number, filter: number) {
+  glBlitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter)
+}
+
+export function blitNamedFramebuffer(readFramebuffer: number, drawFramebuffer: number, srcX0: number, srcY0: number, srcX1: number, srcY1: number, dstX0: number, dstY0: number, dstX1: number, dstY1: number, mask: number, filter: number) {
+  glBlitNamedFramebuffer(readFramebuffer, drawFramebuffer, srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function bufferData(target: number, size: number, data: TypedArray, usage: number) {
+  glBufferData(target, size, data, usage)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function namedBufferData(buffer: number, size: number, data: TypedArray, usage: number) {
+  glNamedBufferData(buffer, size, data, usage)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function bufferStorage(target: number, size: number, data: TypedArray, flags: number) {
+  glBufferStorage(target, size, data, flags)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function namedBufferStorage(buffer: number, size: number, data: TypedArray, flags: number) {
+  glNamedBufferStorage(buffer, size, data, flags)
+}
