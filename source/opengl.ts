@@ -66,6 +66,8 @@ export const GL_FALSE = 0
 Implementation note: All functions are input in the order they appear in Khronos' documentation.
 https://registry.khronos.org/OpenGL-Refpages/gl4/
 
+(which is where all the documentation is BTW)
+
 ! If I missed anything: Please let me know!
 */
 
@@ -127,6 +129,20 @@ const {
     glNamedBufferData,
     glBufferStorage,
     glNamedBufferStorage,
+    glBufferSubData,
+    glNamedBufferSubData,
+    glCheckFramebufferStatus,
+    glCheckNamedFramebufferStatus,
+    glClampColor,
+    glClear,
+    glClearBufferiv,
+    glClearBufferuiv,
+    glClearBufferfv,
+    glClearBufferfi,
+    glClearNamedFramebufferiv,
+    glClearNamedFramebufferuiv,
+    glClearNamedFramebufferfv,
+    glClearNamedFramebufferfi
 
   }
 } = dlopen(path, {
@@ -381,6 +397,99 @@ const {
     returns: FFIType.void,
   },
 
+  glBufferSubData: {
+    args: [GLenum, GLintptr, GLsizeiptr, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glNamedBufferSubData: {
+    args: [GLuint, GLintptr, GLsizeiptr, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCheckFramebufferStatus: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glCheckNamedFramebufferStatus: {
+    args: [GLuint, GLenum],
+    returns: FFIType.void,
+  },
+
+  glClampColor: {
+    args: [GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glClear: {
+    args: [GLbitfield],
+    returns: FFIType.void,
+  },
+
+  glClearBufferiv: {
+    args: [GLenum, GLint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClearBufferuiv: {
+    args: [GLenum, GLint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClearBufferfv: {
+    args: [GLenum, GLint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClearBufferfi: {
+    args: [GLenum, GLint, GLfloat, GLint],
+    returns: FFIType.void,
+  },
+
+  glClearNamedFramebufferiv: {
+    args: [GLuint, GLenum, GLint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClearNamedFramebufferuiv: {
+    args: [GLuint, GLenum, GLint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClearNamedFramebufferfv: {
+    args: [GLuint, GLenum, GLint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClearNamedFramebufferfi: {
+    args: [GLuint, GLenum, GLint, GLfloat, GLint],
+    returns: FFIType.void,
+  },
+
+})
+
+//* Bun FFI allows 64 function defs in one call, move onto the next.
+
+const { 
+  symbols: {
+    glClearBufferSubData,
+    glClearNamedBufferSubData,
+
+  }
+} = dlopen(path, {
+
+  glClearBufferSubData: {
+    args: [GLenum, GLenum, GLintptr, GLsizeiptr, GLenum, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glClearNamedBufferSubData: {
+    args: [GLuint, GLenum, GLintptr, GLsizeiptr, GLenum, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+
 })
 
 export function activeShaderProgram(pipeline: number, program: number) {
@@ -611,3 +720,86 @@ export function bufferStorage(target: number, size: number, data: TypedArray, fl
 export function namedBufferStorage(buffer: number, size: number, data: TypedArray, flags: number) {
   glNamedBufferStorage(buffer, size, data, flags)
 }
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function bufferSubData(target: number, offset: number, size: number, data: TypedArray) {
+  glBufferSubData(target, offset, size, data)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function namedBufferSubData(buffer: number, offset: number, size: number, data: TypedArray) {
+  glNamedBufferSubData(buffer, offset, size, data)
+}
+
+export function checkFramebufferStatus(target: number) {
+  glCheckFramebufferStatus(target)
+}
+
+export function checkNamedFramebufferStatus(framebuffer: number, target: number) {
+  glCheckNamedFramebufferStatus(framebuffer, target)
+}
+
+export function clampColor(target: number, clamp: number) {
+  glClampColor(target, clamp)
+}
+
+export function clear(mask: number) {
+  glClear(mask)
+}
+
+export function clearBufferiv(buffer: number, drawbuffer: number, value: number[]) {
+  let valuePointer = new Int32Array(value)
+  glClearBufferiv(buffer, drawbuffer, valuePointer)
+}
+
+export function clearBufferuiv(buffer: number, drawbuffer: number, value: number[]) {
+  let valuePointer = new Uint32Array(value)
+  glClearBufferuiv(buffer, drawbuffer, valuePointer)
+}
+
+export function clearBufferfv(buffer: number, drawbuffer: number, value: number[]) {
+  let valuePointer = new Float32Array(value)
+  glClearBufferfv(buffer, drawbuffer, valuePointer)
+}
+
+export function clearBufferfi(buffer: number, drawbuffer: number, depth: number, stencil: number) {
+  glClearBufferfi(buffer, drawbuffer, depth, stencil)
+}
+
+export function clearNamedFramebufferiv(framebuffer: number, buffer: number, drawbuffer: number, value: number[]) {
+  let valuePointer = new Int32Array(value)
+  glClearNamedFramebufferiv(framebuffer, buffer, drawbuffer, valuePointer)
+}
+
+export function clearNamedFramebufferuiv(framebuffer: number, buffer: number, drawbuffer: number, value: number[]) {
+  let valuePointer = new Uint32Array(value)
+  glClearNamedFramebufferuiv(framebuffer, buffer, drawbuffer, valuePointer)
+}
+
+export function clearNamedFramebufferfv(framebuffer: number, buffer: number, drawbuffer: number, value: number[]) {
+  let valuePointer = new Float32Array(value)
+  glClearNamedFramebufferfv(framebuffer, buffer, drawbuffer, valuePointer)
+}
+
+export function clearNamedFramebufferfi(framebuffer: number, buffer: number, drawbuffer: number, depth: number, stencil: number) {
+  glClearNamedFramebufferfi(framebuffer, buffer, drawbuffer, depth, stencil)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function clearBufferSubData(target: number, internalformat: number, offset: number, size: number, format: number, type: number, data: TypedArray) {
+  glClearBufferSubData(target, internalformat, offset, size, format, type, data)
+}
+
+export function clearNamedBufferSubData(buffer: number, internalformat: number, offset: number, size: number, format: number, type: number, data: TypedArray) {
+  glClearNamedBufferSubData(buffer, internalformat, offset, size, format, type, data)
+}
+
+
+
+
