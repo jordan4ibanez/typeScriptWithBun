@@ -796,6 +796,9 @@ export function clearBufferSubData(target: number, internalformat: number, offse
   glClearBufferSubData(target, internalformat, offset, size, format, type, data)
 }
 
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
 export function clearNamedBufferSubData(buffer: number, internalformat: number, offset: number, size: number, format: number, type: number, data: TypedArray) {
   glClearNamedBufferSubData(buffer, internalformat, offset, size, format, type, data)
 }
