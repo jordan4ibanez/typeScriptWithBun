@@ -50,7 +50,7 @@ if (!reload.isReload()) {
 } else {
   print("resetting the window close flag")
   //* We want the hot reload to reset the window close state!
-  glfw.setWindowShouldClose(window, false)
+  glfw.setWindowShouldClose(global.window, false)
 }
 
 if (global.window != null) {
