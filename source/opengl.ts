@@ -478,12 +478,8 @@ const {
     glClearColor,
     glClearDepth,
     glClearDepthf,
-    //! This part of the documentation is pretty confusing.
-    //! Missed this function so I'm just adding it back into here.
-    //! Khronos made this an absolute mess!
     glClearBufferData,
     glClearNamedBufferData,
-    //! Rant over. :P
     glClearStencil,
     glClearTexImage,
     glClearTexSubImage,
@@ -501,6 +497,18 @@ const {
     glCompressedTextureSubImage2D,
     glCompressedTexSubImage3D,
     glCompressedTextureSubImage3D,
+    glCopyBufferSubData,
+    glCopyNamedBufferSubData,
+    glCopyImageSubData,
+    glCopyTexImage1D,
+    glCopyTexImage2D,
+    glCopyTexSubImage1D,
+    glCopyTextureSubImage1D,
+    glCopyTexSubImage2D,
+    glCopyTextureSubImage2D,
+    glCopyTexSubImage3D,
+    glCopyTextureSubImage3D,
+
 
 
   }
@@ -625,6 +633,62 @@ const {
     args: [GLuint, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLsizei, FFIType.ptr],
     returns: FFIType.void,
   },
+
+  glCopyBufferSubData: {
+    args: [GLenum, GLenum, GLintptr, GLintptr, GLsizeiptr],
+    returns: FFIType.void,
+  },
+
+  glCopyNamedBufferSubData: {
+    args: [GLuint, GLuint, GLintptr, GLintptr, GLsizeiptr],
+    returns: FFIType.void,
+  },
+
+  glCopyImageSubData: {
+    args: [GLuint, GLenum, GLint, GLint, GLint, GLint, GLuint, GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glCopyTexImage1D: {
+    args: [GLenum, GLint, GLenum, GLint, GLint, GLsizei, GLint],
+    returns: FFIType.void,
+  },
+
+  glCopyTexImage2D: {
+    args: [GLenum, GLint, GLenum, GLint, GLint, GLsizei, GLsizei, GLint],
+    returns: FFIType.void,
+  },
+  
+  glCopyTexSubImage1D: {
+    args: [GLenum, GLint, GLint, GLint, GLint, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glCopyTextureSubImage1D: {
+    args: [GLuint, GLint, GLint, GLint, GLint, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glCopyTexSubImage2D: {
+    args: [GLenum, GLint, GLint, GLint, GLint, GLint, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glCopyTextureSubImage2D: {
+    args: [GLuint, GLint, GLint, GLint, GLint, GLint, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glCopyTexSubImage3D: {
+    args: [GLenum, GLint, GLint, GLint, GLint, GLint, GLint, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glCopyTextureSubImage3D: {
+    args: [GLuint, GLint, GLint, GLint, GLint, GLint, GLint, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
 
 })
 
@@ -1066,8 +1130,49 @@ export function compressedTextureSubImage3D(texture: number, level: number, xoff
   glCompressedTextureSubImage3D(texture, level, xoffset, yoffset, zoffset, width, height, depth, format, imageSize, data)
 }
 
-/*
-! Was on glCopyBufferSubData
-! https://registry.khronos.org/OpenGL-Refpages/gl4/
+export function copyBufferSubData(readTarget: number, writeTarget: number, readOffset: number, writeOffset: number, size: number) {
+  glCopyBufferSubData(readTarget, writeTarget, readOffset, writeOffset, size)
+}
 
-*/
+export function copyNamedBufferSubData(readBuffer: number, writeBuffer: number, readOffset: number, writeOffset: number, size: number) {
+  glCopyNamedBufferSubData(readBuffer, writeBuffer, readOffset, writeOffset, size)
+}
+
+export function copyImageSubData(srcName: number, srcTarget: number, srcLevel: number, srcX: number, srcY: number, srcZ: number, dstName: number, dstTarget: number, dstLevel: number, dstX: number, dstY: number, dstZ: number, srcWidth: number, srcHeight: number, srcDepth: number) {
+  glCopyImageSubData(srcName, srcTarget, srcLevel, srcX, srcY, srcZ, dstName, dstTarget, dstLevel, dstX, dstY, dstZ, srcWidth, srcHeight, srcDepth)
+}
+
+export function copyTexImage1D(target: number, level: number, internalformat: number, x: number, y: number, width: number, border: number) {
+  glCopyTexImage1D(target, level, internalformat, x, y, width, border)
+}
+
+export function copyTexImage2D(target: number, level: number, internalformat: number, x: number, y: number, width: number, height: number, border: number) {
+  glCopyTexImage2D(target, level, internalformat, x, y, width, height, border)
+}
+
+export function copyTexSubImage1D(target: number, level: number, xoffset: number, x: number, y: number, width: number) {
+  glCopyTexSubImage1D(target, level, xoffset, x, y, width)
+}
+
+export function copyTextureSubImage1D(texture: number, level: number, xoffset: number, x: number, y: number, width: number) {
+  glCopyTextureSubImage1D(texture, level, xoffset, x, y, width)
+}
+
+export function copyTexSubImage2D(target: number, level: number, xoffset: number, yoffset: number, x: number, y: number, width: number, height: number) {
+  glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height)
+}
+
+export function copyTextureSubImage2D(texture: number, level: number, xoffset: number, yoffset: number, x: number, y: number, width: number, height: number) {
+  glCopyTextureSubImage2D(texture, level, xoffset, yoffset, x, y, width, height)
+}
+
+export function copyTexSubImage3D(target: number, level: number, xoffset: number, yoffset: number, zoffset: number, x: number, y: number, width: number, height: number) {
+  glCopyTexSubImage3D(target, level, xoffset, yoffset, zoffset, x, y, width, height)
+}
+
+export function copyTextureSubImage3D(texture: number, level: number, xoffset: number, yoffset: number, zoffset: number, x: number, y: number, width: number, height: number) {
+  glCopyTextureSubImage3D(texture, level, xoffset, yoffset, zoffset, x, y, width, height)
+}
+
+
+
