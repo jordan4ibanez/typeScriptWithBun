@@ -43,3 +43,21 @@ function createGlobal(state: string, name: string, type: string, assignment: any
 }
 
 createGlobal("var", "test", "number", "hi")
+
+// This is silly
+function functionalWhile(condition: (...args: any) => any, execution: (...args: any) => any) {
+  if (!condition()) {return}
+  execution()
+  return functionalWhile(condition, execution)
+}
+
+let y = 0
+functionalWhile(
+  _=>{ return y < 10 },
+  _=>{
+    print(y)
+    y++
+  }
+)
+
+print("Done")
