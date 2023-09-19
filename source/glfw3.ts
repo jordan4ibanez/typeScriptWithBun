@@ -1916,7 +1916,7 @@ export function setClipboardString(window: FFIType.ptr, text: string) {
   glfwSetClipboardString(window, textBuffer)
 }
 
-export function etClipboardString(window: FFIType.ptr): string | null {
+export function getClipboardString(window: FFIType.ptr): string | null {
 
   let cStringPointer = glfwGetClipboardString(window)
 
