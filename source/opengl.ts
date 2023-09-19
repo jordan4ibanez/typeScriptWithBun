@@ -922,8 +922,15 @@ const {
     glNamedFramebufferTextureLayer,
     glFrontFace,
     glGenBuffers,
-
-    
+    glGenerateMipmap,
+    glGenerateTextureMipmap,
+    glGenFramebuffers,
+    glGenProgramPipelines,
+    glGenQueries,
+    glGenRenderbuffers,
+    glGenSamplers,
+    glGenTextures,
+    glGenTransformFeedbacks
   }
 } = dlopen(path, {
 
@@ -1201,7 +1208,127 @@ const {
     args: [GLsizei, FFIType.ptr],
     returns: FFIType.void,
   },
+
+  glGenerateMipmap: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glGenerateTextureMipmap: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glGenFramebuffers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGenProgramPipelines: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGenQueries: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGenRenderbuffers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGenSamplers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGenTextures: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGenTransformFeedbacks: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
   
+})
+
+//* Bun FFI allows 64 function defs in one call, move onto the next.
+
+const { 
+  symbols: {
+    glGenVertexArrays,
+    glGetBooleanv,
+    glGetDoublev,
+    glGetFloatv,
+    glGetIntegerv,
+    glGetInteger64v,
+    glGetBooleani_v,
+    glGetDoublei_v,
+    glGetFloati_v,
+    glGetIntegeri_v,
+    glGetInteger64i_v,
+  }
+} = dlopen(path, {
+
+  glGenVertexArrays: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetBooleanv: {
+    args: [GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetDoublev: {
+    args: [GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetFloatv: {
+    args: [GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetIntegerv: {
+    args: [GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetInteger64v: {
+    args: [GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetBooleani_v: {
+    args: [GLenum, GLuint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetDoublei_v: {
+    args: [GLenum, GLuint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetFloati_v: {
+    args: [GLenum, GLuint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetIntegeri_v: {
+    args: [GLenum, GLuint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetInteger64i_v: {
+    args: [GLenum, GLuint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
 })
 
 export function activeShaderProgram(pipeline: number, program: number) {
@@ -2098,3 +2225,198 @@ export function genBuffers(n: number, buffers: number[]) {
   let buffersPointer = new Uint32Array(buffers)
   glGenBuffers(n, buffersPointer)
 }
+
+export function generateMipmap(target: number) {
+  glGenerateMipmap(target)
+}
+
+export function generateTextureMipmap(texture: number) {
+  glGenerateTextureMipmap(texture)
+}
+
+export function genFramebuffers(n: number, ids: number[]) {
+  let idsPointer = new Uint32Array(ids)
+  glGenFramebuffers(n, idsPointer)
+}
+
+export function genProgramPipelines(n: number, pipelines: number[]) {
+  let pipelinesPointer = new Uint32Array(pipelines)
+  glGenProgramPipelines(n, pipelinesPointer)
+}
+
+export function genQueries(n: number, ids: number[]) {
+  let idsPointer = new Uint32Array(ids)
+  glGenQueries(n, idsPointer)
+}
+
+export function genRenderbuffers(n: number, renderbuffers: number[]) {
+  let renderbuffersPointer = new Uint32Array(renderbuffers)
+  glGenRenderbuffers(n, renderbuffersPointer)
+}
+
+export function genSamplers(n: number, samplers: number[]) {
+  let samplersPointer = new Uint32Array(samplers)
+  glGenSamplers(n, samplersPointer)
+}
+
+export function genTextures(n: number, textures: number[]) {
+  let texturesPointer = new Uint32Array(textures)
+  glGenTextures(n, texturesPointer)
+}
+
+export function genTransformFeedbacks(n: number, ids: number[]) {
+  let idsPointer = new Uint32Array(ids)
+  glGenTransformFeedbacks(n, idsPointer)
+}
+
+export function genVertexArrays(n: number, arrays: number[]) {
+  let arraysPointer = new Uint32Array(arrays)
+  glGenVertexArrays(n, arraysPointer)
+}
+
+//* This part is a bit tricky
+//! FIXME: I have no idea if this section works!
+//! FIXME: UNTESTED!
+
+/**
+ *!WARNING: UNTESTED!
+ */
+export function getBooleanv(pname: number): boolean[] {
+  //!!! FIXME: I HAVE NO IDEA IF THIS WORKS!!!
+  // We can only hope that the C code is dereffing this instead of raw pointer arithmetic
+  let dataBuffer = new Uint8Array()
+  glGetBooleanv(pname, dataBuffer)
+  let booleanBuffer: boolean[] = new Array(dataBuffer.length)
+  for (let i = 0; i < dataBuffer.length; i++) {
+    // This is the most ridiculous hack lmao.
+    booleanBuffer[i] = dataBuffer.at(i) == GL_TRUE
+  }
+  return booleanBuffer
+}
+
+/**
+ *!WARNING: UNTESTED!
+ */
+export function getDoublev(pname: number): number[] {
+  let dataBuffer = new Float64Array()
+  glGetDoublev(pname, dataBuffer)
+  let doubleBuffer: number[] = new Array(dataBuffer.length)
+  for (let i = 0; i < dataBuffer.length; i++) {
+    doubleBuffer[i] = dataBuffer.at(i) || 0
+  }
+  return doubleBuffer
+}
+
+/**
+ *!WARNING: UNTESTED!
+ */
+export function getFloatv(pname: number): number[] {
+  let dataBuffer = new Float32Array()
+  glGetFloatv(pname, dataBuffer)
+  let floatBuffer: number[] = new Array(dataBuffer.length)
+  for (let i = 0; i < dataBuffer.length; i++) {
+    floatBuffer[i] = dataBuffer.at(i) || 0
+  }
+  return floatBuffer
+}
+
+/**
+ *!WARNING: UNTESTED!
+ */
+export function getIntegerv(pname: number): number[] {
+  let dataBuffer = new Int32Array()
+  glGetIntegerv(pname, dataBuffer)
+  let intBuffer: number[] = new Array(dataBuffer.length)
+  for (let i = 0; i < dataBuffer.length; i++) {
+    intBuffer[i] = dataBuffer.at(i) || 0
+  }
+  return intBuffer
+}
+
+/**
+ *!WARNING: UNTESTED!
+ */
+export function getInteger64v(pname: number): bigint[] {
+  let dataBuffer = new BigInt64Array()
+  glGetInteger64v(pname, dataBuffer)
+  let int64Buffer: bigint[] = new Array(dataBuffer.length)
+  for (let i = 0; i < dataBuffer.length; i++) {
+    int64Buffer[i] = dataBuffer.at(i) || BigInt(0)
+  }
+  return int64Buffer
+}
+
+//******************************8 */
+
+
+/**
+ *!WARNING: UNTESTED!
+ */
+ export function getBooleani_v(pname: number, index: number): boolean[] {
+  let dataBuffer = new Uint8Array()
+  glGetBooleani_v(pname, index, dataBuffer)
+  let booleanBuffer: boolean[] = new Array(dataBuffer.length)
+  for (let i = 0; i < dataBuffer.length; i++) {
+    booleanBuffer[i] = dataBuffer.at(i) == GL_TRUE
+  }
+  return booleanBuffer
+}
+
+/**
+ *!WARNING: UNTESTED!
+ */
+export function getDoublei_v(pname: number, index: number): number[] {
+  let dataBuffer = new Float64Array()
+  glGetDoublei_v(pname, index, dataBuffer)
+  let doubleBuffer: number[] = new Array(dataBuffer.length)
+  for (let i = 0; i < dataBuffer.length; i++) {
+    doubleBuffer[i] = dataBuffer.at(i) || 0
+  }
+  return doubleBuffer
+}
+
+/**
+ *!WARNING: UNTESTED!
+ */
+export function getFloati_v(pname: number, index: number): number[] {
+  let dataBuffer = new Float32Array()
+  glGetFloati_v(pname, index, dataBuffer)
+  let floatBuffer: number[] = new Array(dataBuffer.length)
+  for (let i = 0; i < dataBuffer.length; i++) {
+    floatBuffer[i] = dataBuffer.at(i) || 0
+  }
+  return floatBuffer
+}
+
+/**
+ *!WARNING: UNTESTED!
+ */
+export function getIntegeri_v(pname: number, index: number): number[] {
+  let dataBuffer = new Int32Array()
+  glGetIntegeri_v(pname, index, dataBuffer)
+  let intBuffer: number[] = new Array(dataBuffer.length)
+  for (let i = 0; i < dataBuffer.length; i++) {
+    intBuffer[i] = dataBuffer.at(i) || 0
+  }
+  return intBuffer
+}
+
+/**
+ *!WARNING: UNTESTED!
+ */
+export function getInteger64i_v(pname: number, index: number): bigint[] {
+  let dataBuffer = new BigInt64Array()
+  glGetInteger64i_v(pname, index, dataBuffer)
+  let int64Buffer: bigint[] = new Array(dataBuffer.length)
+  for (let i = 0; i < dataBuffer.length; i++) {
+    int64Buffer[i] = dataBuffer.at(i) || BigInt(0)
+  }
+  return int64Buffer
+}
+
+//! END MASSIVELY UNTESTED SECTION!
+
+
+//* https://registry.khronos.org/OpenGL-Refpages/gl4/
+
+//* Was at: glGetActiveAtomicCounterBufferiv
