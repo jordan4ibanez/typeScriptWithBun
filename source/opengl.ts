@@ -896,6 +896,9 @@ const {
     glDrawElementsIndirect,
     glDrawElementsInstanced,
     glDrawElementsInstancedBaseInstance,
+    glDrawElementsInstancedBaseVertex,
+    glDrawElementsInstancedBaseVertexBaseInstance,
+    glDrawRangeElements
     
 
   }
@@ -1043,6 +1046,16 @@ const {
 
   glDrawElementsInstancedBaseInstance: {
     args: [GLenum, GLsizei, GLenum, FFIType.ptr, GLsizei, GLuint],
+    returns: FFIType.void,
+  },
+
+  glDrawElementsInstancedBaseVertex: {
+    args: [GLenum, GLsizei, GLenum, FFIType.ptr, GLsizei, GLint],
+    returns: FFIType.void,
+  },
+
+  glDrawElementsInstancedBaseVertexBaseInstance: {
+    args: [GLenum, GLsizei, GLenum, FFIType.ptr, GLsizei, GLint, GLuint],
     returns: FFIType.void,
   },
 
@@ -1826,7 +1839,17 @@ export function drawElementsInstancedBaseInstance(mode: number, count: number, t
   glDrawElementsInstancedBaseInstance(mode, count, type, indices, instancecount, baseinstance)
 }
 
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawElementsInstancedBaseVertex(mode: number, count: number, type: number, indices: TypedArray, instancecount: number, basevertex: number) {
+  glDrawElementsInstancedBaseVertex(mode, count, type, indices, instancecount, basevertex)
+}
 
-
-
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawElementsInstancedBaseVertexBaseInstance(mode: number, count: number, type: number, indices: TypedArray, instancecount: number, basevertex: number, baseinstance: number) {
+  glDrawElementsInstancedBaseVertexBaseInstance(mode, count, type, indices, instancecount, basevertex, baseinstance)
+}
 
