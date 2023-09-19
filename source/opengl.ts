@@ -898,9 +898,32 @@ const {
     glDrawElementsInstancedBaseInstance,
     glDrawElementsInstancedBaseVertex,
     glDrawElementsInstancedBaseVertexBaseInstance,
-    glDrawRangeElements
-    
+    glDrawRangeElements,
+    glDrawRangeElementsBaseVertex,
+    glDrawTransformFeedback,
+    glDrawTransformFeedbackInstanced,
+    glDrawTransformFeedbackStream,
+    glDrawTransformFeedbackStreamInstanced,
+    glFenceSync,
+    glFinish,
+    glFlush,
+    glFlushMappedBufferRange,
+    glFlushMappedNamedBufferRange,
+    glFramebufferParameteri,
+    glNamedFramebufferParameteri,
+    glFramebufferRenderbuffer,
+    glNamedFramebufferRenderbuffer,
+    glFramebufferTexture,
+    glFramebufferTexture1D,
+    glFramebufferTexture2D,
+    glFramebufferTexture3D,
+    glNamedFramebufferTexture,
+    glFramebufferTextureLayer,
+    glNamedFramebufferTextureLayer,
+    glFrontFace,
+    glGenBuffers,
 
+    
   }
 } = dlopen(path, {
 
@@ -1059,6 +1082,126 @@ const {
     returns: FFIType.void,
   },
 
+  glDrawRangeElements: {
+    args: [GLenum, GLuint, GLuint, GLsizei, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDrawRangeElementsBaseVertex: {
+    args: [GLenum, GLuint, GLuint, GLsizei, GLenum, FFIType.ptr, GLint],
+    returns: FFIType.void,
+  },
+
+  glDrawTransformFeedback: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glDrawTransformFeedbackInstanced: {
+    args: [GLenum, GLuint, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glDrawTransformFeedbackStream: {
+    args: [GLenum, GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glDrawTransformFeedbackStreamInstanced: {
+    args: [GLenum, GLuint, GLuint, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glFenceSync: {
+    args: [GLenum, GLbitfield],
+    returns: FFIType.void,
+  },
+
+  glFinish: {
+    args: [],
+    returns: FFIType.void,
+  },
+
+  glFlush: {
+    args: [],
+    returns: FFIType.void,
+  },
+
+  glFlushMappedBufferRange: {
+    args: [GLenum, GLintptr, GLsizeiptr],
+    returns: FFIType.void,
+  },
+
+  glFlushMappedNamedBufferRange: {
+    args: [GLuint, GLintptr, GLsizeiptr],
+    returns: FFIType.void,
+  },
+
+  glFramebufferParameteri: {
+    args: [GLenum, GLenum, GLint],
+    returns: FFIType.void,
+  },
+
+  glNamedFramebufferParameteri: {
+    args: [GLuint, GLenum, GLint],
+    returns: FFIType.void,
+  },
+
+  glFramebufferRenderbuffer: {
+    args: [GLenum, GLenum, GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glNamedFramebufferRenderbuffer: {
+    args: [GLuint, GLenum, GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glFramebufferTexture: {
+    args: [GLenum, GLenum, GLuint, GLint],
+    returns: FFIType.void,
+  },
+
+  glFramebufferTexture1D: {
+    args: [GLenum, GLenum, GLenum, GLuint, GLint],
+    returns: FFIType.void,
+  },
+
+  glFramebufferTexture2D: {
+    args: [GLenum, GLenum, GLenum, GLuint, GLint],
+    returns: FFIType.void,
+  },
+
+  glFramebufferTexture3D: {
+    args: [GLenum, GLenum, GLenum, GLuint, GLint, GLint],
+    returns: FFIType.void,
+  },
+
+  glNamedFramebufferTexture: {
+    args: [GLuint, GLenum, GLuint, GLint],
+    returns: FFIType.void,
+  },
+
+  glFramebufferTextureLayer: {
+    args: [GLenum, GLenum, GLuint, GLint, GLint],
+    returns: FFIType.void,
+  },
+
+  glNamedFramebufferTextureLayer: {
+    args: [GLuint, GLenum, GLuint, GLint, GLint],
+    returns: FFIType.void,
+  },
+
+  glFrontFace: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glGenBuffers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+  
 })
 
 export function activeShaderProgram(pipeline: number, program: number) {
@@ -1853,3 +1996,105 @@ export function drawElementsInstancedBaseVertexBaseInstance(mode: number, count:
   glDrawElementsInstancedBaseVertexBaseInstance(mode, count, type, indices, instancecount, basevertex, baseinstance)
 }
 
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawRangeElements(mode: number, start: number, end: number, count: number, type: number, indices: TypedArray) {
+  glDrawRangeElements(mode, start, end, count, type, indices)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawRangeElementsBaseVertex(mode: number, start: number, end: number, count: number, type: number, indices: TypedArray, basevertex: number) {
+  glDrawRangeElementsBaseVertex(mode, start, end, count, type, indices, basevertex)
+}
+
+export function drawTransformFeedback(mode: number, id: number) {
+  glDrawTransformFeedback(mode, id)
+}
+
+export function drawTransformFeedbackInstanced(mode: number, id: number, instancecount: number) {
+  glDrawTransformFeedbackInstanced(mode, id, instancecount)
+}
+
+export function drawTransformFeedbackStream(mode: number, id: number, stream: number) {
+  glDrawTransformFeedbackStream(mode, id, stream)
+}
+
+export function drawTransformFeedbackStreamInstanced(mode: number, id: number, stream: number, instancecount: number) {
+  glDrawTransformFeedbackStreamInstanced(mode, id, stream, instancecount)
+}
+
+export function fenceSync(condition: number, flags: number) {
+  glFenceSync(condition, flags)
+}
+
+export function finish() {
+  glFinish()
+}
+
+export function flush() {
+  glFlush()
+}
+
+export function flushMappedBufferRange(target: number, offset: number, length: number) {
+  glFlushMappedBufferRange(target, offset, length)
+}
+
+export function flushMappedNamedBufferRange(buffer: number, offset: number, length: number) {
+  glFlushMappedNamedBufferRange(buffer, offset, length)
+}
+
+export function framebufferParameteri(target: number, pname: number, param: number) {
+  glFramebufferParameteri(target, pname, param)
+}
+
+export function namedFramebufferParameteri(framebuffer: number, pname: number, param: number) {
+  glNamedFramebufferParameteri(framebuffer, pname, param)
+}
+
+export function framebufferRenderbuffer(target: number, attachment: number, renderbuffertarget: number, renderbuffer: number) {
+  glFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer)
+}
+
+export function namedFramebufferRenderbuffer(framebuffer: number, attachment: number, renderbuffertarget: number, renderbuffer: number) {
+  glNamedFramebufferRenderbuffer(framebuffer, attachment, renderbuffertarget, renderbuffer)
+}
+
+export function framebufferTexture(target: number, attachment: number, texture: number, level: number) {
+  glFramebufferTexture(target, attachment, texture, level)
+}
+
+export function framebufferTexture1D(target: number, attachment: number, textarget: number, texture: number, level: number) {
+  glFramebufferTexture1D(target, attachment, textarget, texture, level)
+}
+
+export function framebufferTexture2D(target: number, attachment: number, textarget: number, texture: number, level: number) {
+  glFramebufferTexture2D(target, attachment, textarget, texture, level)
+}
+
+export function framebufferTexture3D(target: number, attachment: number, textarget: number, texture: number, level: number, layer: number) {
+  glFramebufferTexture3D(target, attachment, textarget, texture, level, layer)
+}
+
+export function namedFramebufferTexture(framebuffer: number, attachment: number, texture: number, level: number) {
+  glNamedFramebufferTexture(framebuffer, attachment, texture, level)
+}
+
+export function framebufferTextureLayer(target: number, attachment: number, texture: number, level: number, layer: number) {
+  glFramebufferTextureLayer(target, attachment, texture, level, layer)
+}
+
+export function namedFramebufferTextureLayer(framebuffer: number, attachment: number, texture: number, level: number, layer: number) {
+  glNamedFramebufferTextureLayer(framebuffer, attachment, texture, level, layer)
+}
+
+export function frontFace(mode: number) {
+  glFrontFace(mode)
+}
+
+export function genBuffers(n: number, buffers: number[]) {
+  let buffersPointer = new Uint32Array(buffers)
+  glGenBuffers(n, buffersPointer)
+}
