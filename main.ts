@@ -4,11 +4,12 @@ import * as reload from "./source/reload_info"
 import * as glfw from "./source/glfw3"
 import * as gl from "./source/opengl"
 
-import { CString, FFIType } from "bun:ffi"
+import { CString, FFIType, JSCallback } from "bun:ffi"
 
 
 declare global {
   var window: FFIType.ptr
+  var glfwErrorCallback: JSCallback
 }
 
 gl.forceReload()
@@ -25,6 +26,14 @@ if (!reload.isReload()) {
   } else {
     print("GLFW3 initialized successfully.")
   }
+
+  // This will help me figure out what the *@#) is wrong with this
+  global.glfwErrorCallback = glfw.setErrorCallback((error_code, description) => {
+    let descString = new CString(description)
+    print("GLFW ERROR!!")
+    print(error_code)
+    print(descString)
+  })
 
   print(glfw.getVersion())
   print(glfw.getVersionString())
