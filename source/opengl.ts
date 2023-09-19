@@ -508,8 +508,19 @@ const {
     glCopyTextureSubImage2D,
     glCopyTexSubImage3D,
     glCopyTextureSubImage3D,
-
-
+    glCreateBuffers,
+    glCreateFramebuffers,
+    glCreateProgram,
+    glCreateProgramPipelines,
+    glCreateQueries,
+    glCreateRenderbuffers,
+    glCreateSamplers,
+    glCreateShader,
+    glCreateShaderProgramv,
+    glCreateTextures,
+    glCreateTransformFeedbacks,
+    glCreateVertexArrays,
+    glCullFace,
 
   }
 } = dlopen(path, {
@@ -686,6 +697,71 @@ const {
 
   glCopyTextureSubImage3D: {
     args: [GLuint, GLint, GLint, GLint, GLint, GLint, GLint, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glCreateBuffers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCreateFramebuffers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCreateProgram: {
+    args: [],
+    returns: GLuint,
+  },
+
+  glCreateProgramPipelines: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCreateQueries: {
+    args: [GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCreateRenderbuffers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCreateSamplers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCreateShader: {
+    args: [GLenum],
+    returns: GLuint,
+  },
+
+  glCreateShaderProgramv: {
+    args: [GLenum, GLsizei, FFIType.ptr],
+    returns: GLuint,
+  },
+
+  glCreateTextures: {
+    args: [GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCreateTransformFeedbacks: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCreateVertexArrays: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glCullFace: {
+    args: [GLenum],
     returns: FFIType.void,
   },
 
@@ -1173,6 +1249,77 @@ export function copyTexSubImage3D(target: number, level: number, xoffset: number
 export function copyTextureSubImage3D(texture: number, level: number, xoffset: number, yoffset: number, zoffset: number, x: number, y: number, width: number, height: number) {
   glCopyTextureSubImage3D(texture, level, xoffset, yoffset, zoffset, x, y, width, height)
 }
+
+export function createBuffers(n: number, buffers: number[]) {
+  let buffersPointer = new Uint32Array(buffers)
+  glCreateBuffers(n, buffersPointer)
+}
+
+export function createFramebuffers(n: number, framebuffers: number[]) {
+  let framebuffersPointer = new Uint32Array(framebuffers)
+  glCreateFramebuffers(n, framebuffersPointer)
+}
+
+export function createProgram(): number {
+  return glCreateProgram()
+}
+
+export function createProgramPipelines(n: number, pipelines: number[]) {
+  let pipelinesPointer = new Uint32Array(pipelines)
+  glCreateProgramPipelines(n, pipelinesPointer)
+}
+
+export function createQueries(target: number, n: number, ids: number[]) {
+  let idsPointer = new Uint32Array(ids)
+  glCreateQueries(target, n, idsPointer)
+}
+
+export function createRenderbuffers(n: number, renderbuffers: number[]) {
+  let renderbuffersPointer = new Uint32Array(renderbuffers)
+  glCreateRenderbuffers(n, renderbuffersPointer)
+}
+
+export function createSamplers(n: number, samplers: number[]) {
+  let samplersPointer = new Uint32Array(samplers)
+  glCreateSamplers(n, samplersPointer)
+}
+
+export function createShader(shaderType: number): number {
+  return glCreateShader(shaderType)
+}
+
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function createShaderProgramv(type: number, count: number, strings: TypedArray) {
+  glCreateShaderProgramv(type, count, strings)
+}
+
+export function createTextures(target: number, n: number, textures: number) {
+  let texturesPointer = new Uint32Array(textures)
+  glCreateTextures(target, n, texturesPointer)
+}
+
+export function createTransformFeedbacks(n: number, ids: number[]) {
+  let idsPointer = new Uint32Array(ids)
+  glCreateTransformFeedbacks(n, idsPointer)
+}
+
+export function createVertexArrays(n: number, arrays: number[]) {
+  let arraysPointer = new Uint32Array(arrays)
+  glCreateVertexArrays(n, arraysPointer)
+}
+
+export function cullFace(mode: number) {
+  glCullFace(mode)
+}
+
+
+
+
+
+
 
 
 
