@@ -1,4 +1,4 @@
-import { FFIType, dlopen, suffix } from "bun:ffi"
+import { FFIType, JSCallback, dlopen, suffix } from "bun:ffi"
 
 // OpenGL Supa Dupa library. I hope.
 
@@ -522,6 +522,22 @@ const {
     glCreateVertexArrays,
     glCullFace,
 
+    glDebugMessageCallback,
+    glDebugMessageControl,
+    glDebugMessageInsert,
+    glDeleteBuffers,
+    glDeleteFramebuffers,
+    glDeleteProgram,
+    glDeleteProgramPipelines,
+    glDeleteQueries,
+    glDeleteRenderbuffers,
+    glDeleteSamplers,
+    glDeleteShader,
+    glDeleteSync,
+    glDeleteTextures,
+    glDeleteTransformFeedbacks,
+    glDeleteVertexArrays,
+    glDepthFunc
   }
 } = dlopen(path, {
 
@@ -765,6 +781,178 @@ const {
     returns: FFIType.void,
   },
 
+  glDebugMessageCallback: {
+    args: [FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void,
+  },
+  
+  glDebugMessageControl: {
+    args: [GLenum, GLenum, GLenum, GLsizei, FFIType.ptr, GLboolean],
+    returns: FFIType.void,
+  },
+
+  glDebugMessageInsert: {
+    args: [GLenum, GLenum, GLuint, GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDeleteBuffers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+  
+  glDeleteFramebuffers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDeleteProgram: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glDeleteProgramPipelines: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDeleteQueries: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDeleteRenderbuffers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDeleteSamplers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDeleteShader: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glDeleteSync: {
+    args: [GLsync],
+    returns: FFIType.void,
+  },
+
+  glDeleteTextures: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDeleteTransformFeedbacks: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDeleteVertexArrays: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDepthFunc: {
+    args: [GLenum],
+    returns: FFIType.void,
+  }
+
+})
+
+//* Bun FFI allows 64 function defs in one call, move onto the next.
+
+const { 
+  symbols: {
+    glDepthMask,
+    glDepthRange,
+    glDepthRangef,
+    glDepthRangeArrayv,
+    glDepthRangeIndexed,
+    glDetachShader,
+    glEnable,
+    glDisable,
+    glEnablei,
+    glDisablei,
+    glEnableVertexAttribArray,
+    glDisableVertexAttribArray,
+    glEnableVertexArrayAttrib,
+    glDisableVertexArrayAttrib,
+  }
+} = dlopen(path, {
+
+  glDepthMask: {
+    args: [GLboolean],
+    returns: FFIType.void,
+  },
+
+  glDepthRange: {
+    args: [GLdouble, GLdouble],
+    returns: FFIType.void,
+  },
+
+  glDepthRangef: {
+    args: [GLfloat, GLfloat],
+    returns: FFIType.void,
+  },
+
+  glDepthRangeArrayv: {
+    args: [GLuint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDepthRangeIndexed: {
+    args: [GLuint, GLdouble, GLdouble],
+    returns: FFIType.void,
+  },
+
+  glDetachShader: {
+    args: [GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glEnable: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glDisable: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glEnablei: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glDisablei: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glEnableVertexAttribArray: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glDisableVertexAttribArray: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glEnableVertexArrayAttrib: {
+    args: [GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glDisableVertexArrayAttrib: {
+    args: [GLuint, GLuint],
+    returns: FFIType.void,
+  },
 
 })
 
@@ -1315,9 +1503,152 @@ export function cullFace(mode: number) {
   glCullFace(mode)
 }
 
+export function debugMessageCallback(callback: (source: number, type: number, id: number, severity: number, length: number, message: FFIType.ptr, userParam: FFIType.ptr) => void, userParam: FFIType.ptr): JSCallback {
+  
+  const callbackObject = new JSCallback(
+    callback,
+    {
+      args: [GLenum, GLenum, GLuint, GLenum, GLsizei, FFIType.ptr, FFIType.ptr],
+      returns: FFIType.void,
+    }
+  )
+
+  glDebugMessageCallback(callbackObject.ptr, userParam)
+
+  return callbackObject
+}
+
+export function debugMessageControl(source: number, type: number, severity: number, count: number, ids: number[], enabled: boolean) {
+  let idsPointer = new Uint32Array(ids)
+  glDebugMessageControl(source, type, severity, count, idsPointer, enabled)
+}
 
 
+/**
+ *! Warning: You might have to hold onto the message! It might get GCed!
+ */
+export function debugMessageInsert(source: number, type: number, id: number, severity: number, length: number, message: string) {
+  let messagePointer = toBuffer(message)
+  glDebugMessageInsert(source, type, id, severity, length, messagePointer)
+}
 
+export function deleteBuffers(n: number, buffers: number[]) {
+  let buffersPointer = new Uint32Array(buffers)
+  glDeleteBuffers(n, buffersPointer)
+}
+
+export function deleteFramebuffers(n: number, framebuffers: number[]) {
+  let framebufersPointer = new Uint32Array(framebuffers)
+  glDeleteFramebuffers(n, framebufersPointer)
+}
+
+export function deleteProgram(program: number) {
+  glDeleteProgram(program)
+}
+
+export function deleteProgramPipelines(n: number, pipelines: number[]) {
+  let pipelinesPointer = new Uint32Array(pipelines)
+  glDeleteProgramPipelines(n, pipelinesPointer)
+}
+
+export function deleteQueries(n: number, ids: number[]) {
+  let idsPointer = new Uint32Array(ids)
+  glDeleteQueries(n, idsPointer)
+}
+
+export function deleteRenderbuffers(n: number, renderbuffers: number[]) {
+  let renderbuffersPointer = new Uint32Array(renderbuffers)
+  glDeleteRenderbuffers(n, renderbuffersPointer)
+}
+
+export function deleteSamplers(n: number, samplers: number[]) {
+  let samplersPointer = new Uint32Array(samplers)
+  glDeleteSamplers(n, samplersPointer)
+}
+
+export function deleteShader(shader: number) {
+  glDeleteShader(shader)
+}
+
+export function deleteSync(sync: number) {
+  glDeleteSync(sync)
+}
+
+export function deleteTextures(n: number, textures: number[]) {
+  let texturesPointer = new Uint32Array(textures)
+  glDeleteTextures(n, texturesPointer)
+}
+
+export function deleteTransformFeedbacks(n: number, ids: number[]) {
+  let idsPointer = new Uint32Array(ids)
+  glDeleteTransformFeedbacks(n, idsPointer)
+}
+
+export function deleteVertexArrays(n: number, arrays: number[]) {
+  let arraysPointer = new Uint32Array(arrays)
+  glDeleteVertexArrays(n, arraysPointer)
+}
+
+export function depthFunc(func: number) {
+  glDepthFunc(func)
+}
+
+export function depthMask(flag: boolean) {
+  glDepthMask(flag)
+}
+
+export function depthRange(nearVal: number, farVal: number) {
+  glDepthRange(nearVal, farVal)
+}
+
+export function depthRangef(nearVal: number, farVal: number) {
+  glDepthRangef(nearVal, farVal)
+}
+
+export function depthRangeArrayv(first: number, count: number, v: number[]) {
+  let vPointer = new Float64Array(v)
+  glDepthRangeArrayv(first, count, vPointer)
+}
+
+export function depthRangeIndexed(index: number, nearVal: number, farVal: number) {
+  glDepthRangeIndexed(index, nearVal, farVal)
+}
+
+export function detachShader(program: number, shader: number) {
+  glDetachShader(program, shader)
+}
+
+export function enable(cap: number) {
+  glEnable(cap)
+}
+
+export function disable(cap: number) {
+  glDisable(cap)
+}
+
+export function enablei(cap: number, index: number) {
+  glEnablei(cap, index)
+}
+
+export function disablei(cap: number, index: number) {
+  glDisablei(cap, index)
+}
+
+export function enableVertexAttribArray(index: number) {
+  glEnableVertexAttribArray(index)
+}
+
+export function disableVertexAttribArray(index: number) {
+  glDisableVertexAttribArray(index)
+}
+
+export function enableVertexArrayAttrib(vaobj: number, index: number) {
+  glEnableVertexArrayAttrib(vaobj, index)
+}
+
+export function disableVertexArrayAttrib(vaobj: number, index: number) {
+  glDisableVertexArrayAttrib(vaobj, index)
+}
 
 
 
