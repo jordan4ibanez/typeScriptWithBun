@@ -881,6 +881,23 @@ const {
     glDisableVertexAttribArray,
     glEnableVertexArrayAttrib,
     glDisableVertexArrayAttrib,
+    glDispatchCompute,
+    glDispatchComputeIndirect,
+    glDrawArrays,
+    glDrawArraysIndirect,
+    glDrawArraysInstanced,
+    glDrawArraysInstancedBaseInstance,
+    glDrawBuffer,
+    glNamedFramebufferDrawBuffer,
+    glDrawBuffers,
+    glNamedFramebufferDrawBuffers,
+    glDrawElements,
+    glDrawElementsBaseVertex,
+    glDrawElementsIndirect,
+    glDrawElementsInstanced,
+    glDrawElementsInstancedBaseInstance,
+    
+
   }
 } = dlopen(path, {
 
@@ -951,6 +968,81 @@ const {
 
   glDisableVertexArrayAttrib: {
     args: [GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glDispatchCompute: {
+    args: [GLuint, GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glDispatchComputeIndirect: {
+    args: [GLintptr],
+    returns: FFIType.void,
+  },
+
+  glDrawArrays: {
+    args: [GLenum, GLint, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glDrawArraysIndirect: {
+    args: [GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDrawArraysInstanced: {
+    args: [GLenum, GLint, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glDrawArraysInstancedBaseInstance: {
+    args: [GLenum, GLint, GLsizei, GLsizei, GLuint],
+    returns: FFIType.void,
+  },
+
+  glDrawBuffer: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glNamedFramebufferDrawBuffer: {
+    args: [GLuint, GLenum],
+    returns: FFIType.void,
+  },
+
+  glDrawBuffers: {
+    args: [GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glNamedFramebufferDrawBuffers: {
+    args: [GLuint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDrawElements: {
+    args: [GLenum, GLsizei, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDrawElementsBaseVertex: {
+    args: [GLenum, GLsizei, GLenum, FFIType.ptr, GLint],
+    returns: FFIType.void,
+  },
+
+  glDrawElementsIndirect: {
+    args: [GLenum, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glDrawElementsInstanced: {
+    args: [GLenum, GLsizei, GLenum, FFIType.ptr, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glDrawElementsInstancedBaseInstance: {
+    args: [GLenum, GLsizei, GLenum, FFIType.ptr, GLsizei, GLuint],
     returns: FFIType.void,
   },
 
@@ -1648,6 +1740,90 @@ export function enableVertexArrayAttrib(vaobj: number, index: number) {
 
 export function disableVertexArrayAttrib(vaobj: number, index: number) {
   glDisableVertexArrayAttrib(vaobj, index)
+}
+
+export function dispatchCompute(num_groups_x: number, num_groups_y: number, num_groups_z: number) {
+  glDispatchCompute(num_groups_x, num_groups_y, num_groups_z)
+}
+
+export function dispatchComputeIndirect(indirect: number) {
+  glDispatchComputeIndirect(indirect)
+}
+
+export function drawArrays(mode: number, first: number, count: number) {
+  glDrawArrays(mode, first, count)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawArraysIndirect(mode: number, indirect: TypedArray) {
+  glDrawArraysIndirect(mode, indirect)
+}
+
+export function drawArraysInstanced(mode: number, first: number, count: number, instancecount: number) {
+  glDrawArraysInstanced(mode, first, count, instancecount)
+}
+
+export function drawArraysInstancedBaseInstance(mode: number, first: number, count: number, instancecount: number, baseinstance: number) {
+  glDrawArraysInstancedBaseInstance(mode, first, count, instancecount, baseinstance)
+}
+
+export function drawBuffer(buf: number) {
+  glDrawBuffer(buf)
+}
+
+export function namedFramebufferDrawBuffer(framebuffer: number, buf: number) {
+  glNamedFramebufferDrawBuffer(framebuffer, buf)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawBuffers(n: number, bufs: TypedArray) {
+  glDrawBuffers(n, bufs)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function namedFramebufferDrawBuffers(framebuffer: number, n: number, bufs: TypedArray) {
+  glNamedFramebufferDrawBuffers(framebuffer, n, bufs)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawElements(mode: number, count: number, type: number, indices: TypedArray) {
+  glDrawElements(mode, count, type, indices)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawElementsBaseVertex(mode: number, count: number, type: number, indices: TypedArray, basevertex: number) {
+  glDrawElementsBaseVertex(mode, count, type, indices, basevertex)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawElementsIndirect(mode: number, type: number, indirect: TypedArray) {
+  glDrawElementsIndirect(mode, type, indirect)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawElementsInstanced(mode: number, count: number, type: number, indices: TypedArray, instancecount: number) {
+  glDrawElementsInstanced(mode, count, type, indices, instancecount)
+}
+
+/**
+ *! WARNING: If you do not store your array somewhere it WILL crash when Bun GCs your data!
+ */
+export function drawElementsInstancedBaseInstance(mode: number, count: number, type: number, indices: TypedArray, instancecount: number, baseinstance: number) {
+  glDrawElementsInstancedBaseInstance(mode, count, type, indices, instancecount, baseinstance)
 }
 
 
