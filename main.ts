@@ -47,7 +47,10 @@ if (!reload.isReload()) {
     print(`Window pointer is: ${window}`)
   }
 
+  print("context")
+  print(glfw.getCurrentContext())
   glfw.makeContextCurrent(global.window)
+  print("no crash")
 
 } else {
   print("resetting the window close flag")
