@@ -1,8 +1,9 @@
+//? I have no idea if you have to import ffi here before other libs that use ffi
+import { CString, FFIType } from "bun:ffi"
 import { print } from "./source/helpers"
 import * as reload from "./source/reload_info"
 import * as glfw from "./source/glfw3"
 import * as gl from "./source/opengl"
-import { CString, FFIType } from "bun:ffi"
 
 
 declare global {
