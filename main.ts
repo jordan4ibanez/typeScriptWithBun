@@ -27,6 +27,9 @@ if (!reload.isReload()) {
     print("GLFW3 initialized successfully.")
   }
 
+  print(glfw.getVersion())
+  print(glfw.getVersionString())
+
   // This will help me figure out what the *@#) is wrong with this
   global.glfwErrorCallback = glfw.setErrorCallback((error_code, description) => {
     let descString = new CString(description)
@@ -35,9 +38,7 @@ if (!reload.isReload()) {
     print(descString)
   })
 
-  print(glfw.getVersion())
-  print(glfw.getVersionString())
-
+  glfw.windowHint(glfw.OPENGL_DEBUG_CONTEXT, glfw.TRUE)
 
   // Typescript is pretty cool :)
   global.window = (() => {
@@ -56,10 +57,13 @@ if (!reload.isReload()) {
     print(`Window pointer is: ${window}`)
   }
 
-  print("context")
-  print(glfw.getCurrentContext())
   glfw.makeContextCurrent(global.window)
-  print("no crash")
+  print(glfw.getCurrentContext())
+
+
+  let test = gl.getString(gl.GL_VERSION)
+  print("OpenGL version: " + test)
+
 
 } else {
   print("resetting the window close flag")
@@ -70,7 +74,7 @@ if (!reload.isReload()) {
 if (global.window != null) {
   // print("hi")
   glfw.setWindowPosCallback(global.window, (_, x, y) => {
-    print(`hi I'm now at: ${x} and ${y}`)
+    // print(`hi I'm now at: ${x} and ${y}`)
   })
 
 
@@ -96,7 +100,7 @@ if (global.window != null) {
   // }
 // }
 
-reload.reloadInfo()
+// reload.reloadInfo()
 
 
 let readyToExit = false
@@ -113,5 +117,5 @@ if (readyToExit) {
 
 reload.successfulRun()
 
-print("exiting")
+// print("exiting")
 

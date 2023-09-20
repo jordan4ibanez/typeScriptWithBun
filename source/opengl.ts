@@ -64,6 +64,12 @@ export type  GLclampd   = FFIType.double
 
 export const GL_TRUE  = 1
 export const GL_FALSE = 0
+export const GL_VERSION = 0x1F02
+
+//! THE REST OF THE ENUMS NEED TO GO HERE!
+//! https://github.com/drbrain/opengl/blob/master/ext/opengl/gl-enums.h
+
+
 
 // Begin this monster.
 /*
@@ -1289,6 +1295,7 @@ const {
     glInvalidateBufferSubData,
     glInvalidateFramebuffer,
     glInvalidateNamedFramebufferData,
+    glGetString, 
   }
 } = dlopen(path, {
 
@@ -1395,6 +1402,11 @@ const {
   glInvalidateNamedFramebufferData: {
     args: [GLuint, GLsizei, FFIType.ptr],
     returns: FFIType.void,
+  },
+
+  glGetString: {
+    args: [GLenum],
+    returns: FFIType.ptr,
   },
 
   
@@ -2551,7 +2563,7 @@ Also, the keyword for this portion is: F22%%%.,l;'
 *
 * To:   glGetVertexAttribPointerv
 *
-* Exception: glGetError
+* Exception: glGetError, glGetString
 *
 * glGetError is very important!
 
@@ -2583,6 +2595,12 @@ export function invalidateFramebuffer(target: number, numAttachments: number, at
 export function invalidateNamedFramebufferData(framebuffer: number, numAttachments: number, attachments: number[]) {
   let attachmentsPointer = new Uint32Array(attachments)
   glInvalidateNamedFramebufferData(framebuffer, numAttachments, attachmentsPointer)
+}
+
+export function getString(name: number): string {
+  let stringPointer = glGetString(name)
+  if (stringPointer == null) {return "NULL"}
+  return new CString(stringPointer).toString()
 }
 
 /*
