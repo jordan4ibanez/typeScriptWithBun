@@ -86,17 +86,23 @@ if (global.window != null) {
   })
 }
 
+
+
 // while (!glfw.windowShouldClose(global.window)) {
 
+  gl.clearColor(0.1,0.1,0.5,1)
+  gl.clear(gl.GL_COLOR_BUFFER_BIT)
+  
   let i = Math.random()
   print(`refreshing GLFW: ${i}`)
   print("another test")
   glfw.swapBuffers(global.window)
   glfw.pollEvents()
 
-  // if (glfw.getKey(window, glfw.KEY_F1) == glfw.TRUE) {
-  //   break;
-  // }
+  if (glfw.getKey(window, glfw.KEY_F1) == glfw.TRUE) {
+    print("cool")
+    // break;
+  }
 // }
 
 // reload.reloadInfo()
