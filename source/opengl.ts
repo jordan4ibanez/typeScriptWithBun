@@ -5069,7 +5069,22 @@ export const {
     glProgramUniformMatrix4x2fv,
     glProgramUniformMatrix3x4fv,
     glProgramUniformMatrix4x3fv,
-
+    glProvokingVertex,
+    glPushDebugGroup,
+    glQueryCounter,
+    glReadPixels,
+    glReadnPixels,
+    glReleaseShaderCompiler,
+    glResumeTransformFeedback,
+    glSampleCoverage,
+    glSampleMaski,
+    glSamplerParameterf,
+    glSamplerParameteri,
+    glSamplerParameterfv,
+    glSamplerParameteriv,
+    glSamplerParameterIiv,
+    glSamplerParameterIuiv,
+    glScissor
   }
 } = dlopen(path, {
   glPatchParameterfv: {
@@ -5311,5 +5326,111 @@ export const {
     args: [GLuint, GLint, GLsizei, GLboolean, FFIType.ptr],
     returns: FFIType.void,
   },
+
+  glProvokingVertex: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glPushDebugGroup: {
+    args: [GLenum, GLuint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glQueryCounter: {
+    args: [GLuint, GLenum],
+    returns: FFIType.void,
+  },
+
+  glReadPixels: {
+    args: [GLint, GLint, GLsizei, GLsizei, GLenum, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glReadnPixels: {
+    args: [GLint, GLint, GLsizei, GLsizei, GLenum, GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glReleaseShaderCompiler: {
+    args: [],
+    returns: FFIType.void,
+  },
+
+  glResumeTransformFeedback: {
+    args: [],
+    returns: FFIType.void,
+  },
+
+  glSampleCoverage: {
+    args: [GLfloat, GLboolean],
+    returns: FFIType.void,
+  },
+
+  glSampleMaski: {
+    args: [GLuint, GLbitfield],
+    returns: FFIType.void,
+  },
+
+  glSamplerParameterf: {
+    args: [GLuint, GLenum, GLfloat],
+    returns: FFIType.void,
+  },
+
+  glSamplerParameteri: {
+    args: [GLuint, GLenum, GLint],
+    returns: FFIType.void,
+  },
+
+  glSamplerParameterfv: {
+    args: [GLuint, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glSamplerParameteriv: {
+    args: [GLuint, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glSamplerParameterIiv: {
+    args: [GLuint, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glSamplerParameterIuiv: {
+    args: [GLuint, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glScissor: {
+    args: [GLint, GLint, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
   
+})
+
+//* Bun FFI allows 64 function defs in one call, move onto the next.
+
+export const { 
+  symbols: {
+      glScissorArrayv,
+      glScissorIndexed,
+      glScissorIndexedv,
+  }
+} = dlopen(path, {
+  glScissorArrayv: {
+    args: [GLuint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glScissorIndexed: {
+    args: [GLuint, GLint, GLint, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glScissorIndexedv: {
+    args: [GLuint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
 })
