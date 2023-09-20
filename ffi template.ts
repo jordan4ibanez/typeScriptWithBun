@@ -1,0 +1,4 @@
+: {
+    args: [],
+    returns: FFIType.void,
+  },
