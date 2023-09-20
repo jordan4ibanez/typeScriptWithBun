@@ -447,9 +447,9 @@ export const GL_COMBINE_RGB = 0x8571
 export const GL_COMBINE_RGB_ARB = 0x8571
 export const GL_COMBINE_RGB_EXT = 0x8571
 export const GL_COMPARE_REF_DEPTH_TO_TEXTURE_EXT = 0x884E
-export const GL_COMPARE_REF_TO_TEXTURE GL_COMPARE_R_TO_TEXTURE_ARB
 export const GL_COMPARE_R_TO_TEXTURE = 0x884E
 export const GL_COMPARE_R_TO_TEXTURE_ARB = 0x884E
+export const GL_COMPARE_REF_TO_TEXTURE = GL_COMPARE_R_TO_TEXTURE_ARB
 export const GL_COMPILE = 0x1300
 export const GL_COMPILE_AND_EXECUTE = 0x1301
 export const GL_COMPILE_STATUS = 0x8B81
@@ -581,14 +581,14 @@ export const GL_CULL_FRAGMENT_NV = 0x86E7
 export const GL_CULL_MODES_NV = 0x86E0
 export const GL_CULL_VERTEX_EXT = 0x81AA
 export const GL_CULL_VERTEX_EYE_POSITION_EXT = 0x81AB
-export const GL_CULL_VERTEX_IBM 103050
+export const GL_CULL_VERTEX_IBM = 103050
 export const GL_CULL_VERTEX_OBJECT_POSITION_EXT = 0x81AC
 export const GL_CURRENT_ATTRIB_NV = 0x8626
 export const GL_CURRENT_BINORMAL_EXT = 0x843C
 export const GL_CURRENT_BIT = 0x00000001
 export const GL_CURRENT_COLOR = 0x0B00
-export const GL_CURRENT_FOG_COORD GL_CURRENT_FOG_COORDINATE
 export const GL_CURRENT_FOG_COORDINATE = 0x8453
+export const GL_CURRENT_FOG_COORD = GL_CURRENT_FOG_COORDINATE
 export const GL_CURRENT_FOG_COORDINATE_EXT = 0x8453
 export const GL_CURRENT_INDEX = 0x0B01
 export const GL_CURRENT_MATRIX_ARB = 0x8641
@@ -763,8 +763,6 @@ export const GL_DRAW_BUFFER9 = 0x882E
 export const GL_DRAW_BUFFER9_ARB = 0x882E
 export const GL_DRAW_BUFFER9_ATI = 0x882E
 export const GL_DRAW_FRAMEBUFFER = 0x8CA9
-export const GL_DRAW_FRAMEBUFFER_BINDING GL_FRAMEBUFFER_BINDING
-export const GL_DRAW_FRAMEBUFFER_BINDING_EXT GL_FRAMEBUFFER_BINDING_EXT
 export const GL_DRAW_FRAMEBUFFER_EXT = 0x8CA9
 export const GL_DRAW_PIXELS_APPLE = 0x8A0A
 export const GL_DRAW_PIXEL_TOKEN = 0x0705
@@ -812,8 +810,8 @@ export const GL_EDGE_FLAG_ARRAY_BUFFER_BINDING = 0x889B
 export const GL_EDGE_FLAG_ARRAY_BUFFER_BINDING_ARB = 0x889B
 export const GL_EDGE_FLAG_ARRAY_COUNT_EXT = 0x808D
 export const GL_EDGE_FLAG_ARRAY_EXT = 0x8079
-export const GL_EDGE_FLAG_ARRAY_LIST_IBM 103075
-export const GL_EDGE_FLAG_ARRAY_LIST_STRIDE_IBM 103085
+export const GL_EDGE_FLAG_ARRAY_LIST_IBM = 103075
+export const GL_EDGE_FLAG_ARRAY_LIST_STRIDE_IBM = 103085
 export const GL_EDGE_FLAG_ARRAY_POINTER = 0x8093
 export const GL_EDGE_FLAG_ARRAY_POINTER_EXT = 0x8093
 export const GL_EDGE_FLAG_ARRAY_STRIDE = 0x808C
@@ -861,25 +859,25 @@ export const GL_EXP2 = 0x0801
 export const GL_EXPAND_NEGATE_NV = 0x8539
 export const GL_EXPAND_NORMAL_NV = 0x8538
 export const GL_EXTENSIONS = 0x1F03
-export const GL_EXT_abgr 1
-export const GL_EXT_blend_color 1
-export const GL_EXT_blend_logic_op 1
-export const GL_EXT_blend_minmax 1
-export const GL_EXT_blend_subtract 1
-export const GL_EXT_cmyka 1
-export const GL_EXT_convolution 1
-export const GL_EXT_copy_texture 1
-export const GL_EXT_histogram 1
-export const GL_EXT_packed_pixels 1
-export const GL_EXT_point_parameters 1
-export const GL_EXT_polygon_offset 1
-export const GL_EXT_rescale_normal 1
-export const GL_EXT_shared_texture_palette 1
-export const GL_EXT_subtexture 1
-export const GL_EXT_texture 1
-export const GL_EXT_texture3D 1
-export const GL_EXT_texture_object 1
-export const GL_EXT_vertex_array 1
+export const GL_EXT_abgr = 1
+export const GL_EXT_blend_color = 1
+export const GL_EXT_blend_logic_op = 1
+export const GL_EXT_blend_minmax = 1
+export const GL_EXT_blend_subtract = 1
+export const GL_EXT_cmyka = 1
+export const GL_EXT_convolution = 1
+export const GL_EXT_copy_texture = 1
+export const GL_EXT_histogram = 1
+export const GL_EXT_packed_pixels = 1
+export const GL_EXT_point_parameters = 1
+export const GL_EXT_polygon_offset = 1
+export const GL_EXT_rescale_normal = 1
+export const GL_EXT_shared_texture_palette = 1
+export const GL_EXT_subtexture = 1
+export const GL_EXT_texture = 1
+export const GL_EXT_texture3D = 1
+export const GL_EXT_texture_object = 1
+export const GL_EXT_vertex_array = 1
 export const GL_EYE_DISTANCE_TO_LINE_SGIS = 0x81F2
 export const GL_EYE_DISTANCE_TO_POINT_SGIS = 0x81F0
 export const GL_EYE_LINEAR = 0x2400
@@ -941,14 +939,14 @@ export const GL_FLOAT_VEC4_ARB = 0x8B52
 export const GL_FOG = 0x0B60
 export const GL_FOG_BIT = 0x00000080
 export const GL_FOG_COLOR = 0x0B66
-export const GL_FOG_COORD GL_FOG_COORDINATE
 export const GL_FOG_COORDINATE = 0x8451
+export const GL_FOG_COORD = GL_FOG_COORDINATE
 export const GL_FOG_COORDINATE_ARRAY = 0x8457
 export const GL_FOG_COORDINATE_ARRAY_BUFFER_BINDING = 0x889D
 export const GL_FOG_COORDINATE_ARRAY_BUFFER_BINDING_ARB = 0x889D
 export const GL_FOG_COORDINATE_ARRAY_EXT = 0x8457
-export const GL_FOG_COORDINATE_ARRAY_LIST_IBM 103076
-export const GL_FOG_COORDINATE_ARRAY_LIST_STRIDE_IBM 103086
+export const GL_FOG_COORDINATE_ARRAY_LIST_IBM = 103076
+export const GL_FOG_COORDINATE_ARRAY_LIST_STRIDE_IBM = 103086
 export const GL_FOG_COORDINATE_ARRAY_POINTER = 0x8456
 export const GL_FOG_COORDINATE_ARRAY_POINTER_EXT = 0x8456
 export const GL_FOG_COORDINATE_ARRAY_STRIDE = 0x8455
@@ -958,12 +956,12 @@ export const GL_FOG_COORDINATE_ARRAY_TYPE_EXT = 0x8454
 export const GL_FOG_COORDINATE_EXT = 0x8451
 export const GL_FOG_COORDINATE_SOURCE = 0x8450
 export const GL_FOG_COORDINATE_SOURCE_EXT = 0x8450
-export const GL_FOG_COORD_ARRAY GL_FOG_COORDINATE_ARRAY
-export const GL_FOG_COORD_ARRAY_BUFFER_BINDING GL_FOG_COORDINATE_ARRAY_BUFFER_BINDING
-export const GL_FOG_COORD_ARRAY_POINTER GL_FOG_COORDINATE_ARRAY_POINTER
-export const GL_FOG_COORD_ARRAY_STRIDE GL_FOG_COORDINATE_ARRAY_STRIDE
-export const GL_FOG_COORD_ARRAY_TYPE GL_FOG_COORDINATE_ARRAY_TYPE
-export const GL_FOG_COORD_SRC GL_FOG_COORDINATE_SOURCE
+export const GL_FOG_COORD_ARRAY = GL_FOG_COORDINATE_ARRAY
+export const GL_FOG_COORD_ARRAY_BUFFER_BINDING = GL_FOG_COORDINATE_ARRAY_BUFFER_BINDING
+export const GL_FOG_COORD_ARRAY_POINTER = GL_FOG_COORDINATE_ARRAY_POINTER
+export const GL_FOG_COORD_ARRAY_STRIDE = GL_FOG_COORDINATE_ARRAY_STRIDE
+export const GL_FOG_COORD_ARRAY_TYPE = GL_FOG_COORDINATE_ARRAY_TYPE
+export const GL_FOG_COORD_SRC = GL_FOG_COORDINATE_SOURCE
 export const GL_FOG_DENSITY = 0x0B62
 export const GL_FOG_DISTANCE_MODE_NV = 0x855A
 export const GL_FOG_END = 0x0B64
@@ -1036,6 +1034,8 @@ export const GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL = 0x8CD2
 export const GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL_EXT = 0x8CD2
 export const GL_FRAMEBUFFER_BINDING = 0x8CA6
 export const GL_FRAMEBUFFER_BINDING_EXT = 0x8CA6
+export const GL_DRAW_FRAMEBUFFER_BINDING = GL_FRAMEBUFFER_BINDING
+export const GL_DRAW_FRAMEBUFFER_BINDING_EXT = GL_FRAMEBUFFER_BINDING_EXT
 export const GL_FRAMEBUFFER_COMPLETE = 0x8CD5
 export const GL_FRAMEBUFFER_COMPLETE_EXT = 0x8CD5
 export const GL_FRAMEBUFFER_DEFAULT = 0x8218
@@ -1162,8 +1162,8 @@ export const GL_INDEX_ARRAY_BUFFER_BINDING = 0x8899
 export const GL_INDEX_ARRAY_BUFFER_BINDING_ARB = 0x8899
 export const GL_INDEX_ARRAY_COUNT_EXT = 0x8087
 export const GL_INDEX_ARRAY_EXT = 0x8077
-export const GL_INDEX_ARRAY_LIST_IBM 103073
-export const GL_INDEX_ARRAY_LIST_STRIDE_IBM 103083
+export const GL_INDEX_ARRAY_LIST_IBM = 103073
+export const GL_INDEX_ARRAY_LIST_STRIDE_IBM = 103083
 export const GL_INDEX_ARRAY_POINTER = 0x8091
 export const GL_INDEX_ARRAY_POINTER_EXT = 0x8091
 export const GL_INDEX_ARRAY_STRIDE = 0x8086
@@ -1514,8 +1514,8 @@ export const GL_MAX_BINDABLE_UNIFORM_SIZE_EXT = 0x8DED
 export const GL_MAX_CLIENT_ATTRIB_STACK_DEPTH = 0x0D3B
 export const GL_MAX_CLIPMAP_DEPTH_SGIX = 0x8177
 export const GL_MAX_CLIPMAP_VIRTUAL_DEPTH_SGIX = 0x8178
-export const GL_MAX_CLIP_DISTANCES GL_MAX_CLIP_PLANES
 export const GL_MAX_CLIP_PLANES = 0x0D32
+export const GL_MAX_CLIP_DISTANCES = GL_MAX_CLIP_PLANES
 export const GL_MAX_COLOR_ATTACHMENTS = 0x8CDF
 export const GL_MAX_COLOR_ATTACHMENTS_EXT = 0x8CDF
 export const GL_MAX_COLOR_MATRIX_STACK_DEPTH = 0x80B3
@@ -1646,9 +1646,9 @@ export const GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS_NV = 0x8C8B
 export const GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS = 0x8C80
 export const GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS_EXT = 0x8C80
 export const GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS_NV = 0x8C80
-export const GL_MAX_VARYING_COMPONENTS GL_MAX_VARYING_FLOATS
 export const GL_MAX_VARYING_COMPONENTS_EXT = 0x8B4B
 export const GL_MAX_VARYING_FLOATS = 0x8B4B
+export const GL_MAX_VARYING_COMPONENTS = GL_MAX_VARYING_FLOATS
 export const GL_MAX_VARYING_FLOATS_ARB = 0x8B4B
 export const GL_MAX_VERTEX_ARRAY_RANGE_ELEMENT_NV = 0x8520
 export const GL_MAX_VERTEX_ATTRIBS = 0x8869
@@ -1690,9 +1690,7 @@ export const GL_MIRROR_CLAMP_TO_EDGE_ATI = 0x8743
 export const GL_MIRROR_CLAMP_TO_EDGE_EXT = 0x8743
 export const GL_MODELVIEW = 0x1700
 export const GL_MODELVIEW0_ARB = 0x1700
-export const GL_MODELVIEW0_EXT GL_MODELVIEW
-export const GL_MODELVIEW0_MATRIX_EXT GL_MODELVIEW_MATRIX
-export const GL_MODELVIEW0_STACK_DEPTH_EXT GL_MODELVIEW_STACK_DEPTH
+export const GL_MODELVIEW0_EXT = GL_MODELVIEW
 export const GL_MODELVIEW10_ARB = 0x872A
 export const GL_MODELVIEW11_ARB = 0x872B
 export const GL_MODELVIEW12_ARB = 0x872C
@@ -1728,8 +1726,10 @@ export const GL_MODELVIEW7_ARB = 0x8727
 export const GL_MODELVIEW8_ARB = 0x8728
 export const GL_MODELVIEW9_ARB = 0x8729
 export const GL_MODELVIEW_MATRIX = 0x0BA6
+export const GL_MODELVIEW0_MATRIX_EXT = GL_MODELVIEW_MATRIX
 export const GL_MODELVIEW_PROJECTION_NV = 0x8629
 export const GL_MODELVIEW_STACK_DEPTH = 0x0BA3
+export const GL_MODELVIEW0_STACK_DEPTH_EXT = GL_MODELVIEW_STACK_DEPTH
 export const GL_MODULATE = 0x2100
 export const GL_MODULATE_ADD_ATI = 0x8744
 export const GL_MODULATE_SIGNED_ADD_ATI = 0x8745
@@ -1768,7 +1768,7 @@ export const GL_NEGATIVE_Y_EXT = 0x87DA
 export const GL_NEGATIVE_Z_EXT = 0x87DB
 export const GL_NEVER = 0x0200
 export const GL_NICEST = 0x1102
-export const GL_NONE 0
+export const GL_NONE = 0
 export const GL_NOOP = 0x1505
 export const GL_NOR = 0x1508
 export const GL_NORMALIZE = 0x0BA1
@@ -1778,8 +1778,8 @@ export const GL_NORMAL_ARRAY_BUFFER_BINDING = 0x8897
 export const GL_NORMAL_ARRAY_BUFFER_BINDING_ARB = 0x8897
 export const GL_NORMAL_ARRAY_COUNT_EXT = 0x8080
 export const GL_NORMAL_ARRAY_EXT = 0x8075
-export const GL_NORMAL_ARRAY_LIST_IBM 103071
-export const GL_NORMAL_ARRAY_LIST_STRIDE_IBM 103081
+export const GL_NORMAL_ARRAY_LIST_IBM = 103071
+export const GL_NORMAL_ARRAY_LIST_STRIDE_IBM = 103081
 export const GL_NORMAL_ARRAY_PARALLEL_POINTERS_INTEL = 0x83F6
 export const GL_NORMAL_ARRAY_POINTER = 0x808F
 export const GL_NORMAL_ARRAY_POINTER_EXT = 0x808F
@@ -1793,7 +1793,7 @@ export const GL_NORMAL_MAP_ARB = 0x8511
 export const GL_NORMAL_MAP_EXT = 0x8511
 export const GL_NORMAL_MAP_NV = 0x8511
 export const GL_NOTEQUAL = 0x0205
-export const GL_NO_ERROR 0
+export const GL_NO_ERROR = 0
 export const GL_NUM_COMPRESSED_TEXTURE_FORMATS = 0x86A2
 export const GL_NUM_COMPRESSED_TEXTURE_FORMATS_ARB = 0x86A2
 export const GL_NUM_EXTENSIONS = 0x821D
@@ -1837,16 +1837,16 @@ export const GL_OFFSET_PROJECTIVE_TEXTURE_2D_NV = 0x8850
 export const GL_OFFSET_PROJECTIVE_TEXTURE_2D_SCALE_NV = 0x8851
 export const GL_OFFSET_PROJECTIVE_TEXTURE_RECTANGLE_NV = 0x8852
 export const GL_OFFSET_PROJECTIVE_TEXTURE_RECTANGLE_SCALE_NV = 0x8853
-export const GL_OFFSET_TEXTURE_2D_BIAS_NV GL_OFFSET_TEXTURE_BIAS_NV
-export const GL_OFFSET_TEXTURE_2D_MATRIX_NV GL_OFFSET_TEXTURE_MATRIX_NV
 export const GL_OFFSET_TEXTURE_2D_NV = 0x86E8
-export const GL_OFFSET_TEXTURE_2D_SCALE_NV GL_OFFSET_TEXTURE_SCALE_NV
 export const GL_OFFSET_TEXTURE_BIAS_NV = 0x86E3
 export const GL_OFFSET_TEXTURE_MATRIX_NV = 0x86E1
 export const GL_OFFSET_TEXTURE_RECTANGLE_NV = 0x864C
 export const GL_OFFSET_TEXTURE_RECTANGLE_SCALE_NV = 0x864D
 export const GL_OFFSET_TEXTURE_SCALE_NV = 0x86E2
-export const GL_ONE 1
+export const GL_OFFSET_TEXTURE_2D_BIAS_NV = GL_OFFSET_TEXTURE_BIAS_NV
+export const GL_OFFSET_TEXTURE_2D_MATRIX_NV = GL_OFFSET_TEXTURE_MATRIX_NV
+export const GL_OFFSET_TEXTURE_2D_SCALE_NV = GL_OFFSET_TEXTURE_SCALE_NV
+export const GL_ONE = 1
 export const GL_ONE_EXT = 0x87DE
 export const GL_ONE_MINUS_CONSTANT_ALPHA = 0x8004
 export const GL_ONE_MINUS_CONSTANT_ALPHA_EXT = 0x8004
@@ -2555,8 +2555,8 @@ export const GL_SECONDARY_COLOR_ARRAY = 0x845E
 export const GL_SECONDARY_COLOR_ARRAY_BUFFER_BINDING = 0x889C
 export const GL_SECONDARY_COLOR_ARRAY_BUFFER_BINDING_ARB = 0x889C
 export const GL_SECONDARY_COLOR_ARRAY_EXT = 0x845E
-export const GL_SECONDARY_COLOR_ARRAY_LIST_IBM 103077
-export const GL_SECONDARY_COLOR_ARRAY_LIST_STRIDE_IBM 103087
+export const GL_SECONDARY_COLOR_ARRAY_LIST_IBM = 103077
+export const GL_SECONDARY_COLOR_ARRAY_LIST_STRIDE_IBM = 103087
 export const GL_SECONDARY_COLOR_ARRAY_POINTER = 0x845D
 export const GL_SECONDARY_COLOR_ARRAY_POINTER_EXT = 0x845D
 export const GL_SECONDARY_COLOR_ARRAY_SIZE = 0x845A
@@ -2578,59 +2578,59 @@ export const GL_SEPARATE_ATTRIBS_NV = 0x8C8D
 export const GL_SEPARATE_SPECULAR_COLOR = 0x81FA
 export const GL_SEPARATE_SPECULAR_COLOR_EXT = 0x81FA
 export const GL_SET = 0x150F
-export const GL_SGIS_detail_texture 1
-export const GL_SGIS_fog_function 1
-export const GL_SGIS_generate_mipmap 1
-export const GL_SGIS_multisample 1
-export const GL_SGIS_pixel_texture 1
-export const GL_SGIS_point_line_texgen 1
-export const GL_SGIS_point_parameters 1
-export const GL_SGIS_sharpen_texture 1
-export const GL_SGIS_texture4D 1
-export const GL_SGIS_texture_border_clamp 1
-export const GL_SGIS_texture_edge_clamp 1
-export const GL_SGIS_texture_filter4 1
-export const GL_SGIS_texture_lod 1
-export const GL_SGIS_texture_select 1
-export const GL_SGIX_async 1
-export const GL_SGIX_async_histogram 1
-export const GL_SGIX_async_pixel 1
-export const GL_SGIX_blend_alpha_minmax 1
-export const GL_SGIX_calligraphic_fragment 1
-export const GL_SGIX_clipmap 1
-export const GL_SGIX_convolution_accuracy 1
-export const GL_SGIX_depth_texture 1
-export const GL_SGIX_flush_raster 1
-export const GL_SGIX_fog_offset 1
-export const GL_SGIX_fragment_lighting 1
-export const GL_SGIX_framezoom 1
-export const GL_SGIX_icc_texture 1
-export const GL_SGIX_impact_pixel_texture 1
-export const GL_SGIX_instruments 1
-export const GL_SGIX_interlace 1
-export const GL_SGIX_ir_instrument1 1
-export const GL_SGIX_list_priority 1
-export const GL_SGIX_pixel_texture 1
-export const GL_SGIX_pixel_tiles 1
-export const GL_SGIX_polynomial_ffd 1
-export const GL_SGIX_reference_plane 1
-export const GL_SGIX_resample 1
-export const GL_SGIX_scalebias_hint 1
-export const GL_SGIX_shadow 1
-export const GL_SGIX_shadow_ambient 1
-export const GL_SGIX_sprite 1
-export const GL_SGIX_subsample 1
-export const GL_SGIX_tag_sample_buffer 1
-export const GL_SGIX_texture_add_env 1
-export const GL_SGIX_texture_coordinate_clamp 1
-export const GL_SGIX_texture_lod_bias 1
-export const GL_SGIX_texture_multi_buffer 1
-export const GL_SGIX_texture_scale_bias 1
-export const GL_SGIX_vertex_preclip 1
-export const GL_SGIX_ycrcb 1
-export const GL_SGI_color_matrix 1
-export const GL_SGI_color_table 1
-export const GL_SGI_texture_color_table 1
+export const GL_SGIS_detail_texture = 1
+export const GL_SGIS_fog_function = 1
+export const GL_SGIS_generate_mipmap = 1
+export const GL_SGIS_multisample = 1
+export const GL_SGIS_pixel_texture = 1
+export const GL_SGIS_point_line_texgen = 1
+export const GL_SGIS_point_parameters = 1
+export const GL_SGIS_sharpen_texture = 1
+export const GL_SGIS_texture4D = 1
+export const GL_SGIS_texture_border_clamp = 1
+export const GL_SGIS_texture_edge_clamp = 1
+export const GL_SGIS_texture_filter4 = 1
+export const GL_SGIS_texture_lod = 1
+export const GL_SGIS_texture_select = 1
+export const GL_SGIX_async = 1
+export const GL_SGIX_async_histogram = 1
+export const GL_SGIX_async_pixel = 1
+export const GL_SGIX_blend_alpha_minmax = 1
+export const GL_SGIX_calligraphic_fragment = 1
+export const GL_SGIX_clipmap = 1
+export const GL_SGIX_convolution_accuracy = 1
+export const GL_SGIX_depth_texture = 1
+export const GL_SGIX_flush_raster = 1
+export const GL_SGIX_fog_offset = 1
+export const GL_SGIX_fragment_lighting = 1
+export const GL_SGIX_framezoom = 1
+export const GL_SGIX_icc_texture = 1
+export const GL_SGIX_impact_pixel_texture = 1
+export const GL_SGIX_instruments = 1
+export const GL_SGIX_interlace = 1
+export const GL_SGIX_ir_instrument1 = 1
+export const GL_SGIX_list_priority = 1
+export const GL_SGIX_pixel_texture = 1
+export const GL_SGIX_pixel_tiles = 1
+export const GL_SGIX_polynomial_ffd = 1
+export const GL_SGIX_reference_plane = 1
+export const GL_SGIX_resample = 1
+export const GL_SGIX_scalebias_hint = 1
+export const GL_SGIX_shadow = 1
+export const GL_SGIX_shadow_ambient = 1
+export const GL_SGIX_sprite = 1
+export const GL_SGIX_subsample = 1
+export const GL_SGIX_tag_sample_buffer = 1
+export const GL_SGIX_texture_add_env = 1
+export const GL_SGIX_texture_coordinate_clamp = 1
+export const GL_SGIX_texture_lod_bias = 1
+export const GL_SGIX_texture_multi_buffer = 1
+export const GL_SGIX_texture_scale_bias = 1
+export const GL_SGIX_vertex_preclip = 1
+export const GL_SGIX_ycrcb = 1
+export const GL_SGI_color_matrix = 1
+export const GL_SGI_color_table = 1
+export const GL_SGI_texture_color_table = 1
 export const GL_SHADER_CONSISTENT_NV = 0x86DD
 export const GL_SHADER_OBJECT_ARB = 0x8B48
 export const GL_SHADER_OPERATION_NV = 0x86DF
@@ -2715,12 +2715,12 @@ export const GL_SPRITE_MODE_SGIX = 0x8149
 export const GL_SPRITE_OBJECT_ALIGNED_SGIX = 0x814D
 export const GL_SPRITE_SGIX = 0x8148
 export const GL_SPRITE_TRANSLATION_SGIX = 0x814B
-export const GL_SRC0_ALPHA GL_SOURCE0_ALPHA
-export const GL_SRC0_RGB GL_SOURCE0_RGB
-export const GL_SRC1_ALPHA GL_SOURCE1_ALPHA
-export const GL_SRC1_RGB GL_SOURCE1_RGB
-export const GL_SRC2_ALPHA GL_SOURCE2_ALPHA
-export const GL_SRC2_RGB GL_SOURCE2_RGB
+export const GL_SRC0_ALPHA = GL_SOURCE0_ALPHA
+export const GL_SRC0_RGB = GL_SOURCE0_RGB
+export const GL_SRC1_ALPHA = GL_SOURCE1_ALPHA
+export const GL_SRC1_RGB = GL_SOURCE1_RGB
+export const GL_SRC2_ALPHA = GL_SOURCE2_ALPHA
+export const GL_SRC2_RGB = GL_SOURCE2_RGB
 export const GL_SRC_ALPHA = 0x0302
 export const GL_SRC_ALPHA_SATURATE = 0x0308
 export const GL_SRC_COLOR = 0x0300
@@ -2970,8 +2970,8 @@ export const GL_TEXTURE_COORD_ARRAY_BUFFER_BINDING = 0x889A
 export const GL_TEXTURE_COORD_ARRAY_BUFFER_BINDING_ARB = 0x889A
 export const GL_TEXTURE_COORD_ARRAY_COUNT_EXT = 0x808B
 export const GL_TEXTURE_COORD_ARRAY_EXT = 0x8078
-export const GL_TEXTURE_COORD_ARRAY_LIST_IBM 103074
-export const GL_TEXTURE_COORD_ARRAY_LIST_STRIDE_IBM 103084
+export const GL_TEXTURE_COORD_ARRAY_LIST_IBM = 103074
+export const GL_TEXTURE_COORD_ARRAY_LIST_STRIDE_IBM = 103084
 export const GL_TEXTURE_COORD_ARRAY_PARALLEL_POINTERS_INTEL = 0x83F8
 export const GL_TEXTURE_COORD_ARRAY_POINTER = 0x8092
 export const GL_TEXTURE_COORD_ARRAY_POINTER_EXT = 0x8092
@@ -3265,14 +3265,14 @@ export const GL_VARIANT_VALUE_EXT = 0x87E4
 export const GL_VECTOR_EXT = 0x87BF
 export const GL_VENDOR = 0x1F00
 export const GL_VERSION = 0x1F02
-export const GL_VERSION_1_1 1
-export const GL_VERSION_1_2 1
-export const GL_VERSION_1_3 1
-export const GL_VERSION_1_4 1
-export const GL_VERSION_1_5 1
-export const GL_VERSION_2_0 1
-export const GL_VERSION_2_1 1
-export const GL_VERSION_3_0 1
+export const GL_VERSION_1_1 = 1
+export const GL_VERSION_1_2 = 1
+export const GL_VERSION_1_3 = 1
+export const GL_VERSION_1_4 = 1
+export const GL_VERSION_1_5 = 1
+export const GL_VERSION_2_0 = 1
+export const GL_VERSION_2_1 = 1
+export const GL_VERSION_3_0 = 1
 export const GL_VERTEX23_BIT_PGI = 0x00000004
 export const GL_VERTEX4_BIT_PGI = 0x00000008
 export const GL_VERTEX_ARRAY = 0x8074
@@ -3282,8 +3282,8 @@ export const GL_VERTEX_ARRAY_BUFFER_BINDING = 0x8896
 export const GL_VERTEX_ARRAY_BUFFER_BINDING_ARB = 0x8896
 export const GL_VERTEX_ARRAY_COUNT_EXT = 0x807D
 export const GL_VERTEX_ARRAY_EXT = 0x8074
-export const GL_VERTEX_ARRAY_LIST_IBM 103070
-export const GL_VERTEX_ARRAY_LIST_STRIDE_IBM 103080
+export const GL_VERTEX_ARRAY_LIST_IBM = 103070
+export const GL_VERTEX_ARRAY_LIST_STRIDE_IBM = 103080
 export const GL_VERTEX_ARRAY_PARALLEL_POINTERS_INTEL = 0x83F5
 export const GL_VERTEX_ARRAY_POINTER = 0x808E
 export const GL_VERTEX_ARRAY_POINTER_EXT = 0x808E
@@ -3405,7 +3405,7 @@ export const GL_YCRCB_422_SGIX = 0x81BB
 export const GL_YCRCB_444_SGIX = 0x81BC
 export const GL_YCRCB_SGIX = 0x8318
 export const GL_Y_EXT = 0x87D6
-export const GL_ZERO 0
+export const GL_ZERO = 0
 export const GL_ZERO_EXT = 0x87DD
 export const GL_ZOOM_X = 0x0D16
 export const GL_ZOOM_Y = 0x0D17
