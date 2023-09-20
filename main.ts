@@ -10,6 +10,7 @@ import { CString, FFIType, JSCallback } from "bun:ffi"
 declare global {
   var window: FFIType.ptr
   var glfwErrorCallback: JSCallback
+  var shaderHack: number
 }
 
 gl.forceReload()
@@ -69,8 +70,27 @@ if (!reload.isReload()) {
 
   let fragSource = Bun.file("./shaders/frag.frag")
   let fragSourceText = await fragSource.text()
+  let fragBuffer = Buffer.from(fragSourceText)
   print(fragSourceText)
 
+  let vertSource = Bun.file("./shaders/vert.vert")
+  let vertSourceText = await fragSource.text()
+  let vertBuffer = Buffer.from(vertSourceText)
+  print(vertSourceText)
+
+  let shaderHack = gl.glCreateProgram()
+  print("shaderID: ", shaderHack)
+
+
+  const fragID = gl.glCreateShader(gl.GL_FRAGMENT_SHADER)
+  gl.glShaderSource(fragID, 1, fragBuffer, new Int32Array(1))
+  gl.glCompileShader(fragID)
+
+  let textBuffer = Buffer.alloc(1024)
+  let sizeBuffer = new Uint32Array(1)
+  gl.glGetShaderInfoLog(fragID, 1024, sizeBuffer, textBuffer)
+
+  print(textBuffer.toString())
 
 
 } else {

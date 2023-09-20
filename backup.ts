@@ -1149,7 +1149,7 @@ Also, the keyword for this portion is: F22%%%.,l;'
 *
 * To:   glGetVertexAttribPointerv
 *
-* Exception: glGetError, glGetString
+* Exception: glGetError, glGetString, glGetShaderInfoLog
 *
 * glGetError is very important!
 

@@ -5427,6 +5427,7 @@ export const {
       glStencilOpSeparate,
       glTexBuffer,
       glTextureBuffer,
+      glGetShaderInfoLog,
   }
 } = dlopen(path, {
   glScissorArrayv: {
@@ -5497,6 +5498,11 @@ export const {
 
   glTextureBuffer: {
     args: [GLuint, GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glGetShaderInfoLog: {
+    args: [GLuint, GLsizei, FFIType.ptr, FFIType.ptr],
     returns: FFIType.void,
   },
 
