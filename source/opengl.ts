@@ -5416,12 +5416,23 @@ export const {
       glScissorArrayv,
       glScissorIndexed,
       glScissorIndexedv,
+      glShaderBinary,
+      glShaderSource,
+      glShaderStorageBlockBinding,
+      glStencilFunc,
+      glStencilFuncSeparate,
+      glStencilMask,
+      glStencilMaskSeparate,
+      glStencilOp,
+      glStencilOpSeparate,
+      //! was on glTexBuffer
   }
 } = dlopen(path, {
   glScissorArrayv: {
     args: [GLuint, GLsizei, FFIType.ptr],
     returns: FFIType.void,
   },
+
 
   glScissorIndexed: {
     args: [GLuint, GLint, GLint, GLsizei, GLsizei],
@@ -5430,6 +5441,51 @@ export const {
 
   glScissorIndexedv: {
     args: [GLuint, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glShaderBinary: {
+    args: [GLsizei, FFIType.ptr, GLenum, FFIType.ptr, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glShaderSource: {
+    args: [GLuint, GLsizei, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glShaderStorageBlockBinding: {
+    args: [GLuint, GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glStencilFunc: {
+    args: [GLenum, GLint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glStencilFuncSeparate: {
+    args: [GLenum, GLenum, GLint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glStencilMask: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glStencilMaskSeparate: {
+    args: [GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glStencilOp: {
+    args: [GLenum, GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glStencilOpSeparate: {
+    args: [GLenum, GLenum, GLenum, GLenum],
     returns: FFIType.void,
   },
 
