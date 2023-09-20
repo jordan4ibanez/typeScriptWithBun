@@ -1284,6 +1284,11 @@ const {
     glGetActiveSubroutineUniformName,
     //! Warning: missing getter API. No testbed. Not writing functions blind.
     glGetError,
+    glHint,
+    glInvalidateBufferData,
+    glInvalidateBufferSubData,
+    glInvalidateFramebuffer,
+    glInvalidateNamedFramebufferData,
   }
 } = dlopen(path, {
 
@@ -1367,6 +1372,32 @@ const {
     returns: GLenum,
   },
 
+  glHint: {
+    args: [GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glInvalidateBufferData: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glInvalidateBufferSubData: {
+    args: [GLuint, GLintptr, GLsizeiptr],
+    returns: FFIType.void,
+  },
+
+  glInvalidateFramebuffer: {
+    args: [GLenum, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glInvalidateNamedFramebufferData: {
+    args: [GLuint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  
 })
 
 export function activeShaderProgram(pipeline: number, program: number) {
@@ -2531,3 +2562,36 @@ Also, the keyword for this portion is: F22%%%.,l;'
 export function getError(): number {
   return glGetError()
 }
+
+export function hint(target: number, mode: number) {
+  glHint(target, mode)
+}
+
+export function invalidateBufferData(buffer: number) {
+  glInvalidateBufferData(buffer)
+}
+
+export function invalidateBufferSubData(buffer: number, offset: number, length: number) {
+  glInvalidateBufferSubData(buffer, offset, length)
+}
+
+export function invalidateFramebuffer(target: number, numAttachments: number, attachments: number[]) {
+  let attachmentsPointer = new Uint32Array(attachments)
+  glInvalidateFramebuffer(target, numAttachments, attachmentsPointer)
+}
+
+export function invalidateNamedFramebufferData(framebuffer: number, numAttachments: number, attachments: number[]) {
+  let attachmentsPointer = new Uint32Array(attachments)
+  glInvalidateNamedFramebufferData(framebuffer, numAttachments, attachmentsPointer)
+}
+
+/*
+Here I am performing a test of the current implementation
+
+!Was on:
+
+https://registry.khronos.org/OpenGL-Refpages/gl4/
+
+glInvalidateSubFramebuffer
+
+*/
