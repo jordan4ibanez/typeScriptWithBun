@@ -2,6 +2,10 @@ import { CString, FFIType, JSCallback, dlopen, ptr, suffix } from "bun:ffi"
 
 // OpenGL Supa Dupa library. I hope.
 
+export function forceReload() {
+  console.log("OpenGL reloaded")
+}
+
 console.log(`warning: If you are using the "getter" api, it is not implemented.
 Please search: F22%%%.,l;'
 to know why!`)
@@ -4641,6 +4645,47 @@ const {
     glInvalidateNamedFramebufferData,
     glGetString,
     glInvalidateSubFramebuffer,
+    glInvalidateNamedFramebufferSubData,
+    glInvalidateTexImage,
+    glInvalidateTexSubImage,
+    glIsBuffer,
+    glIsEnabled,
+    glIsEnabledi,
+    glIsFramebuffer,
+    glIsProgram,
+    glIsProgramPipeline,
+    glIsQuery,
+    glIsRenderbuffer,
+    glIsSampler,
+    glIsShader,
+    glIsSync,
+    glIsTexture,
+    glIsTransformFeedback,
+    glIsVertexArray,
+    glLineWidth,
+    glLinkProgram,
+    glLogicOp,
+    glMapBuffer,
+    glMapNamedBuffer,
+    glMapBufferRange,
+    glMapNamedBufferRange,
+    glMemoryBarrier,
+    glMemoryBarrierByRegion,
+    glMinSampleShading,
+    glMultiDrawArrays,
+    glMultiDrawArraysIndirect,
+    glMultiDrawElements,
+    glMultiDrawElementsBaseVertex,
+    glMultiDrawElementsIndirect,
+    glReadBuffer,
+    glNamedFramebufferReadBuffer,
+    glRenderbufferStorage,
+    glNamedRenderbufferStorage,
+    glRenderbufferStorageMultisample,
+    glNamedRenderbufferStorageMultisample,
+
+
+
   }
 } = dlopen(path, {
 
@@ -4756,6 +4801,196 @@ const {
 
   glInvalidateSubFramebuffer: {
     args: [GLenum, GLsizei, FFIType.ptr, GLint, GLint, GLint, GLint],
+    returns: FFIType.void,
+  },
+
+  glInvalidateNamedFramebufferSubData: {
+    args: [GLenum, GLsizei, FFIType.ptr, GLint, GLint, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glInvalidateTexImage: {
+    args: [GLuint, GLint],
+    returns: FFIType.void,
+  },
+
+  glInvalidateTexSubImage: {
+    args: [GLuint, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glIsBuffer: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glIsEnabled: {
+    args: [GLenum],
+    returns: GLboolean,
+  },
+
+  glIsEnabledi: {
+    args: [GLenum, GLuint],
+    returns: GLboolean,
+  },
+
+  glIsFramebuffer: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glIsProgram: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glIsProgramPipeline: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glIsQuery: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glIsRenderbuffer: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glIsSampler: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glIsShader: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glIsSync: {
+    args: [GLsync],
+    returns: GLboolean,
+  },
+
+  glIsTexture: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glIsTransformFeedback: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glIsVertexArray: {
+    args: [GLuint],
+    returns: GLboolean,
+  },
+
+  glLineWidth: {
+    args: [GLfloat],
+    returns: FFIType.void,
+  },
+
+  glLinkProgram: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glLogicOp: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glMapBuffer: {
+    args: [GLenum, GLenum],
+    returns: FFIType.ptr,
+  },
+
+  glMapNamedBuffer: {
+    args: [GLuint, GLenum],
+    returns: FFIType.ptr,
+  },
+
+  glMapBufferRange: {
+    args: [GLenum, GLintptr, GLsizeiptr, GLbitfield],
+    returns: FFIType.ptr,
+  },
+  
+  glMapNamedBufferRange: {
+    args: [GLuint, GLintptr, GLsizeiptr, GLbitfield],
+    returns: FFIType.ptr,
+  },
+
+  glMemoryBarrier: {
+    args: [GLbitfield],
+    returns: FFIType.void,
+  },
+
+  glMemoryBarrierByRegion: {
+    args: [GLbitfield],
+    returns: FFIType.void,
+  },
+
+  glMinSampleShading: {
+    args: [GLfloat],
+    returns: FFIType.void,
+  },
+
+  glMultiDrawArrays: {
+    args: [GLenum, FFIType.ptr, FFIType.ptr, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glMultiDrawArraysIndirect: {
+    args: [GLenum, FFIType.ptr, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glMultiDrawElements: {
+    args: [GLenum, FFIType.ptr, GLenum, FFIType.ptr, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glMultiDrawElementsBaseVertex: {
+    args: [GLenum, FFIType.ptr, GLenum, FFIType.ptr, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glMultiDrawElementsIndirect: {
+    args: [GLenum, GLenum, FFIType.ptr, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glReadBuffer: {
+    args: [GLenum],
+    returns: FFIType.void,
+  },
+
+  glNamedFramebufferReadBuffer: {
+    args: [GLuint, GLenum],
+    returns: FFIType.void,
+  },
+
+  glRenderbufferStorage: {
+    args: [GLenum, GLenum, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glNamedRenderbufferStorage: {
+    args: [GLuint, GLenum, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glRenderbufferStorageMultisample: {
+    args: [GLenum, GLsizei, GLenum, GLsizei, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glNamedRenderbufferStorageMultisample: {
+    args: [GLuint, GLsizei, GLenum, GLsizei, GLsizei],
     returns: FFIType.void,
   },
 
@@ -5953,8 +6188,166 @@ export function getString(name: number): string {
   return new CString(stringPointer).toString()
 }
 
-
 export function invalidateSubFramebuffer(target: number, numAttachments: number, attachments: number[], x: number, y: number, width: number, height: number) {
   let attachmentsPointer = new Uint32Array(attachments)
   glInvalidateSubFramebuffer(target, numAttachments, attachmentsPointer, x, y, width, height)
 }
+
+export function invalidateNamedFramebufferSubData(framebuffer: number, numAttachments: number, attachments: number[], x: number, y: number, width: number, height: number) {
+  let attachmentsPointer = new Uint32Array(attachments)
+  glInvalidateNamedFramebufferSubData(framebuffer, numAttachments, attachmentsPointer, x, y, width, height)
+}
+
+export function invalidateTexImage(texture: number, level: number) {
+  glInvalidateTexImage(texture, level)
+}
+
+export function invalidateTexSubImage(texture: number, level: number, xoffset: number, yoffset: number, zoffset: number, width: number, height: number, depth: number) {
+  glInvalidateTexSubImage(texture, level, xoffset, yoffset, zoffset, width, height, depth)
+}
+
+export function isBuffer(buffer: number): boolean {
+  return glIsBuffer(buffer)
+}
+
+export function isEnabled(cap: number): boolean {
+  return glIsEnabled(cap)
+}
+
+export function isEnabledi(cap: number, index: number): boolean {
+  return glIsEnabledi(cap, index)
+}
+
+export function isFramebuffer(framebuffer: number): boolean {
+  return glIsFramebuffer(framebuffer)
+}
+
+export function isProgram(program: number): boolean {
+  return glIsProgram(program)
+}
+
+export function isProgramPipeline(pipeline: number): boolean {
+  return glIsProgramPipeline(pipeline)
+}
+
+export function isQuery(id: number): boolean {
+  return glIsQuery(id)
+}
+
+export function isRenderbuffer(renderbuffer: number): boolean {
+  return glIsRenderbuffer(renderbuffer)
+}
+
+export function isSampler(id: number): boolean {
+  return glIsSampler(id)
+}
+
+export function isShader(shader: number): boolean {
+  return glIsShader(shader)
+}
+
+export function isSync(sync: number): boolean {
+  return glIsSync(sync)
+}
+
+export function isTexture(texture: number): boolean {
+  return glIsTexture(texture)
+}
+
+export function isTransformFeedback(id: number): boolean {
+  return glIsTransformFeedback(id)
+}
+
+export function isVertexArray(array: number): boolean {
+  return glIsVertexArray(array)
+}
+
+export function lineWidth(width: number) {
+  glLineWidth(width)
+}
+
+export function linkProgram(program: number) {
+  glLinkProgram(program)
+}
+
+export function logicOp(opcode: number) {
+  glLogicOp(opcode)
+}
+
+export function mapBuffer(target: number, access: number): FFIType.ptr | null {
+  return glMapBuffer(target, access)
+}
+
+export function mapNamedBuffer(buffer: number, access: number): FFIType.ptr | null {
+  return glMapNamedBuffer(buffer, access)
+}
+
+export function mapBufferRange(target: number, offset: number, length: number, access: number): FFIType.ptr | null {
+  glMapBufferRange(target, offset, length, access)
+}
+
+export function mapNamedBufferRange(buffer: number, offset: number, length: number, access: number): FFIType.ptr | null {
+  glMapNamedBufferRange(buffer, offset, length, access)
+}
+
+export function memoryBarrier(barriers: number) {
+  glMemoryBarrier(barriers)
+}
+
+export function memoryBarrierByRegion(barriers: number) {
+  glMemoryBarrierByRegion(barriers)
+}
+
+export function minSampleShading(value: number) {
+  glMinSampleShading(value)
+}
+
+export function multiDrawArrays(mode: number, first: number[], count: number[], drawcount: number) {
+  let firstPointer = new Int32Array(first)
+  let countPointer = new Uint32Array(count)
+  glMultiDrawArrays(mode, firstPointer, countPointer, drawcount)
+}
+
+export function multiDrawArraysIndirect(mode: number, indirect: TypedArray, drawcount: number, stride: number) {
+  glMultiDrawArraysIndirect(mode, indirect, drawcount, stride)
+}
+
+export function multiDrawElements(mode: number, count: number[], type: number, indices: TypedArray, drawcount: number) {
+  let countPointer = new Uint32Array(count)
+  glMultiDrawElements(mode, countPointer, type, indices, drawcount)
+}
+
+export function multiDrawElementsBaseVertex(mode: number, count: number[], type: number, indices: TypedArray, drawcount: number, basevertex: number[]) {
+  let countPointer = new Uint32Array(count)
+  let basevertexPointer = new Int32Array(basevertex)
+  glMultiDrawElementsBaseVertex(mode, countPointer, type, indices, drawcount, basevertexPointer)
+}
+
+export function multiDrawElementsIndirect(mode: number, type: number, indirect: TypedArray, drawcount: number, stride: number) {
+  glMultiDrawElementsIndirect(mode, type, indirect, drawcount, stride)
+}
+
+export function readBuffer(mode: number) {
+  glReadBuffer(mode)
+}
+
+export function namedFramebufferReadBuffer(framebuffer: number, mode: number) {
+  glNamedFramebufferReadBuffer(framebuffer, mode)
+}
+
+export function renderbufferStorage(target: number, internalformat: number, width: number, height: number) {
+  glRenderbufferStorage(target, internalformat, width, height)
+}
+
+export function namedRenderbufferStorage(renderbuffer: number, internalformat: number, width: number, height: number) {
+  glNamedRenderbufferStorage(renderbuffer, internalformat, width, height)
+}
+
+export function renderbufferStorageMultisample(target: number, samples: number, internalformat: number, width: number, height: number) {
+  glRenderbufferStorageMultisample(target, samples, internalformat, width, height)
+}
+
+export function namedRenderbufferStorageMultisample(renderbuffer: number, samples: number, internalformat: number, width: number, height: number) {
+  glNamedRenderbufferStorageMultisample(renderbuffer, samples, internalformat, width, height)
+}
+
