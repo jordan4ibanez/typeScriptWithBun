@@ -5013,6 +5013,53 @@ export const {
   symbols: {
     glPatchParameterfv,
     glPauseTransformFeedback,
+    glPixelStoref,
+    glPixelStorei,
+    glPointParameterf,
+    glPointParameteri,
+    glPointParameterfv,
+    glPointParameteriv,
+    glPointSize,
+    glPolygonMode,
+    glPolygonOffset,
+    glPopDebugGroup,
+    glPrimitiveRestartIndex,
+    glProgramBinary,
+    glProgramParameteri,
+    glProgramUniform1f,
+    glProgramUniform2f,
+    glProgramUniform3f,
+    glProgramUniform4f,
+    glProgramUniform1i,
+    glProgramUniform2i,
+    glProgramUniform3i,
+    glProgramUniform4i,
+    glProgramUniform1ui,
+    glProgramUniform2ui,
+    glProgramUniform3ui,
+    glProgramUniform4ui,
+    glProgramUniform1fv,
+    glProgramUniform2fv,
+    glProgramUniform3fv,
+    glProgramUniform4fv,
+    glProgramUniform1iv,
+    glProgramUniform2iv,
+    glProgramUniform3iv,
+    glProgramUniform4iv,
+    glProgramUniform1uiv,
+    glProgramUniform2uiv,
+    glProgramUniform3uiv,
+    glProgramUniform4uiv,
+    glProgramUniformMatrix2fv,
+    glProgramUniformMatrix3fv,
+    glProgramUniformMatrix4fv,
+    glProgramUniformMatrix2x3fv,
+    glProgramUniformMatrix3x2fv,
+    glProgramUniformMatrix2x4fv,
+    glProgramUniformMatrix4x2fv,
+    glProgramUniformMatrix3x4fv,
+    glProgramUniformMatrix4x3fv,
+
   }
 } = dlopen(path, {
   glPatchParameterfv: {
@@ -5024,4 +5071,71 @@ export const {
     args: [],
     returns: FFIType.void,
   },
+
+  glPixelStoref: {
+    args: [GLenum, GLfloat],
+    returns: FFIType.void,
+  },
+  
+  glPixelStorei: {
+    args: [GLenum, GLint],
+    returns: FFIType.void,
+  },
+
+  glPointParameterf: {
+    args: [GLenum, GLfloat],
+    returns: FFIType.void,
+  },
+
+  glPointParameteri: {
+    args: [GLenum, GLint],
+    returns: FFIType.void,
+  },
+
+  glPointParameterfv: {
+    args: [GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glPointParameteriv: {
+    args: [GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glPointSize: {
+    args: [GLfloat],
+    returns: FFIType.void,
+  },
+
+  glPolygonMode: {
+    args: [GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glPolygonOffset: {
+    args: [GLfloat, GLfloat],
+    returns: FFIType.void,
+  },
+
+  glPopDebugGroup: {
+    args: [],
+    returns: FFIType.void,
+  },
+
+  glPrimitiveRestartIndex: {
+    args: [GLuint],
+    returns: FFIType.void,
+  },
+
+  glProgramBinary: {
+    args: [GLuint, GLenum, FFIType.ptr, GLsizei],
+    returns: FFIType.void,
+  },
+
+  glProgramParameteri: {
+    args: [GLuint, GLenum, GLint],
+    returns: FFIType.void,
+  },
+
+
 })
