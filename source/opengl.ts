@@ -1,10 +1,14 @@
-import { FFIType, JSCallback, dlopen, suffix } from "bun:ffi"
+import { CString, FFIType, JSCallback, dlopen, ptr, suffix } from "bun:ffi"
 
 // OpenGL Supa Dupa library. I hope.
 
 export function forceReload() {
   console.log("OpenGL reloaded!")
 }
+
+console.log(`warning: If you are using the "getter" api, it is not implemented.
+Please search: F22%%%.,l;'
+to know why!`)
 
 export default {}
 
@@ -72,9 +76,12 @@ https://registry.khronos.org/OpenGL-Refpages/gl4/
 */
 
 
-//* This is a helper function to automatically null (\0) terminate a string.
+//* These are helper functions to automatically null (\0) terminate a string.
 function toBuffer(input: string) {
   return Buffer.from(input + '\0')
+}
+function blankBuffer() {
+  return Buffer.from("")
 }
 
 const { 
@@ -1271,6 +1278,12 @@ const {
     glGetFloati_v,
     glGetIntegeri_v,
     glGetInteger64i_v,
+    glGetActiveAtomicCounterBufferiv,
+    glGetActiveAttrib,
+    glGetActiveSubroutineUniformiv,
+    glGetActiveSubroutineUniformName,
+    //! Warning: missing getter API. No testbed. Not writing functions blind.
+    glGetError,
   }
 } = dlopen(path, {
 
@@ -1327,6 +1340,31 @@ const {
   glGetInteger64i_v: {
     args: [GLenum, GLuint, FFIType.ptr],
     returns: FFIType.void,
+  },
+
+  glGetActiveAtomicCounterBufferiv: {
+    args: [GLuint, GLuint, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetActiveAttrib: {
+    args: [GLuint, GLuint, GLsizei, FFIType.ptr, FFIType.ptr, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetActiveSubroutineUniformiv: {
+    args: [GLuint, GLenum, GLuint, GLenum, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetActiveSubroutineUniformName: {
+    args: [GLuint, GLenum, GLuint, GLsizei, FFIType.ptr, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glGetError: {
+    args: [],
+    returns: GLenum,
   },
 
 })
@@ -2417,6 +2455,79 @@ export function getInteger64i_v(pname: number, index: number): bigint[] {
 //! END MASSIVELY UNTESTED SECTION!
 
 
-//* https://registry.khronos.org/OpenGL-Refpages/gl4/
+export function getActiveAtomicCounterBufferiv(program: number, bufferIndex: number, pname: number, params: number[]) {
+  let paramsPointer = new Int32Array(params)
+  glGetActiveAtomicCounterBufferiv(program, bufferIndex, pname, paramsPointer)
+}
 
-//* Was at: glGetActiveAtomicCounterBufferiv
+
+//! Begin the no idea if this works section
+
+/**
+ *!Warning: No idea if this works!
+ */
+export function getActiveAttrib(program: number, index: number, bufSize: number): any[] {
+  //! No idea if this works
+  let lengthPointer = new Uint32Array(1)
+  let sizePointer = new Int32Array(1)
+  let typePointer = new Uint32Array(1)
+  let namePointer = blankBuffer()
+  glGetActiveAttrib(program, index, bufSize, lengthPointer, sizePointer, typePointer, namePointer)
+
+  let length = lengthPointer.at(0)
+  let size = sizePointer.at(0)
+  let type = typePointer.at(0)
+  let name = namePointer.toString()
+
+  return [length, size, type, name]
+}
+
+/**
+ *!Warning: No idea if this works!
+ */
+export function getActiveSubroutineUniformiv(program: number, shadertype: number, index: number, pname: number): TypedArray {
+  let valuesPointer = new Int32Array()
+  glGetActiveSubroutineUniformiv(program, shadertype, index, pname, valuesPointer)
+  return valuesPointer
+}
+
+/**
+ *!Warning: No idea if this works!
+ */
+export function getActiveSubroutineUniformName(program: number, shadertype: number, index: number, bufSize: number): string {
+  let lengthPointer = new Int32Array(1)
+  let namePointer = new Uint8Array()
+  glGetActiveSubroutineUniformName(program, shadertype, index, bufSize, lengthPointer, namePointer)
+  return namePointer.toString()
+}
+
+/*
+! A VERY IMPORTANT NOTE !
+
+At this point, I grew very tired of not having a testbed for any of these functions.
+
+I have been blindly translating code for 3 days at this point and I want to see something.
+
+So I am skipping a huge chunk of the "Get" api so I can get a testbed up to test this.
+
+I might put it in, but I never personally utilize the OpenGL getter api.
+
+Also, the keyword for this portion is: F22%%%.,l;'
+
+* Missing:
+*
+* From: glGetActiveUniform
+*
+* To:   glGetVertexAttribPointerv
+*
+* Exception: glGetError
+*
+* glGetError is very important!
+
+*/
+
+//! END the no idea if this works section
+
+export function getError(): number {
+  return glGetError()
+}
