@@ -67,6 +67,11 @@ if (!reload.isReload()) {
   // let test = gl.getString(gl.GL_VERSION)
   // print("OpenGL version: " + test)
 
+  let fragSource = Bun.file("./shaders/frag.frag")
+  let fragSourceText = await fragSource.text()
+  print(fragSourceText)
+
+
 
 } else {
   print("resetting the window close flag")
