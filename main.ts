@@ -12,7 +12,6 @@ declare global {
   var glfwErrorCallback: JSCallback
 }
 
-gl.forceReload()
 
 const global = globalThis
 
