@@ -5147,5 +5147,169 @@ export const {
     returns: FFIType.void,
   },
 
+  glProgramUniform1f: {
+    args: [GLuint, GLint, GLfloat],
+    returns: FFIType.void,
+  },
 
+  glProgramUniform2f: {
+    args: [GLuint, GLint, GLfloat, GLfloat],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform3f: {
+    args: [GLuint, GLint, GLfloat, GLfloat, GLfloat],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform4f: {
+    args: [GLuint, GLint, GLfloat, GLfloat, GLfloat, GLfloat],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform1i: {
+    args: [GLuint, GLint, GLint],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform2i: {
+    args: [GLuint, GLint, GLint, GLint],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform3i: {
+    args: [GLuint, GLint, GLint, GLint, GLint],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform4i: {
+    args: [GLuint, GLint, GLint, GLint, GLint, GLint],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform1ui: {
+    args: [GLuint, GLint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform2ui: {
+    args: [GLuint, GLint, GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform3ui: {
+    args: [GLuint, GLint, GLuint, GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform4ui: {
+    args: [GLuint, GLint, GLuint, GLuint, GLuint, GLuint],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform1fv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform2fv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform3fv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform4fv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform1iv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform2iv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform3iv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform4iv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform1uiv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform2uiv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform3uiv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniform4uiv: {
+    args: [GLuint, GLint, GLsizei, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniformMatrix2fv: {
+    args: [GLuint, GLint, GLsizei, GLboolean, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniformMatrix3fv: {
+    args: [GLuint, GLint, GLsizei, GLboolean, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniformMatrix4fv: {
+    args: [GLuint, GLint, GLsizei, GLboolean, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniformMatrix2x3fv: {
+    args: [GLuint, GLint, GLsizei, GLboolean, FFIType.ptr],
+    returns: FFIType.void,
+  },
+
+  glProgramUniformMatrix3x2fv: {
+    args: [GLuint, GLint, GLsizei, GLboolean, FFIType.ptr],
+    returns: FFIType.void,
+  },
+  
+  glProgramUniformMatrix2x4fv: {
+    args: [GLuint, GLint, GLsizei, GLboolean, FFIType.ptr],
+    returns: FFIType.void,
+  },
+  
+  glProgramUniformMatrix4x2fv: {
+    args: [GLuint, GLint, GLsizei, GLboolean, FFIType.ptr],
+    returns: FFIType.void,
+  },
+  
+  glProgramUniformMatrix3x4fv: {
+    args: [GLuint, GLint, GLsizei, GLboolean, FFIType.ptr],
+    returns: FFIType.void,
+  },
+  
+  glProgramUniformMatrix4x3fv: {
+    args: [GLuint, GLint, GLsizei, GLboolean, FFIType.ptr],
+    returns: FFIType.void,
+  },
+  
 })
