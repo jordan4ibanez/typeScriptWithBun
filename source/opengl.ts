@@ -6,12 +6,6 @@ export function forceReload() {
   console.log("OpenGL reloaded")
 }
 
-console.log("Warning: All the ffitype.ptr that are actually Cstring needs to be fixed!")
-
-console.log(`warning: If you are using the "getter" api, it is not implemented.
-Please search: F22%%%.,l;'
-to know why!`)
-
 export default {}
 
 const path = `libGL.${suffix}`;
@@ -3440,7 +3434,7 @@ function blankBuffer() {
   return Buffer.from("")
 }
 
-const { 
+export const { 
   symbols: {
     glActiveShaderProgram,
     glActiveTexture,
@@ -3834,7 +3828,7 @@ const {
 
 //* Bun FFI allows 64 function defs in one call, move onto the next.
 
-const { 
+export const { 
   symbols: {
     glClearBufferSubData,
     glClearNamedBufferSubData,
@@ -4228,7 +4222,7 @@ const {
 
 //* Bun FFI allows 64 function defs in one call, move onto the next.
 
-const { 
+export const { 
   symbols: {
     glDepthMask,
     glDepthRange,
@@ -4621,7 +4615,7 @@ const {
 
 //* Bun FFI allows 64 function defs in one call, move onto the next.
 
-const { 
+export const { 
   symbols: {
     glGenVertexArrays,
     glGetBooleanv,
@@ -5015,7 +5009,7 @@ const {
 
 //* Bun FFI allows 64 function defs in one call, move onto the next.
 
-const { 
+export const { 
   symbols: {
     glPatchParameterfv,
     glPauseTransformFeedback,
