@@ -5425,7 +5425,8 @@ export const {
       glStencilMaskSeparate,
       glStencilOp,
       glStencilOpSeparate,
-      //! was on glTexBuffer
+      glTexBuffer,
+      glTextureBuffer,
   }
 } = dlopen(path, {
   glScissorArrayv: {
@@ -5486,6 +5487,16 @@ export const {
 
   glStencilOpSeparate: {
     args: [GLenum, GLenum, GLenum, GLenum],
+    returns: FFIType.void,
+  },
+
+  glTexBuffer: {
+    args: [GLenum, GLenum, GLuint],
+    returns: FFIType.void,
+  },
+
+  glTextureBuffer: {
+    args: [GLuint, GLenum, GLuint],
     returns: FFIType.void,
   },
 
