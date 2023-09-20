@@ -6,6 +6,8 @@ export function forceReload() {
   console.log("OpenGL reloaded")
 }
 
+console.log("Warning: All the ffitype.ptr that are actually Cstring needs to be fixed!")
+
 console.log(`warning: If you are using the "getter" api, it is not implemented.
 Please search: F22%%%.,l;'
 to know why!`)
