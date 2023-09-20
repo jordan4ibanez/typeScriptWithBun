@@ -56,12 +56,14 @@ if (!reload.isReload()) {
     print(`Window pointer is: ${window}`)
   }
 
+
+
   glfw.makeContextCurrent(global.window)
   print(glfw.getCurrentContext())
 
 
-  let test = gl.getString(gl.GL_VERSION)
-  print("OpenGL version: " + test)
+  // let test = gl.getString(gl.GL_VERSION)
+  // print("OpenGL version: " + test)
 
 
 } else {
@@ -90,8 +92,8 @@ if (global.window != null) {
 
 // while (!glfw.windowShouldClose(global.window)) {
 
-  gl.clearColor(0.1,0.1,0.5,1)
-  gl.clear(gl.GL_COLOR_BUFFER_BIT)
+  // gl.clearColor(0.1,0.1,0.5,1)
+  // gl.clear(gl.GL_COLOR_BUFFER_BIT)
   
   let i = Math.random()
   print(`refreshing GLFW: ${i}`)
@@ -105,7 +107,7 @@ if (global.window != null) {
   }
 // }
 
-// reload.reloadInfo()
+reload.reloadInfo()
 
 
 let readyToExit = false
