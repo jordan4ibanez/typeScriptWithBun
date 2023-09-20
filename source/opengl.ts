@@ -6,6 +6,16 @@ export function forceReload() {
   console.log("OpenGL reloaded")
 }
 
+/*
+
+!New gameplan:
+
+1. FFI function translation, RAW
+2. Nice cushion layer
+2a. Either in this file, or a separate one.
+2b. Can rename this file to opengl_RAW.ts
+*/
+
 export default {}
 
 const path = `libGL.${suffix}`;
