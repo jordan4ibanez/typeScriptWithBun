@@ -4639,7 +4639,8 @@ const {
     glInvalidateBufferSubData,
     glInvalidateFramebuffer,
     glInvalidateNamedFramebufferData,
-    glGetString, 
+    glGetString,
+    glInvalidateSubFramebuffer,
   }
 } = dlopen(path, {
 
@@ -4751,6 +4752,11 @@ const {
   glGetString: {
     args: [GLenum],
     returns: FFIType.ptr,
+  },
+
+  glInvalidateSubFramebuffer: {
+    args: [GLenum, GLsizei, FFIType.ptr, GLint, GLint, GLint, GLint],
+    returns: FFIType.void,
   },
 
   
@@ -5947,13 +5953,8 @@ export function getString(name: number): string {
   return new CString(stringPointer).toString()
 }
 
-/*
-Here I am performing a test of the current implementation
 
-!Was on:
-
-https://registry.khronos.org/OpenGL-Refpages/gl4/
-
-glInvalidateSubFramebuffer
-
-*/
+export function invalidateSubFramebuffer(target: number, numAttachments: number, attachments: number[], x: number, y: number, width: number, height: number) {
+  let attachmentsPointer = new Uint32Array(attachments)
+  glInvalidateSubFramebuffer(target, numAttachments, attachmentsPointer, x, y, width, height)
+}
